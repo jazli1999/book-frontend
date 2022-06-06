@@ -1,2 +1,2 @@
-export * from './app';
+export * from './webApp';
 export * from './startPage';
