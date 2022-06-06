@@ -1,5 +1,2 @@
-import { StartPage } from './startPage';
-
-export {
-  StartPage,
-}
+export * from './app';
+export * from './startPage';

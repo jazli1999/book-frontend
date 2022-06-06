@@ -8,12 +8,13 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              '@black': '#333333',
+              '@black': '#313430',
               '@white': '#fbfdfb',
+              '@text-color': '#323431',
               '@primary-color': '#658e49',
               '@body-background': '@white',
               '@component-background': '#f5f7f5',
-              '@layout-body-background': '@component-background',
+              '@layout-body-background': '@white',
               '@font-family': 'Montserrat',
               '@checkbox-border-radius': '3px',
             },

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { Form, Input, Checkbox, Button, Space } from 'antd';
 import { Logo } from '../../components';
 import Exchange from '../../assets/images/exchange.png';
@@ -36,9 +38,11 @@ function LoginPanel() {
           <Form.Item>
             <div className='form-action-container'>
               <div>
-                <Button type='primary' htmlType='submit'>
-                  Log in
-                </Button>
+                <Link to='/app'>
+                  <Button type='primary' htmlType='submit'>
+                    Log in
+                  </Button>
+                </Link>
                 <div className='link'>
                   <a href='/'>Forgot Password</a>
                 </div>
