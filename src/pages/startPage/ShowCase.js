@@ -12,6 +12,7 @@ const ShowCase = () => {
         <Row>
           <Space direction='vertical'>
             <div>
+              
               <div>Get your next book to read for FREE</div>
               <div>and connect to people sharing love for books</div>
               <div>with book exchanges that are ...</div>
