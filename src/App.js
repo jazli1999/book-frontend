@@ -13,6 +13,8 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Pages.StartPage />} />
+          <Route path='/register' element={<Pages.RegistrationPanel />} />
+
           <Route path='/app' element={<Pages.WebApp />}>
             <Route index element={<Pages.MainPage />} />
             <Route path='main' element={<Pages.MainPage />} />

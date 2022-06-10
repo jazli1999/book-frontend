@@ -49,7 +49,7 @@ function LoginPanel() {
                 <div style={{ marginTop: '30px', textAlign: 'center' }}>
                   <Space>
                     <span>Don't have an account?</span>
-                    <a className='link' href='/'>Sign up</a>
+                    <a className='link' href='/register'>Sign up</a>
                   </Space>
                 </div>
               </div>
