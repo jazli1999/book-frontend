@@ -1,26 +1,24 @@
-import { Outlet } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Outlet } from "react-router-dom";
+import { Layout } from "antd";
 
-import { Logo } from '../../components';
+import { HeaderMenu } from "../../components";
 
-import './index.less';
+import "./index.less";
+import "antd/dist/antd.css";
 
 function WebApp() {
-
-  const { Header, Content } = Layout;
+  const { Content } = Layout;
 
   return (
-    <div id='WebApp'>
+    <div id="WebApp">
       <Layout>
-        <Header>
-          <Logo />
-        </Header>
-        <Content className='app-body'>
+    <HeaderMenu></HeaderMenu>
+        <Content className="app-body">
           <Outlet />
         </Content>
       </Layout>
     </div>
-  )
+  );
 }
 
 export default WebApp;
