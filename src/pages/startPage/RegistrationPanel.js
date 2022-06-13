@@ -17,28 +17,9 @@ const formItemLayout = {
     sm: {
       span: 8,
     },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
+  }
 };
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+
 
 export default function RegistrationPanel() {
   const [form] = Form.useForm();
@@ -54,7 +35,7 @@ export default function RegistrationPanel() {
           width: 70,
         }}
       >
-        <Option value="86">+86</Option>
+        <Option value="86">+49</Option>
         <Option value="87">+87</Option>
       </Select>
     </Form.Item>
@@ -194,14 +175,14 @@ export default function RegistrationPanel() {
                 : Promise.reject(new Error("Should accept agreement")),
           },
         ]}
-        {...tailFormItemLayout}
+ 
       >
         <Checkbox>
           I have read the <a href="">agreement</a>
         </Checkbox>
       </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
+      <Form.Item >
         <Button type="primary" htmlType="submit">
           Register
         </Button>
