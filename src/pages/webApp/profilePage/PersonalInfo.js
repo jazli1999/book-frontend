@@ -29,8 +29,7 @@ export default function PersonalInfo() {
 
   return (
     <div>
-      <h3 className="center">Basic Information</h3>
-
+      <h3 className="center"><b>Basic Information</b></h3>
       <div id="profileInformation">
         <Form
           form={form}
