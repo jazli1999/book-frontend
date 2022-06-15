@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "./Logo";
 import SearchButton from "./SearchButton";
 import "antd/dist/antd.css";
+import { useNavigate } from 'react-router-dom';
 import { Menu } from "antd";
 import {
   HomeOutlined,
@@ -11,7 +12,12 @@ import {
 } from "@ant-design/icons";
 import { Header } from "antd/lib/layout/layout";
 
+
+
 export default function HeaderMenu() {
+
+  const navigate = useNavigate();
+
   return (
     <Header>
       <Menu mode="horizontal" defaultSelectedKeys={["home"]}>
@@ -22,20 +28,20 @@ export default function HeaderMenu() {
           Hi, User!
         </Menu.Item>
 
-        <Menu.Item key="home" icon={<HomeOutlined />}>
+        <Menu.Item key="home" icon={<HomeOutlined />} onClick={()=> navigate("/app")}>
           Main Page
         </Menu.Item>
 
         <Menu.Item key="messages">Messages</Menu.Item>
 
-        <Menu.Item key="orders">Orders</Menu.Item>
+        <Menu.Item key="orders" >Orders</Menu.Item>
 
         <Menu.SubMenu
           key="profileSubmenu"
           title="My Profile"
           icon={<UserOutlined />}
         >
-          <Menu.Item key="two" icon={<ProfileOutlined />} href="/profile">
+          <Menu.Item key="two" icon={<ProfileOutlined />} onClick={()=> navigate("/app/profile")} >
             Profile Settings
           </Menu.Item>
           <Menu.Divider />
