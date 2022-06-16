@@ -1,6 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Card, Col, Row, Avatar, Divider,Button } from "antd";
+import { Card, Col, Row, Divider,Button } from "antd";
 import "../index.less";
 import { EditOutlined } from '@ant-design/icons';
 
