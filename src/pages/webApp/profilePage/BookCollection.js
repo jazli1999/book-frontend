@@ -3,18 +3,23 @@ import "antd/dist/antd.css";
 import { Card, Col, Row, Divider,Button } from "antd";
 import "../index.less";
 import { EditOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 
 const { Meta } = Card;
 
-export default function BookCollection() {
+export default function BookCollection(props) {
+  const editable = props.isEditable;
+  const navigate = useNavigate();
+
   return (  <div>
 
+{props.isEditable &&
     <div className="center" >
-    <h3><b>Book Collection  </b><Button type="primary" shape="round" icon={ <EditOutlined />} size="small" style={{width:'100px'}} > Edit
+    <h3><b>Book Collection  </b><Button type="primary" shape="round" icon={ <EditOutlined />} size="small" style={{width:'100px'}} onClick={()=> navigate("/app/profile/collection/edit")}> Edit
       </Button></h3>
 </div>
-               
+         }      
 <div className="site-card-wrapper">
   <Row gutter={8}>
     <Col span={12}>

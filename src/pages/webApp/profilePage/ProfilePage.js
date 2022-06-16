@@ -15,7 +15,7 @@ function ProfilePage() {
             </Col>
             <Divider type="vertical" orientationMargin='100px' />
             <Col span={8} >
-            <BookCollection/>
+            <BookCollection isEditable={true}/>
             </Col>
             <Col span={8} >
             <WishList/>

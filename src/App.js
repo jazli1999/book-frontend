@@ -20,6 +20,7 @@ function App() {
             <Route path='main' element={<Pages.MainPage />} />
             <Route path='profile' element={<Pages.ProfilePage />} />
             <Route path='user/profile/:id' element={<Pages.BookmateProfilePage />} />
+            <Route path='profile/collection/edit' element={<Pages.BookCollectionEdit />} />
           </Route>
         </Routes>  
       </Router>
