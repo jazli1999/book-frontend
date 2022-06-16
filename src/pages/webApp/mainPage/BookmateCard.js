@@ -2,23 +2,30 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Card, Col, Row, Avatar, Divider } from "antd";
 import "../index.less";
+import { useNavigate } from 'react-router-dom';
+
 const { Meta } = Card;
+
 
 export default function BookmateCard(props) {
   const bookmateData = props.bookmateData;
+  const navigate = useNavigate();
+
 
   const handleUserDetailClick = (event,userId) => {
     // 👇️ refers to the div element
     console.log('div clicked: ', userId);
+    navigate("user/profile/" + userId)
   };
 
   return (
-    <a href="http://example.com" onClick={event => handleUserDetailClick(event, '1')}>
+    <a  onClick={event => handleUserDetailClick(event, '1')}>
+
     <div className="site-card-wrapper" > 
       <Row gutter={8}>
         <Col span={8}>
           <Card
-            hoverable
+            
             cover={
               <img
                 alt="example"
