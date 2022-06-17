@@ -7,5 +7,5 @@ export {
   LoginPanel,
   ShowCase,
   StartPage,
-    RegistrationPanel
+  RegistrationPanel,
 };

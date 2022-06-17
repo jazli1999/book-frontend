@@ -1,9 +1,12 @@
-import React from "react";
-import { Button, Form, Input, Select, DatePicker } from "antd";
+import React from 'react';
+import {
+  Button, Form, Input, Select, DatePicker,
+  Col, Row,
+} from 'antd';
 
-import { Col, Row } from "antd";
-import moment from "moment";
-const dateFormat = "YYYY/MM/DD";
+import moment from 'moment';
+
+const dateFormat = 'YYYY/MM/DD';
 
 const { Option } = Select;
 
@@ -11,7 +14,7 @@ export default function PersonalInfo() {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.log("Received values of profile form: ", values);
+    console.log('Received values of profile form: ', values);
   };
 
   const prefixSelector = (
@@ -36,13 +39,13 @@ export default function PersonalInfo() {
           name="personalInfo"
           onFinish={onFinish}
           initialValues={{
-            //we can add pre-filled data automatically
-            prefix: "86",
+            // we can add pre-filled data automatically
+            prefix: '86',
           }}
           layout="vertical"
           scrollToFirstError
         >
-          <Row align="top"  justify="space-around">
+          <Row align="top" justify="space-around">
             <Col span={10}>
               <Form.Item name="firstname" label="First Name">
                 <Input />
@@ -57,8 +60,6 @@ export default function PersonalInfo() {
             </Col>
           </Row>
 
-    
-
           <Row justify="center" align="top">
             <Col span={10}>
               <Form.Item
@@ -66,12 +67,12 @@ export default function PersonalInfo() {
                 label="E-mail"
                 rules={[
                   {
-                    type: "email",
-                    message: "The input is not valid E-mail!",
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
                   },
                   {
                     required: true,
-                    message: "Please input your E-mail!",
+                    message: 'Please input your E-mail!',
                   },
                 ]}
               >
@@ -86,22 +87,21 @@ export default function PersonalInfo() {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your phone number!",
+                    message: 'Please input your phone number!',
                   },
                 ]}
               >
                 <Input
                   addonBefore={prefixSelector}
                   style={{
-                    width: "100%",
+                    width: '100%',
                   }}
                 />
               </Form.Item>
             </Col>
           </Row>
 
-
-          <Row align="top"  justify="space-around">
+          <Row align="top" justify="space-around">
             <Col span={10}>
               <Form.Item name="country" label="Country">
                 <Input />
@@ -116,8 +116,7 @@ export default function PersonalInfo() {
             </Col>
           </Row>
 
-
-          <Row align="top"  justify="space-around">
+          <Row align="top" justify="space-around">
             <Col span={10}>
               <Form.Item name="city" label="City">
                 <Input />
@@ -132,11 +131,8 @@ export default function PersonalInfo() {
             </Col>
           </Row>
 
-
-
           <Row justify="center" align="top">
             <Col span={10}>
-             
 
               <Form.Item
                 name="gender"
@@ -144,7 +140,7 @@ export default function PersonalInfo() {
                 rules={[
                   {
                     required: true,
-                    message: "Please select gender!",
+                    message: 'Please select gender!',
                   },
                 ]}
               >
@@ -157,9 +153,9 @@ export default function PersonalInfo() {
             </Col>
             <Col span={4} />
             <Col span={10}>
-            <Form.Item name="birthday" label="Birthday">
+              <Form.Item name="birthday" label="Birthday">
                 <DatePicker
-                  defaultValue={moment("2015/01/01", dateFormat)}
+                  defaultValue={moment('2015/01/01', dateFormat)}
                   format={dateFormat}
                 />
               </Form.Item>
@@ -170,10 +166,10 @@ export default function PersonalInfo() {
             <Button type="primary" htmlType="submit">
               Save
             </Button>
-        
+
           </Form.Item>
           <Form.Item>
-            <div className="form-action-container"></div>
+            <div className="form-action-container" />
           </Form.Item>
         </Form>
       </div>

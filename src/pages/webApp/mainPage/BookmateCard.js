@@ -1,20 +1,22 @@
-import React from "react";
-import { Card, Col, Row, Button, Space } from "antd";
+import React from 'react';
+import {
+  Card, Col, Row, Button, Space,
+} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import MarkableCover from "./MarkableCover";
+import MarkableCover from './MarkableCover';
 
-import "../index.less";
+import '../index.less';
 
 export default function BookmateCard(props) {
-  const bookmateData = props.bookmateData;
+  const { bookmateData } = props;
   const navigate = useNavigate();
   const { Meta } = Card;
 
   const handleUserDetailClick = (userId) => {
     // 👇️ refers to the div element
     console.log('div clicked: ', userId);
-    navigate("user/profile/" + userId)
+    navigate(`user/profile/${userId}`);
   };
 
   const availableList = [
@@ -79,16 +81,17 @@ export default function BookmateCard(props) {
   return (
     <Card
       hoverable
-      onClick={() => {handleUserDetailClick(1)}}
+      onClick={() => { handleUserDetailClick(1); }}
       style={cardStyle}
-      cover={
+      cover={(
         <div style={shelfStyle}>
-          <Space direction='vertical'>
-            <BookList title='Available books' books={availableList} />
-            <BookList title='Wish list' books={wishList} />
+          <Space direction="vertical">
+            <BookList title="Available books" books={availableList} />
+            <BookList title="Wish list" books={wishList} />
           </Space>
         </div>
-      }>
+      )}
+    >
       <Meta
         title={<CardTitle {...bookmateData} />}
         style={metaStyle}
@@ -97,7 +100,7 @@ export default function BookmateCard(props) {
   );
 }
 
-const CardTitle = (props) => {
+function CardTitle(props) {
   const bioStyle = {
     fontSize: '9pt',
     color: '#323431',
@@ -109,7 +112,7 @@ const CardTitle = (props) => {
     fontSize: '11pt',
     color: '#323431',
     fontWeight: 700,
-    marginBottom: '0px !important'
+    marginBottom: '0px !important',
   };
 
   const scoreColStyle = {
@@ -126,7 +129,7 @@ const CardTitle = (props) => {
     <div>
       <span style={{ float: 'left' }}>
         <span style={titleStyle}>{props.name}</span>
-        <Button id='match-btn' size='small' icon={<PlusOutlined />} type='primary' ghost>
+        <Button id="match-btn" size="small" icon={<PlusOutlined />} type="primary" ghost>
           <span style={{ fontWeight: 600, marginLeft: '3px' }}>Match</span>
         </Button>
         <p style={bioStyle}>{props.description}</p>
@@ -136,15 +139,17 @@ const CardTitle = (props) => {
   );
 }
 
-const BookList = (props) => {
+function BookList(props) {
   return (
-    <Space size={1} direction='vertical'>
+    <Space size={1} direction="vertical">
       <span style={{ fontSize: '9pt' }}>{props.title}</span>
       <Row gutter={8}>
-        {props.books.map((book, index) => {
-          return <Col key={index} span={6}><MarkableCover src={book.cover} mark={book.mark} /></Col>;
-        })}
+        {props.books.map((book, index) => (
+          <Col key={index} span={6}>
+            <MarkableCover src={book.cover} mark={book.mark} />
+          </Col>
+        ))}
       </Row>
     </Space>
-  )
+  );
 }

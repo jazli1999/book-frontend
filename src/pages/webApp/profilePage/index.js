@@ -7,5 +7,5 @@ export {
   ProfilePage,
   PersonalInfo,
   BookCollection,
-  WishList
+  WishList,
 };

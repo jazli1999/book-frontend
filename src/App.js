@@ -1,4 +1,4 @@
-import { 
+import {
   BrowserRouter as Router,
   Route,
   Routes,
@@ -9,19 +9,19 @@ import './App.less';
 
 function App() {
   return (
-    <div id='App'>
+    <div id="App">
       <Router>
         <Routes>
-          <Route path='/' element={<Pages.StartPage />} />
-          <Route path='/register' element={<Pages.RegistrationPanel />} />
+          <Route path="/" element={<Pages.StartPage />} />
+          <Route path="/register" element={<Pages.RegistrationPanel />} />
 
-          <Route path='/app' element={<Pages.WebApp />}>
+          <Route path="/app" element={<Pages.WebApp />}>
             <Route index element={<Pages.MainPage />} />
-            <Route path='main' element={<Pages.MainPage />} />
-            <Route path='profile' element={<Pages.ProfilePage />} />
-            <Route path='user/profile/:id' element={<Pages.BookmateProfilePage />} />
+            <Route path="main" element={<Pages.MainPage />} />
+            <Route path="profile" element={<Pages.ProfilePage />} />
+            <Route path="user/profile/:id" element={<Pages.BookmateProfilePage />} />
           </Route>
-        </Routes>  
+        </Routes>
       </Router>
     </div>
   );

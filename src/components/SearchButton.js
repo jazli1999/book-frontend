@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -13,7 +13,7 @@ export default function SearchButton() {
 
   const onPressEnter = () => {
     console.log('Search Triggered');
-  }
+  };
 
   return (
     <Input
@@ -21,8 +21,8 @@ export default function SearchButton() {
       style={searchStyle}
       onPressEnter={onPressEnter}
       suffix={
-          <SearchOutlined style={{ color: '#839c88' }} />
+        <SearchOutlined style={{ color: '#839c88' }} />
       }
     />
-  )
-};
+  );
+}

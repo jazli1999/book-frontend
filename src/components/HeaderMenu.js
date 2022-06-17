@@ -1,14 +1,13 @@
-import React from "react";
-import Logo from "./Logo";
-import SearchButton from "./SearchButton";
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Space } from "antd";
-import { ProfileOutlined, LogoutOutlined } from "@ant-design/icons";
+import { Menu, Space } from 'antd';
+import { ProfileOutlined, LogoutOutlined } from '@ant-design/icons';
+import SearchButton from './SearchButton';
+import Logo from './Logo';
 
 import './index.less';
 
 export default function HeaderMenu() {
-
   const navigate = useNavigate();
 
   const menuStyle = {
@@ -29,13 +28,13 @@ export default function HeaderMenu() {
   };
 
   const items = [
-    { 
+    {
       key: 'logo',
       id: 'logo-search',
       label: (
         <Space size={60}>
-            <Logo />
-            <SearchButton />
+          <Logo />
+          <SearchButton />
         </Space>
       ),
       style: { marginLeft: '0px', marginRight: 'auto' },
@@ -45,12 +44,18 @@ export default function HeaderMenu() {
       id: 'greeting',
       key: 'greeting',
       disabled: true,
-      label: <span style={greetingStyle}>Hi, <span>{userName}</span></span>,
+      label: (
+        <span style={greetingStyle}>
+          Hi,
+          {' '}
+          <span>{userName}</span>
+        </span>
+      ),
     },
     {
       key: 'home',
-      onClick: () => navigate("/app"),
-      label: 'Bookmates'
+      onClick: () => navigate('/app'),
+      label: 'Bookmates',
     },
     { key: 'messages', label: 'Messages' },
     { key: 'orders', label: 'Orders' },
@@ -62,22 +67,24 @@ export default function HeaderMenu() {
           key: 'settings',
           label: 'Profile Settings',
           icon: <ProfileOutlined />,
-          onClick: ()=> navigate("/app/profile"),
+          onClick: () => navigate('/app/profile'),
         },
         { type: 'divider' },
         {
           key: 'logout',
           label: 'Logout',
           icon: <LogoutOutlined />,
-        }
+        },
       ],
     },
-  ]
+  ];
 
   return (
-      <Menu style={menuStyle} 
-            mode="horizontal" 
-            defaultSelectedKeys={["home"]} 
-            items={items} />
+    <Menu
+      style={menuStyle}
+      mode="horizontal"
+      defaultSelectedKeys={['home']}
+      items={items}
+    />
   );
 }
