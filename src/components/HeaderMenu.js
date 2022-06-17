@@ -28,35 +28,56 @@ export default function HeaderMenu() {
     textAlign: 'right',
   };
 
-  return (
-    <div>
-      <Menu style={menuStyle} mode="horizontal" defaultSelectedKeys={["home"]}>
-        
-        <Menu.Item id='logo-search' style={{ marginLeft: '0px', marginRight: 'auto' }} disabled>
-          <Space size={60}>
+  const items = [
+    { 
+      key: 'logo',
+      id: 'logo-search',
+      label: (
+        <Space size={60}>
             <Logo />
             <SearchButton />
-          </Space>
-        </Menu.Item>
+        </Space>
+      ),
+      style: { marginLeft: '0px', marginRight: 'auto' },
+      disabled: true,
+    },
+    {
+      id: 'greeting',
+      key: 'greeting',
+      disabled: true,
+      label: <span style={greetingStyle}>Hi, <span>{userName}</span></span>,
+    },
+    {
+      key: 'home',
+      onClick: () => navigate("/app"),
+      label: 'Bookmates'
+    },
+    { key: 'messages', label: 'Messages' },
+    { key: 'orders', label: 'Orders' },
+    {
+      key: 'profileSubmenu',
+      label: 'My Profile',
+      children: [
+        {
+          key: 'settings',
+          label: 'Profile Settings',
+          icon: <ProfileOutlined />,
+          onClick: ()=> navigate("/app/profile"),
+        },
+        { type: 'divider' },
+        {
+          key: 'logout',
+          label: 'Logout',
+          icon: <LogoutOutlined />,
+        }
+      ],
+    },
+  ]
 
-        <Menu.Item id='greeting' disabled>
-          <span style={greetingStyle}>Hi, <span>{userName}</span></span>
-        </Menu.Item>
-
-        <Menu.Item key="home" onClick={() => navigate("/app")}>Main Page</Menu.Item>
-        <Menu.Item key="messages">Messages</Menu.Item>
-        <Menu.Item key="orders" >Orders</Menu.Item>
-        <Menu.SubMenu key="profileSubmenu" title="My Profile">
-          <Menu.Item key="two" icon={<ProfileOutlined />} onClick={() => navigate("/app/profile")} >
-            Profile Settings
-          </Menu.Item>
-          <Menu.Divider />
-          <Menu.Item key="three" icon={<LogoutOutlined />}>
-            Logout
-          </Menu.Item>
-        </Menu.SubMenu>
-
-      </Menu>
-    </div>
+  return (
+      <Menu style={menuStyle} 
+            mode="horizontal" 
+            defaultSelectedKeys={["home"]} 
+            items={items} />
   );
 }

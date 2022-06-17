@@ -18,7 +18,6 @@ export default function BookmateProfilePage() {
       country: "Germany",
       state: "Bavaria",
       city: "München",
-      imageSrc: "https://cdn-icons-png.flaticon.com/512/219/219983.png",
     };
     return bookmateData;
   };
@@ -39,9 +38,6 @@ export default function BookmateProfilePage() {
       <Row>
         <BookmateDetails  bookmateData={userInfo}/>
       </Row>
-
-   
-
     </div>
   );
 }
