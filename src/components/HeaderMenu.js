@@ -1,7 +1,6 @@
 import React from "react";
 import Logo from "./Logo";
 import SearchButton from "./SearchButton";
-import "antd/dist/antd.css";
 import { useNavigate } from 'react-router-dom';
 import { Menu } from "antd";
 import {

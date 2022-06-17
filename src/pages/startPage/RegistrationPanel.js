@@ -178,7 +178,7 @@ export default function RegistrationPanel() {
  
       >
         <Checkbox>
-          I have read the <a href="">agreement</a>
+          I have read the <a href="/">agreement</a>
         </Checkbox>
       </Form.Item>
 

@@ -4,7 +4,6 @@ import { Layout } from "antd";
 import { HeaderMenu } from "../../components";
 
 import "./index.less";
-import "antd/dist/antd.css";
 
 function WebApp() {
   const { Content } = Layout;

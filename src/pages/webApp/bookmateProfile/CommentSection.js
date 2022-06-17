@@ -1,10 +1,10 @@
 import React from 'react'
 import { Avatar,Comment } from "antd";
 
-export default function () {
+const CommentSection = () => {
   return (
     <div><Comment
-    author={<a>Han Solo</a>}
+    author={<a href="/">Han Solo</a>}
     avatar={
       <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
     }
@@ -17,7 +17,7 @@ export default function () {
     }
     />
       <Comment
-    author={<a>Eren Gulum</a>}
+    author={<a href="/">Eren Gulum</a>}
     avatar={
       <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
     }
@@ -30,3 +30,4 @@ export default function () {
   )
 }
 
+export default CommentSection;

@@ -1,5 +1,4 @@
 import React from 'react'
-import 'antd/dist/antd.css';
 import { Input } from 'antd';
 
 const { Search } = Input;

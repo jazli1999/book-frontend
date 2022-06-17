@@ -1,7 +1,6 @@
 import React from "react";
 import { Col, Row, Card, Divider, Avatar, Descriptions, Tabs } from "antd";
 import { EllipsisOutlined, MessageOutlined } from "@ant-design/icons";
-import "antd/dist/antd.css";
 import "./index.less";
 import CommentSection from "./CommentSection";
 const { Meta } = Card;
