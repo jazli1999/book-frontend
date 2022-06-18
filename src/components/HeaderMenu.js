@@ -23,7 +23,7 @@ export default function HeaderMenu() {
   const logout = () => {
     utils.clearJWT();
     message.success('Successfuly logged out');
-    navigate('/');
+    navigate('/welcome');
   };
 
   const userName = 'Emma';
