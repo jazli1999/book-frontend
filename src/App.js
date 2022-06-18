@@ -2,17 +2,22 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Navigate,
 } from 'react-router-dom';
 
 import * as Pages from './pages';
+import utils from './utils';
 import './App.less';
 
 function App() {
+  const token = utils.getJWT();
+  console.log(token);
   return (
     <div id="App">
       <Router>
         <Routes>
-          <Route path="/" element={<Pages.StartPage />} />
+          <Route path="/" element={<Navigate replace to={token ? '/app' : '/welcome'} />} />
+          <Route path="/welcome" element={<Pages.StartPage />} />
           <Route path="/register" element={<Pages.RegistrationPanel />} />
 
           <Route path="/app" element={<Pages.WebApp />}>

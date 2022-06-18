@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Space } from 'antd';
+import { Menu, message, Space } from 'antd';
 import { ProfileOutlined, LogoutOutlined } from '@ant-design/icons';
 import SearchButton from './SearchButton';
 import Logo from './Logo';
+import utils from '../utils';
 
 import './index.less';
 
@@ -17,6 +18,12 @@ export default function HeaderMenu() {
     alignItems: 'center',
     justifyContent: 'center',
 
+  };
+
+  const logout = () => {
+    utils.clearJWT();
+    message.success('Successfuly logged out');
+    navigate('/');
   };
 
   const userName = 'Emma';
@@ -74,6 +81,7 @@ export default function HeaderMenu() {
           key: 'logout',
           label: 'Logout',
           icon: <LogoutOutlined />,
+          onClick: logout,
         },
       ],
     },

@@ -12,8 +12,8 @@ function MainPage() {
         <h1>Bookmates Recommended For You</h1>
       </div>
       <Row gutter={8}>
-        {bookmateData.map((bookmate) => (
-          <Col span={8}>
+        {bookmateData.map((bookmate, index) => (
+          <Col key={index} span={8}>
             <BookmateCard bookmateData={bookmate} />
           </Col>
         ))}

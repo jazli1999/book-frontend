@@ -1,16 +1,34 @@
-import { Link } from 'react-router-dom';
-
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  Form, Input, Checkbox, Button, Space,
+  Form, Input, Checkbox, Button, Space, message,
 } from 'antd';
 import { Logo } from '../../components';
+import authRepository from '../../repositories/auth.repository';
 import Exchange from '../../assets/images/exchange.png';
+import utils from '../../utils';
 
 import './index.less';
 
 function LoginPanel() {
-  const onFinish = () => {
-    console.log('Login form finished');
+  const [loading, setLoading] = useState(false);
+  const { setJWT } = utils;
+  const navigate = useNavigate();
+  const onFinish = (values) => {
+    setLoading(true);
+    authRepository.login(values.email, values.password).then((res) => {
+      setJWT(res.data.token);
+      message.success(`Welcome back`);
+      navigate('/app');
+    }).catch((err) => {
+      if (err.response.status === 401) {
+        message.error('Wrong credentials, please try again');
+      } else {
+        message.error('Something went wrong');
+      }
+    }).finally(() => {
+      setLoading(false);
+    });
   };
 
   return (
@@ -40,11 +58,9 @@ function LoginPanel() {
           <Form.Item>
             <div className="form-action-container">
               <div>
-                <Link to="/app">
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={loading}>
                     Log in
                   </Button>
-                </Link>
                 <div className="link">
                   <a href="/">Forgot Password</a>
                 </div>
