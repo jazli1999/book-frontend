@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Form, Input, Checkbox, Button, Space, message,
+  Form, Input, Button, message,
 } from 'antd';
 import { Logo } from '../../components';
 import authRepository from '../../repositories/auth.repository';
@@ -12,33 +12,74 @@ import './index.less';
 
 function LoginPanel() {
   const [loading, setLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const { setJWT } = utils;
   const navigate = useNavigate();
   const onFinish = (values) => {
     setLoading(true);
-    authRepository.login(values.email, values.password).then((res) => {
-      setJWT(res.data.token);
-      message.success(`Welcome back`);
-      navigate('/app');
-    }).catch((err) => {
-      if (err.response.status === 401) {
-        message.error('Wrong credentials, please try again');
-      } else {
-        message.error('Something went wrong');
-      }
-    }).finally(() => {
-      setLoading(false);
-    });
+    const { email, password } = values;
+    if (isLogin) {
+      authRepository.login(email, password).then((res) => {
+        setJWT(res.data.token);
+        message.success('Welcome back');
+        navigate('/app');
+      }).catch((err) => {
+        if (err.response.status === 401) {
+          message.error('Wrong credentials, please try again');
+        } else {
+          message.error('Something went wrong');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    } else {
+      authRepository.register(email, password).then((res) => {
+        setJWT(res.data.token);
+        message.success('Welcome!');
+        navigate('/app');
+      }).catch((err) => {
+        if (err.response.status === 400) {
+          message.error('Email already exists');
+        } else {
+          message.error('Something went wrong');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
   };
+
+  const registerHintLine = (
+    <div style={{ marginTop: '30px', textAlign: 'center' }}>
+      <span>Don't have an account?</span>
+      <Button className="link" type="link" size="small" onClick={() => { setIsLogin(false); }}>
+        Register
+      </Button>
+    </div>
+  );
+
+  const loginHintLine = (
+    <div style={{ marginTop: '30px', textAlign: 'center' }}>
+      <span>Already have an account?</span>
+      <Button className="link" type="link" size="small" onClick={() => { setIsLogin(true); }}>
+        Login
+      </Button>
+    </div>
+  );
 
   return (
     <div id="loginPanel">
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         <Logo />
       </div>
-      <div className="header-0" style={{ marginTop: '20px' }}>Login</div>
+      <div className="header-0" style={{ marginTop: '20px' }}>
+        {isLogin ? 'Login' : 'Register'}
+      </div>
       <div className="description">
-        Sign in with your data that you entered during your registration.
+        {isLogin
+          ? 'Sign in with your data that you entered during your registration.'
+          : `Register with your email and setup your password, only one account
+              is allowed for each email.`}
       </div>
       <div style={{ margin: '20px 0px' }}>
         <Form layout="vertical" onFinish={onFinish}>
@@ -48,28 +89,26 @@ function LoginPanel() {
           <Form.Item name="password" label={<span className="input-label">Password</span>}>
             <Input placeholder="min. 8 characters" type="password" />
           </Form.Item>
-          <Form.Item name="keep" valuePropName="checked">
+          {/* <Form.Item name="keep" valuePropName="checked">
             <Checkbox style={{ marginTop: '-10px' }}>
               <span style={{ fontSize: '10pt' }}>
                 Keep me logged in
               </span>
             </Checkbox>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item>
             <div className="form-action-container">
               <div>
-                  <Button type="primary" htmlType="submit" loading={loading}>
-                    Log in
-                  </Button>
-                <div className="link">
-                  <a href="/">Forgot Password</a>
-                </div>
-                <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                  <Space>
-                    <span>Don't have an account?</span>
-                    <a className="link" href="/register">Sign up</a>
-                  </Space>
-                </div>
+                <Button type="primary" htmlType="submit" loading={loading}>
+                  {isLogin ? 'Log in' : 'Register'}
+                </Button>
+                { isLogin
+                  && (
+                  <div className="link">
+                    <Button type="link" size="small">Forget Password</Button>
+                  </div>
+                  )}
+                {isLogin ? registerHintLine : loginHintLine}
               </div>
             </div>
           </Form.Item>

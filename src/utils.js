@@ -3,7 +3,7 @@ import config from './config';
 const getJWT = () => {
   const authCookie = document.cookie
     .split(';')
-    .filter((item) => item.includes(config.AUTH_KEY)); 
+    .filter((item) => item.includes(config.AUTH_KEY));
   if (authCookie.length) return authCookie[0].split('=')[1];
   return null;
 };
