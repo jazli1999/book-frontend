@@ -16,6 +16,7 @@ module.exports = {
   },
   plugins: [
     'react',
+    'only-warn',
   ],
   rules: {
     'react/react-in-jsx-scope': ['off'],
