@@ -83,7 +83,21 @@ function LoginPanel() {
       </div>
       <div style={{ margin: '20px 0px' }}>
         <Form layout="vertical" onFinish={onFinish}>
-          <Form.Item name="email" label={<span className="input-label">Email</span>}>
+          <Form.Item
+            name="email"
+            label={(
+              <span
+                className="input-label"
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail',
+                  }]}
+              >
+                Email
+              </span>
+)}
+          >
             <Input placeholder="name@example.com" />
           </Form.Item>
           <Form.Item name="password" label={<span className="input-label">Password</span>}>
@@ -102,11 +116,11 @@ function LoginPanel() {
                 <Button type="primary" htmlType="submit" loading={loading}>
                   {isLogin ? 'Log in' : 'Register'}
                 </Button>
-                { isLogin
+                {isLogin
                   && (
-                  <div className="link">
-                    <Button type="link" size="small">Forget Password</Button>
-                  </div>
+                    <div className="link">
+                      <Button type="link" size="small">Forget Password</Button>
+                    </div>
                   )}
                 {isLogin ? registerHintLine : loginHintLine}
               </div>
