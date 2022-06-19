@@ -1,11 +1,9 @@
 import ProfilePage from './ProfilePage';
 import PersonalInfo from './PersonalInfo';
-import BookCollection from './BookCollection';
-import WishList from './WishList';
+import BookList from './BookList';
 
 export {
   ProfilePage,
   PersonalInfo,
-  BookCollection,
-  WishList,
+  BookList,
 };

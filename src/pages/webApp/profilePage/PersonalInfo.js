@@ -31,8 +31,8 @@ export default function PersonalInfo() {
   );
 
   return (
-    <div>
-      <h3 className="center"><b>Basic Information</b></h3>
+    <div style={{ marginTop: '10px', marginBottom: '5px' }}>
+      <h2>Basic Information</h2>
       <div id="profileInformation">
         <Form
           form={form}

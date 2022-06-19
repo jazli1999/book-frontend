@@ -1,14 +1,13 @@
 import { Col, Row, Divider } from 'antd';
 import PersonalInfo from './PersonalInfo';
-import BookCollection from './BookCollection';
-import WishList from './WishList';
+import BookList from './BookList';
+import dummyData from './dummyData';
 
 function ProfilePage() {
+  const { bookList } = dummyData;
   return (
     <div>
-
-      <h2 className="center">My Profile</h2>
-
+      <h1>My Profile</h1>
       <Row align="top">
         <Col span={7}>
 
@@ -16,10 +15,10 @@ function ProfilePage() {
         </Col>
         <Divider type="vertical" orientationMargin="100px" />
         <Col span={8}>
-          <BookCollection />
+          <BookList title="Book Collection" bookList={bookList} />
         </Col>
         <Col span={8}>
-          <WishList />
+          <BookList title="Wish List" booklist={[]} />
         </Col>
       </Row>
 

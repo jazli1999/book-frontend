@@ -129,7 +129,7 @@ function CardTitle(props) {
     <div>
       <span style={{ float: 'left' }}>
         <span style={titleStyle}>{props.name}</span>
-        <Button id="match-btn" size="small" icon={<PlusOutlined />} type="primary" ghost>
+        <Button className="match-btn" size="small" icon={<PlusOutlined />} type="primary" ghost>
           <span style={{ fontWeight: 600, marginLeft: '3px' }}>Match</span>
         </Button>
         <p style={bioStyle}>{props.description}</p>
