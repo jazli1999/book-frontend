@@ -1,14 +1,16 @@
-import React from "react";
-import { Col, Row, Card, Divider, Avatar, Descriptions, Tabs } from "antd";
-import { EllipsisOutlined, MessageOutlined } from "@ant-design/icons";
-import "antd/dist/antd.css";
-import "./index.less";
-import CommentSection from "./CommentSection";
+import React from 'react';
+import {
+  Col, Row, Card, Divider, Avatar, Descriptions, Tabs,
+} from 'antd';
+import { EllipsisOutlined, MessageOutlined } from '@ant-design/icons';
+import './index.less';
+import CommentSection from './CommentSection';
+
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
 export default function BookmateDetails(props) {
-  const bookmateData = props.bookmateData;
+  const { bookmateData } = props;
 
   return (
     <div>
@@ -39,21 +41,24 @@ export default function BookmateDetails(props) {
               {bookmateData.country}
             </Descriptions.Item>
             <Descriptions.Item label="City">
-             
+
               {bookmateData.city}
             </Descriptions.Item>
           </Descriptions>
-          <Divider orientation="horizontal"  />
+          <Divider orientation="horizontal" />
 
           <Row>
-              <Tabs defaultActiveKey="1" type="card">
-                <TabPane tab="Book Collection" key="books">
-                  Content of book collectionContent of book collectionContent of book collectionContent of book collectionContent of book collection                  Content of book collectionContent of book collectionContent of book collectionContent of book collectionContent of book collection
-                </TabPane>
-                <TabPane tab="Comments" key="comments">
-                    <CommentSection/>
-                </TabPane>
-              </Tabs>
+            <Tabs defaultActiveKey="1" type="card">
+              <TabPane tab="Book Collection" key="books">
+                Content of book collectionContent of book collectionContent of book
+                collectionContent of book collectionContent of book collection Content
+                of book collectionContent of book collectionContent of book collectionContent
+                of book collectionContent of book collection
+              </TabPane>
+              <TabPane tab="Comments" key="comments">
+                <CommentSection />
+              </TabPane>
+            </Tabs>
           </Row>
         </Col>
       </Row>

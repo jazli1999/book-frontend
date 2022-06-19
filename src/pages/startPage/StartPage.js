@@ -1,11 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 
-import { ShowCase, LoginPanel } from './index';
+import ShowCase from './ShowCase';
+import LoginPanel from './LoginPanel';
 
 function StartPage() {
   return (
-    <div id='startPage'>
+    <div id="startPage">
       <Row>
         <Col span={16}>
           <ShowCase />
@@ -17,7 +18,5 @@ function StartPage() {
     </div>
   );
 }
-
-
 
 export default StartPage;

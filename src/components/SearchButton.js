@@ -1,26 +1,28 @@
-import React from 'react'
-import 'antd/dist/antd.css';
+import React from 'react';
 import { Input } from 'antd';
-
-const { Search } = Input;
-
-
-const onSearch = (value) => console.log(value);
+import { SearchOutlined } from '@ant-design/icons';
 
 export default function SearchButton() {
-    return (
+  const searchStyle = {
+    background: '#fbfdfb',
+    borderRadius: '5px',
+    width: '320px',
+    margin: 'auto',
+    height: '32px',
+  };
 
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        margin:'10px 50px'
-      }}>
+  const onPressEnter = () => {
+    console.log('Search Triggered');
+  };
 
-    <Search
-      placeholder="input search text"
-      onSearch={onSearch}
-    
-      
+  return (
+    <Input
+      placeholder="Search"
+      style={searchStyle}
+      onPressEnter={onPressEnter}
+      suffix={
+        <SearchOutlined style={{ color: '#839c88' }} />
+      }
     />
-    </div>
-)};
+  );
+}

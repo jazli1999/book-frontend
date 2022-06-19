@@ -1,55 +1,98 @@
-import React from "react";
-import Logo from "./Logo";
-import SearchButton from "./SearchButton";
-import "antd/dist/antd.css";
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu } from "antd";
-import {
-  HomeOutlined,
-  UserOutlined,
-  ProfileOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
-import { Header } from "antd/lib/layout/layout";
+import { Menu, message, Space } from 'antd';
+import { ProfileOutlined, LogoutOutlined } from '@ant-design/icons';
+import SearchButton from './SearchButton';
+import Logo from './Logo';
+import utils from '../utils';
 
-
+import './index.less';
 
 export default function HeaderMenu() {
-
   const navigate = useNavigate();
 
+  const menuStyle = {
+    height: '63px',
+    borderBottom: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  };
+
+  const logout = () => {
+    utils.clearJWT();
+    message.success('Successfuly logged out');
+    navigate('/welcome');
+  };
+
+  const userName = 'Emma';
+
+  const greetingStyle = {
+    width: '100%',
+    marginRight: '20px',
+    textAlign: 'right',
+  };
+
+  const items = [
+    {
+      key: 'logo',
+      id: 'logo-search',
+      label: (
+        <Space size={60}>
+          <Logo />
+          <SearchButton />
+        </Space>
+      ),
+      style: { marginLeft: '0px', marginRight: 'auto' },
+      disabled: true,
+    },
+    {
+      id: 'greeting',
+      key: 'greeting',
+      disabled: true,
+      label: (
+        <span style={greetingStyle}>
+          Hi,
+          {' '}
+          <span>{userName}</span>
+        </span>
+      ),
+    },
+    {
+      key: 'home',
+      onClick: () => navigate('/app'),
+      label: 'Bookmates',
+    },
+    { key: 'messages', label: 'Messages' },
+    { key: 'orders', label: 'Orders' },
+    {
+      key: 'profileSubmenu',
+      label: 'My Profile',
+      children: [
+        {
+          key: 'settings',
+          label: 'Profile Settings',
+          icon: <ProfileOutlined />,
+          onClick: () => navigate('/app/profile'),
+        },
+        { type: 'divider' },
+        {
+          key: 'logout',
+          label: 'Logout',
+          icon: <LogoutOutlined />,
+          onClick: logout,
+        },
+      ],
+    },
+  ];
+
   return (
-    <Header>
-      <Menu mode="horizontal" defaultSelectedKeys={["home"]}>
-        <Logo />
-        <SearchButton />
-
-        <Menu.Item key="greetings" style={{ marginLeft: "150px" }}>
-          Hi, User!
-        </Menu.Item>
-
-        <Menu.Item key="home" icon={<HomeOutlined />} onClick={()=> navigate("/app")}>
-          Main Page
-        </Menu.Item>
-
-        <Menu.Item key="messages">Messages</Menu.Item>
-
-        <Menu.Item key="orders" >Orders</Menu.Item>
-
-        <Menu.SubMenu
-          key="profileSubmenu"
-          title="My Profile"
-          icon={<UserOutlined />}
-        >
-          <Menu.Item key="two" icon={<ProfileOutlined />} onClick={()=> navigate("/app/profile")} >
-            Profile Settings
-          </Menu.Item>
-          <Menu.Divider />
-          <Menu.Item key="three" icon={<LogoutOutlined />}>
-            Logout
-          </Menu.Item>
-        </Menu.SubMenu>
-      </Menu>
-    </Header>
+    <Menu
+      style={menuStyle}
+      mode="horizontal"
+      defaultSelectedKeys={['home']}
+      items={items}
+    />
   );
 }
