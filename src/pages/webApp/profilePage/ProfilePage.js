@@ -1,7 +1,7 @@
 import { Col, Row, Divider } from 'antd';
 import PersonalInfo from './PersonalInfo';
 import BookList from './BookList';
-import dummyData from './dummyData';
+import dummyData from '../dummyData';
 
 function ProfilePage() {
   const { bookList } = dummyData;

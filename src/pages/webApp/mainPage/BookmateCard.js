@@ -125,12 +125,27 @@ function CardTitle(props) {
     float: 'right',
   };
 
+  const btnStyle = {
+    fontWeight: 700,
+    marginLeft: '3px',
+    fontSize: '9pt',
+    position: 'relative',
+    top: '-1.5px',
+  };
+
   return (
     <div>
       <span style={{ float: 'left' }}>
         <span style={titleStyle}>{props.name}</span>
-        <Button className="match-btn" size="small" icon={<PlusOutlined />} type="primary" ghost>
-          <span style={{ fontWeight: 600, marginLeft: '3px' }}>Match</span>
+        <Button
+          className="match-btn"
+          size="small"
+          style={{ height: '22px' }}
+          icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative', top: '-1.5px' }} />}
+          type="primary"
+          ghost
+        >
+          <span style={btnStyle}>Match</span>
         </Button>
         <p style={bioStyle}>{props.description}</p>
       </span>

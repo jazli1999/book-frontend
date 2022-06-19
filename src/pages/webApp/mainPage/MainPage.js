@@ -1,23 +1,26 @@
-import { Col, Row } from 'antd';
+import { List } from 'antd';
 import BookmateCard from './BookmateCard';
+import dummyData from '../dummyData';
 
 function MainPage() {
-  const bookmateData = [{ name: 'Eren G', description: 'I love reading', score: 81 },
-    { name: 'Test User', description: 'I love reading too', score: 78 },
-    { name: 'John Doe', description: "I actually don't like reading", score: 60 }];
+  const { bookmateData } = dummyData;
 
   return (
     <div id="MainPage">
       <div style={{ padding: '0px 15px' }}>
         <h1>Bookmates Recommended For You</h1>
       </div>
-      <Row gutter={8}>
-        {bookmateData.map((bookmate, index) => (
-          <Col key={index} span={8}>
-            <BookmateCard bookmateData={bookmate} />
-          </Col>
-        ))}
-      </Row>
+      <List
+        dataSource={bookmateData}
+        grid={{ column: 3 }}
+        size="default"
+        pagination={{
+          pageSize: 6,
+          size: 'small',
+          style: { width: 'fit-content', margin: 'auto' },
+        }}
+        renderItem={(item) => <BookmateCard bookmateData={item} />}
+      />
     </div>
   );
 }

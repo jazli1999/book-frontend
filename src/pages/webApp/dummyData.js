@@ -73,6 +73,18 @@ const bookList = [{
 },
 ];
 
+const bookmateData = [{ name: 'Eren G', description: 'I love reading', score: 81 },
+  { name: 'Test User', description: 'I love reading too', score: 78 },
+  { name: 'John Doe', description: "I actually don't like reading", score: 60 },
+  { name: 'Eren G', description: 'I love reading', score: 81 },
+  { name: 'Test User', description: 'I love reading too', score: 78 },
+  { name: 'John Doe', description: "I actually don't like reading", score: 60 },
+  { name: 'Eren G', description: 'I love reading', score: 81 },
+  { name: 'Test User', description: 'I love reading too', score: 78 },
+  { name: 'John Doe', description: "I actually don't like reading", score: 60 },
+  { name: 'Eren G', description: 'I love reading', score: 81 }];
+
 export default {
   bookList,
+  bookmateData,
 };
