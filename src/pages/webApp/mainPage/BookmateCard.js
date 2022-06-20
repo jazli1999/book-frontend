@@ -16,7 +16,7 @@ export default function BookmateCard(props) {
   const handleUserDetailClick = (userId) => {
     // 👇️ refers to the div element
     console.log('div clicked: ', userId);
-    navigate(`user/profile/${userId}`);
+    navigate(`/app/user/profile/${userId}`);
   };
 
   const availableList = [
@@ -86,8 +86,8 @@ export default function BookmateCard(props) {
       cover={(
         <div style={shelfStyle}>
           <Space direction="vertical">
-            <BookList title="Available books" books={availableList} />
-            <BookList title="Wish list" books={wishList} />
+            <BookList title="Available books" books={availableList} isEditable={true}/>
+            <BookList title="Wish list" books={wishList} isEditable={true}/>
           </Space>
         </div>
       )}
