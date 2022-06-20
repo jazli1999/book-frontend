@@ -18,6 +18,7 @@ export default function BookmateProfilePage() {
       country: 'Germany',
       state: 'Bavaria',
       city: 'München',
+      imageSrc:'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
     };
     return bookmateData;
   };

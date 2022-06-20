@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 const { Meta } = Card;
 
 export default function BookCollection(props) {
-  const editable = props.isEditable;
   const navigate = useNavigate();
 
   return (  <div>

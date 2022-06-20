@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, message, Space } from 'antd';
-import { ProfileOutlined, LogoutOutlined } from '@ant-design/icons';
+import { ProfileOutlined, LogoutOutlined, TeamOutlined,UserAddOutlined } from '@ant-design/icons';
 import SearchButton from './SearchButton';
 import Logo from './Logo';
 import utils from '../utils';
@@ -60,12 +60,27 @@ export default function HeaderMenu() {
       ),
     },
     {
-      key: 'home',
-      onClick: () => navigate('/app'),
+      key: 'bookmates',
       label: 'Bookmates',
+      children: [
+        {
+          key: 'settings',
+          label: 'My Bookmates',
+          icon: <TeamOutlined />,
+          onClick: () => navigate('/app/bookmates/list'),
+        },
+        { type: 'divider' },
+        {
+          key: 'explore',
+          label: 'Explore',
+          icon: <UserAddOutlined />,
+          onClick: () => navigate('/app/main'),
+        },
+      ],
+    
     },
     { key: 'messages', label: 'Messages' },
-    { key: 'orders', label: 'Orders' },
+    { key: 'orders', onClick: () => navigate('/app/orders'), label: 'Orders' },
     {
       key: 'profileSubmenu',
       label: 'My Profile',
