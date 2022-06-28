@@ -46,7 +46,8 @@ export default function BookList(props) {
           {props.title}
         </h2>
         {props.isEditable && <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
-          <span style={{ fontWeight: 700 }}>Edit</span>
+          <a href='/app/profile/collection/edit'><span style={{ fontWeight: 700 }}>Edit</span> </a>
+          
         </Button> }
       </div>
       <div>

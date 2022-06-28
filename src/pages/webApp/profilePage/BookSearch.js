@@ -11,28 +11,28 @@ const AdvancedSearchForm = () => {
     const children = [];
 
     children.push(
-      <Col span={8} key={1}>
+      <Col span={10} key={1}>
         <Form.Item name="isbn" label="ISBN">
           <Input  />
         </Form.Item>
       </Col>
     );
     children.push(
-        <Col span={8} key={2}>
+        <Col span={10} key={2}>
           <Form.Item name="title" label="Title">
             <Input />
           </Form.Item>
         </Col>
       );
       children.push(
-        <Col span={8} key={3}>
+        <Col span={10} key={3}>
           <Form.Item name="author" label="Author">
             <Input/>
           </Form.Item>
         </Col>
       );
       children.push(
-        <Col span={8} key={3}>
+        <Col span={10} key={4}>
           <Form.Item name="publisher" label="Publisher">
             <Input/>
           </Form.Item>
