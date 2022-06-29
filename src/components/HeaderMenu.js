@@ -5,6 +5,7 @@ import {
   ProfileOutlined, LogoutOutlined, TeamOutlined, UserAddOutlined,
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
+
 import SearchButton from './SearchButton';
 import Logo from './Logo';
 import utils from '../utils';
@@ -12,8 +13,9 @@ import utils from '../utils';
 import './index.less';
 
 export default function HeaderMenu() {
-  const navigate = useNavigate();
   const username = useSelector((state) => state.user.username);
+
+  const navigate = useNavigate();
   const menuStyle = {
     height: '63px',
     borderBottom: 'none',

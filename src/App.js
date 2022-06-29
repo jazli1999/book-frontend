@@ -4,13 +4,26 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useGetUserInfoQuery } from './slices/user.api.slice';
 
 import * as Pages from './pages';
 import utils from './utils';
+
+import { setName } from './slices/user.slice';
 import './App.less';
 
 function App() {
   const token = utils.getJWT();
+  const username = useSelector((state) => state.user.username);
+  if (!username) {
+    const { data, isSuccess } = useGetUserInfoQuery();
+    if (isSuccess) {
+      const dispatch = useDispatch();
+      dispatch(setName(data.firstName));
+    }
+  }
+
   return (
     <div id="App">
       <Router>

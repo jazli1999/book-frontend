@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Col, Row, Divider } from 'antd';
 import BookCollection from './BookCollection';
-import { BookSearch } from './BookSearch';
+import BookSearch from './BookSearch';
 
 export default function BookCollectionEdit() {
   return (
