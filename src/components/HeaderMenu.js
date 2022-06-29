@@ -4,7 +4,7 @@ import { Menu, message, Space } from 'antd';
 import {
   ProfileOutlined, LogoutOutlined, TeamOutlined, UserAddOutlined,
 } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useGetUserInfoQuery } from '../slices/user.api.slice';
 
 import SearchButton from './SearchButton';
 import Logo from './Logo';
@@ -13,9 +13,13 @@ import utils from '../utils';
 import './index.less';
 
 export default function HeaderMenu() {
-  const username = useSelector((state) => state.user.username);
-
   const navigate = useNavigate();
+  const { data, isSuccess } = useGetUserInfoQuery();
+  let username;
+  if (isSuccess) {
+    username = data.firstName;
+  }
+
   const menuStyle = {
     height: '63px',
     borderBottom: 'none',
@@ -67,7 +71,7 @@ export default function HeaderMenu() {
       label: 'Bookmates',
       children: [
         {
-          key: 'settings',
+          key: 'friends',
           label: 'My Bookmates',
           icon: <TeamOutlined />,
           onClick: () => navigate('/app/bookmates/list'),
