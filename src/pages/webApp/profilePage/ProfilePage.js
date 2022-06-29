@@ -15,10 +15,10 @@ function ProfilePage() {
         </Col>
         <Divider type="vertical" orientationMargin="100px" />
         <Col span={8}>
-          <BookList title="Book Collection" bookList={bookList} isEditable={true}/>
+          <BookList title="Book Collection" bookList={bookList} isEditable />
         </Col>
         <Col span={8}>
-          <BookList title="Wish List" booklist={[]} isEditable={true}/>
+          <BookList title="Wish List" booklist={[]} isEditable />
         </Col>
       </Row>
 

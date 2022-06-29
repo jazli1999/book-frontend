@@ -1,7 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, message, Space } from 'antd';
-import { ProfileOutlined, LogoutOutlined, TeamOutlined,UserAddOutlined } from '@ant-design/icons';
+import {
+  ProfileOutlined, LogoutOutlined, TeamOutlined, UserAddOutlined,
+} from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 import SearchButton from './SearchButton';
 import Logo from './Logo';
 import utils from '../utils';
@@ -10,7 +13,7 @@ import './index.less';
 
 export default function HeaderMenu() {
   const navigate = useNavigate();
-
+  const username = useSelector((state) => state.user.username);
   const menuStyle = {
     height: '63px',
     borderBottom: 'none',
@@ -25,8 +28,6 @@ export default function HeaderMenu() {
     message.success('Successfuly logged out');
     navigate('/welcome');
   };
-
-  const userName = 'Emma';
 
   const greetingStyle = {
     width: '100%',
@@ -55,7 +56,7 @@ export default function HeaderMenu() {
         <span style={greetingStyle}>
           Hi,
           {' '}
-          <span>{userName}</span>
+          <span>{username}</span>
         </span>
       ),
     },
@@ -77,7 +78,7 @@ export default function HeaderMenu() {
           onClick: () => navigate('/app/main'),
         },
       ],
-    
+
     },
     { key: 'messages', label: 'Messages' },
     { key: 'orders', onClick: () => navigate('/app/orders'), label: 'Orders' },

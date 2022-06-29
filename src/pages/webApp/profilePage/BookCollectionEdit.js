@@ -1,8 +1,8 @@
-import React from "react";
-import "antd/dist/antd.css";
-import { Col, Row, Divider } from "antd";
-import BookCollection from "./BookCollection";
-import { BookSearch } from ".";
+import React from 'react';
+import 'antd/dist/antd.css';
+import { Col, Row, Divider } from 'antd';
+import BookCollection from './BookCollection';
+import { BookSearch } from './BookSearch';
 
 export default function BookCollectionEdit() {
   return (
@@ -15,7 +15,8 @@ export default function BookCollectionEdit() {
       <Divider type="horizontal" orientationMargin="100px" />
       <Row>
         <Col span={15}>
-          <BookSearch />{" "}
+          <BookSearch />
+          {' '}
         </Col>
         <Divider type="vertical" orientationMargin="100px" />
         <Col span={8}>

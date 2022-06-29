@@ -1,10 +1,12 @@
-import React from "react";
-import "antd/dist/antd.css";
-import "./index.less";
-import { Button, Col, Form, Input, Row, Select } from "antd";
-const { Option } = Select;
+import React from 'react';
+import './index.less';
+import {
+  Button, Col, Form, Input, Row,
+} from 'antd';
 
-const AdvancedSearchForm = () => {
+// const { Option } = Select;
+
+function AdvancedSearchForm() {
   const [form] = Form.useForm();
 
   const getFields = () => {
@@ -13,36 +15,36 @@ const AdvancedSearchForm = () => {
     children.push(
       <Col span={8} key={1}>
         <Form.Item name="isbn" label="ISBN">
-          <Input  />
+          <Input />
         </Form.Item>
-      </Col>
+      </Col>,
     );
     children.push(
-        <Col span={8} key={2}>
-          <Form.Item name="title" label="Title">
-            <Input />
-          </Form.Item>
-        </Col>
-      );
-      children.push(
-        <Col span={8} key={3}>
-          <Form.Item name="author" label="Author">
-            <Input/>
-          </Form.Item>
-        </Col>
-      );
-      children.push(
-        <Col span={8} key={3}>
-          <Form.Item name="publisher" label="Publisher">
-            <Input/>
-          </Form.Item>
-        </Col>
-      );
+      <Col span={8} key={2}>
+        <Form.Item name="title" label="Title">
+          <Input />
+        </Form.Item>
+      </Col>,
+    );
+    children.push(
+      <Col span={8} key={3}>
+        <Form.Item name="author" label="Author">
+          <Input />
+        </Form.Item>
+      </Col>,
+    );
+    children.push(
+      <Col span={8} key={3}>
+        <Form.Item name="publisher" label="Publisher">
+          <Input />
+        </Form.Item>
+      </Col>,
+    );
     return children;
   };
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    console.log('Received values of form: ', values);
   };
 
   return (
@@ -57,7 +59,7 @@ const AdvancedSearchForm = () => {
         <Col
           span={24}
           style={{
-            textAlign: "right",
+            textAlign: 'right',
           }}
         >
           <Button type="primary" htmlType="submit">
@@ -65,7 +67,7 @@ const AdvancedSearchForm = () => {
           </Button>
           <Button
             style={{
-              margin: "0 8px",
+              margin: '0 8px',
             }}
             onClick={() => {
               form.resetFields();
@@ -77,13 +79,15 @@ const AdvancedSearchForm = () => {
       </Row>
     </Form>
   );
-};
+}
 
-const BookSearch = () => (
-  <div>
-    <AdvancedSearchForm />
-    <div className="search-result-list">Search Result List</div>
-  </div>
-);
+function BookSearch() {
+  return (
+    <div>
+      <AdvancedSearchForm />
+      <div className="search-result-list">Search Result List</div>
+    </div>
+  );
+}
 
 export default BookSearch;

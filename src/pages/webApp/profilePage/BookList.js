@@ -45,9 +45,11 @@ export default function BookList(props) {
         <h2 style={{ display: 'inline', marginBottom: '0px' }}>
           {props.title}
         </h2>
-        {props.isEditable && <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
+        {props.isEditable && (
+        <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
           <span style={{ fontWeight: 700 }}>Edit</span>
-        </Button> }
+        </Button>
+        ) }
       </div>
       <div>
         <List

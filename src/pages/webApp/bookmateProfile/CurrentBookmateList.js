@@ -1,13 +1,11 @@
-import "antd/dist/antd.css";
-import { Avatar, List, message } from "antd";
-import VirtualList from "rc-virtual-list";
-import { useEffect, useState } from "react";
+import { Avatar, List, message } from 'antd';
+import VirtualList from 'rc-virtual-list';
+import { useEffect, useState } from 'react';
 
-const fakeDataUrl =
-  "https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo";
+const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
 const ContainerHeight = 400;
 
-const CurrentBookMateList = () => {
+function CurrentBookMateList() {
   const [data, setData] = useState([]);
 
   const appendData = () => {
@@ -25,8 +23,8 @@ const CurrentBookMateList = () => {
 
   const onScroll = (e) => {
     if (
-      e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
-      ContainerHeight
+      e.currentTarget.scrollHeight - e.currentTarget.scrollTop
+      === ContainerHeight
     ) {
       appendData();
     }
@@ -53,6 +51,6 @@ const CurrentBookMateList = () => {
       </VirtualList>
     </List>
   );
-};
+}
 
 export default CurrentBookMateList;

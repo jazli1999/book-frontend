@@ -11,7 +11,6 @@ import './App.less';
 
 function App() {
   const token = utils.getJWT();
-  console.log(token);
   return (
     <div id="App">
       <Router>
@@ -21,7 +20,7 @@ function App() {
           <Route path="/register" element={<Pages.RegistrationPanel />} />
 
           <Route path="/app" element={<Pages.WebApp />}>
-            <Route index element={<Pages.MainPage />} /> 
+            <Route index element={<Pages.MainPage />} />
             <Route path="main" element={<Pages.MainPage />} />
             <Route path="profile" element={<Pages.ProfilePage />} />
             <Route path="user/profile/:id" element={<Pages.BookmateProfilePage />} />
@@ -29,7 +28,6 @@ function App() {
             <Route path="orders/transaction/:id" element={<Pages.Stepper />} />
             <Route path="bookmates/list" element={<Pages.CurrentBookMateList />} />
 
-            
           </Route>
         </Routes>
       </Router>

@@ -86,8 +86,8 @@ export default function BookmateCard(props) {
       cover={(
         <div style={shelfStyle}>
           <Space direction="vertical">
-            <BookList title="Available books" books={availableList} isEditable={true}/>
-            <BookList title="Wish list" books={wishList} isEditable={true}/>
+            <BookList title="Available books" books={availableList} isEditable />
+            <BookList title="Wish list" books={wishList} isEditable />
           </Space>
         </div>
       )}
