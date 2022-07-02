@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import {
   Button, Form, Input, Select, DatePicker,
-  Col, Row,
+  Col, Row, message,
 } from 'antd';
 
 import moment from 'moment';
-import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
+import {
+  useGetUserInfoQuery,
+  useUpdateUserInfoMutation,
+} from '../../../slices/user.api.slice';
 
 import '../index.less';
 
@@ -14,12 +17,37 @@ export default function PersonalInfo() {
   const dateFormat = 'YYYY/MM/DD';
   const { Option } = Select;
   const { TextArea } = Input;
+  const [edit, setEdit] = useState(false);
+
+  const [updateInfo] = useUpdateUserInfoMutation();
 
   const onFinish = (values) => {
-    console.log('Received values of profile form: ', values);
+    const newInfo = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      gender: values.gender,
+      birthday: values.birthday,
+      bio: values.bio,
+      address: {
+        country: values.country,
+        state: values.state,
+        city: values.city,
+        postcode: values.postcode,
+        street: values.street,
+        houseNumber: values.houseNumber,
+      },
+    };
+    updateInfo(newInfo).then(() => {
+      setEdit(false);
+    }).catch(() => {
+      message.error('Something went wrong');
+    });
   };
 
-  const [edit, setEdit] = useState(false);
+  const onCancel = () => {
+    form.resetFields();
+    setEdit(false);
+  };
 
   const editBtnStyle = {
     borderWidth: '1.4px',
@@ -59,7 +87,8 @@ export default function PersonalInfo() {
               form={form}
               style={{ marginTop: '-12px' }}
               name="personalInfo"
-              onFinish={onFinish}
+              onFinish={(values) => onFinish(values)}
+              onFinishFailed={(v, e, o) => { console.log(v, e, o); }}
               layout="vertical"
               scrollToFirstError
               initialValues={{
@@ -164,7 +193,7 @@ export default function PersonalInfo() {
                       <Button
                         className="match-btn"
                         type="primary"
-                        onClick={() => { setEdit(false); }}
+                        onClick={onCancel}
                         style={{ width: '80px', marginLeft: '0px' }}
                         ghost
                       >
@@ -173,7 +202,6 @@ export default function PersonalInfo() {
                       <Button
                         className="match-btn"
                         style={{ width: '80px' }}
-                        onClick={() => { setEdit(false); }}
                         type="primary"
                         htmlType="submit"
                       >

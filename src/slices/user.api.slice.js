@@ -11,12 +11,24 @@ export const userApiSlice = createApi({
       return headers;
     },
   }),
-  keepUnusedDataFor: 0,
+  keepUnusedDataFor: 0, // do not cache
   endpoints: (builder) => ({
     getUserInfo: builder.query({
       query: (id) => `/users/${id || ''}`,
     }),
+    updateUserInfo: builder.mutation({
+      query: (values) => ({
+        url: '/users',
+        method: 'PUT',
+        headers: {
+          'content-Type': 'application/json',
+        },
+        body: {
+          user: values,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetUserInfoQuery } = userApiSlice;
+export const { useGetUserInfoQuery, useUpdateUserInfoMutation } = userApiSlice;
