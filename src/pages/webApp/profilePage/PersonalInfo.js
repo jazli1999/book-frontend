@@ -62,16 +62,21 @@ export default function PersonalInfo() {
               onFinish={onFinish}
               layout="vertical"
               scrollToFirstError
+              initialValues={{
+                ...userInfo,
+                ...userInfo.address,
+                birthday: moment(userInfo.birthday, dateFormat),
+              }}
             >
               <Row align="top" justify="space-between" gutter={16}>
                 <Col span={12}>
                   <Form.Item name="firstName" label="First Name">
-                    <Input disabled={!edit} defaultValue={userInfo.firstName} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item name="lastName" label="Last Name">
-                    <Input disabled={!edit} defaultValue={userInfo.lastName} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -88,7 +93,7 @@ export default function PersonalInfo() {
                       },
                     ]}
                   >
-                    <Select placeholder="select your gender" disabled defaultValue={userInfo.gender}>
+                    <Select placeholder="select your gender" disabled>
                       <Option value="male">Male</Option>
                       <Option value="female">Female</Option>
                       <Option value="other">Other</Option>
@@ -99,7 +104,6 @@ export default function PersonalInfo() {
                   <Form.Item name="birthday" label="Birthday">
                     <DatePicker
                       disabled
-                      defaultValue={moment(userInfo.birthday, dateFormat)}
                       format={dateFormat}
                     />
                   </Form.Item>
@@ -109,12 +113,12 @@ export default function PersonalInfo() {
               <Row align="top" justify="space-between" gutter={16}>
                 <Col span={12}>
                   <Form.Item name="country" label="Country">
-                    <Input disabled={!edit} defaultValue={userInfo.address.country} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item name="state" label="State">
-                    <Input disabled={!edit} defaultValue={userInfo.address.state} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -122,12 +126,12 @@ export default function PersonalInfo() {
               <Row align="top" justify="space-between" gutter={16}>
                 <Col span={12}>
                   <Form.Item name="city" label="City">
-                    <Input disabled={!edit} defaultValue={userInfo.address.city} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item name="postcode" label="Post code">
-                    <Input disabled={!edit} defaultValue={userInfo.address.postcode} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -135,12 +139,12 @@ export default function PersonalInfo() {
               <Row align="top" justify="space-between" gutter={16}>
                 <Col span={18}>
                   <Form.Item name="street" label="Street">
-                    <Input disabled={!edit} defaultValue={userInfo.address.street} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
                 <Col span={6}>
                   <Form.Item name="houseNumber" label="No.">
-                    <Input disabled={!edit} defaultValue={userInfo.address.houseNumber} />
+                    <Input disabled={!edit} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -148,7 +152,7 @@ export default function PersonalInfo() {
               <Row align="top" justify="space-between" gutter={16}>
                 <Col span={24}>
                   <Form.Item name="bio" label="Bio">
-                    <TextArea disabled={!edit} defaultValue={userInfo.bio} />
+                    <TextArea disabled={!edit} />
                   </Form.Item>
                 </Col>
               </Row>
