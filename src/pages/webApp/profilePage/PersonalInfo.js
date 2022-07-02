@@ -31,41 +31,27 @@ export default function PersonalInfo() {
 
   const { data: userInfo, isSuccess } = useGetUserInfoQuery();
 
-  // const userInfo = {
-  //   firstname: 'Emma',
-  //   lastname: 'Johnson',
-  //   gender: 'female',
-  //   birthday: '1998/06/07',
-  //   country: 'Germany',
-  //   state: 'Bayern',
-  //   city: 'Munich',
-  //   postcode: '80333',
-  //   street: 'Arcisstrasse',
-  //   no: '21',
-  //   bio: 'I love history and philosophy books. 📕 Both onsite or mail exhcange are ok.',
-  // };
-
   return (
     <div style={{ marginTop: '10px', marginBottom: '5px' }}>
-      {isSuccess &&
+      {isSuccess
+        && (
         <div>
           <div className="vertical-center" style={{ marginBottom: '15px' }}>
             <h2 style={{ display: 'inline', marginBottom: '0px' }}>
               Basic Information
             </h2>
-            {!edit
-              && (
-                <Button
-                  className="match-btn"
-                  style={editBtnStyle}
-                  type="primary"
-                  size="small"
-                  onClick={() => { setEdit(true); }}
-                  ghost
-                >
-                  <span style={{ fontWeight: 700 }}>Edit</span>
-                </Button>
-              )}
+            {!edit && (
+            <Button
+              className="match-btn"
+              style={editBtnStyle}
+              type="primary"
+              size="small"
+              onClick={() => { setEdit(true); }}
+              ghost
+            >
+              <span style={{ fontWeight: 700 }}>Edit</span>
+            </Button>
+            )}
 
           </div>
           <div id="profileInformation">
@@ -197,7 +183,8 @@ export default function PersonalInfo() {
               </Form.Item>
             </Form>
           </div>
-        </div>}
+        </div>
+        )}
     </div>
   );
 }

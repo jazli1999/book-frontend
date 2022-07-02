@@ -11,6 +11,7 @@ export const userApiSlice = createApi({
       return headers;
     },
   }),
+  keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getUserInfo: builder.query({
       query: (id) => `/users/${id || ''}`,
