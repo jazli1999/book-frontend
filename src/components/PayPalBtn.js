@@ -29,12 +29,12 @@ function PayPalBtn(props) {
 
   return (
     <PayPalScriptProvider options={{ 'client-id': config.PAYPAL_CLIENT_ID, currency: 'EUR' }}>
-      <div style={{ width: 10 }}>
+      <div style={{ marginBottom: '-5px', marginLeft: '8px' }}>
         <PayPalButtons
           createOrder={(data, actions) => createOrder(data, actions)}
           onApprove={(data, actions) => onApprove(data, actions)}
           onError={(data, actions) => onError(data, actions)}
-          style={{ layout: 'horizontal', height: 25, color: 'gold' }}
+          style={{ layout: 'horizontal', height: 25, color: 'white' }}
         />
       </div>
 

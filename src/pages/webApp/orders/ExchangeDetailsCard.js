@@ -1,10 +1,21 @@
 import {
-  Col, Row, Space, Divider,
+  Col, Row, Space, Divider, Input, Button,
 } from 'antd';
 import React, { useState } from 'react';
 import WhiteTick from '../../../assets/images/white_tick.svg';
+import { PayPalBtn } from '../../../components';
+import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
-export default function ExchangeDetailsCard() {
+export default function ExchangeDetailsCard(props) {
+  const { user: order, current: editable, request } = props;
+  const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
+  let username;
+  if (isSuccess) {
+    username = `${data.firstName} ${data.lastName}`;
+  }
+  const fee = order.wishList.length * 0.5;
+  const status = order.status;
+  const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
   const chosenBooks = [
     {
       cover:
@@ -20,10 +31,10 @@ export default function ExchangeDetailsCard() {
 
   return (
     <div style={{ padding: '0px 30px 0px 10px' }}>
-      <h2 style={{ marginLeft: '5px' }}>Jane Doe</h2>
-      <Books books={chosenBooks} />
-      <Payment />
-      <Track />
+      <h2 style={{ marginLeft: '5px' }}>{username}</h2>
+      <Books books={chosenBooks} editable={editable && (status == 1 && request || status == 2 && !request)} />
+      <Payment fee={fee} disabled={status < 3} completed={paid} editable={editable && status == 3} />
+      <Track disabled={status < 4} code={order.trackingCode} editable={editable && status == 4} />
     </div>
   );
 }
@@ -46,13 +57,9 @@ function Books(props) {
   );
 }
 
-function Payment() {
-  // const { deposit, originalFee, fee, disabled } = props;
-  const {
-    deposit, fee, disabled, completed,
-  } = {
-    deposit: 5, originalFee: 1, fee: 1, disabled: false, completed: true,
-  };
+function Payment(props) {
+  const { fee, disabled, completed, editable } = props;
+
   const [isCompleted] = useState(completed);
   return (
     <div className={`rounded-container${disabled ? ' disabled' : ''}`}>
@@ -66,8 +73,7 @@ function Payment() {
           </Col>
           <Col span={5} className="vertical-center">
             <span className="fee">
-              {deposit}
-              .00 €
+              5.00 €
             </span>
           </Col>
         </Row>
@@ -80,8 +86,7 @@ function Payment() {
           </Col>
           <Col span={5} className="vertical-center">
             <span className="fee">
-              {fee}
-              .00 €
+              {fee.toFixed(2)} €
             </span>
           </Col>
         </Row>
@@ -90,18 +95,23 @@ function Payment() {
           <Col span={16}>
             {isCompleted
               && (
-              <div style={{ display: 'flex' }}>
-                <h5 style={{ marginBottom: '0px' }}>Payment Completed</h5>
-                <Tick style={{ display: 'inline' }} />
+                <div style={{ display: 'flex' }}>
+                  <h5 style={{ marginBottom: '0px' }}>Payment Completed</h5>
+                  <Tick style={{ display: 'inline' }} />
 
-              </div>
+                </div>
               )}
             {
               !isCompleted
               && (
-              <h5 style={{ marginBottom: '0px' }}>
-                Payment Pending
-              </h5>
+                <div className="vertical-center">
+                  <h5 style={{ marginBottom: '0px' }}>
+                    Payment Pending
+                  </h5>
+                  {
+                    editable && <PayPalBtn amount={fee + 5} />
+                  }
+                </div>
               )
             }
           </Col>
@@ -110,8 +120,7 @@ function Payment() {
             {' '}
             <br />
             <span style={{ fontWeight: 700 }}>
-              {fee + deposit}
-              .00 €
+              {(fee + 5).toFixed(2)} €
             </span>
           </Col>
         </Row>
@@ -139,12 +148,22 @@ function Tick() {
   );
 }
 
-function Track() {
+function Track(props) {
+  const { disabled, code, editable } = props;
   return (
-    <div className="rounded-container">
+    <div className={`rounded-container${disabled ? ' disabled' : ''}`}>
       <div style={{ margin: '8px 0px' }}>
         <h4>Tracking Code</h4>
-
+        {(!code && editable) &&
+          <div className='vertical-center'>
+            <Input style={{ flex: '1 1 auto', height: '35px' }} />
+            <Button type="primary" className="btn-inline">Confirm</Button>
+          </div>
+        }
+        {
+          (!code && !editable) &&
+          'Tracking code not uploaded yet'
+        }
       </div>
     </div>
   );
