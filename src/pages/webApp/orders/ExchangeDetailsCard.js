@@ -1,5 +1,5 @@
 import {
-  Col, Row, Space, Divider, Input, Button,
+  Col, Row, Space, Divider, Input, Button, message,
 } from 'antd';
 import React, { useState } from 'react';
 import WhiteTick from '../../../assets/images/white_tick.svg';
@@ -7,14 +7,15 @@ import { PayPalBtn } from '../../../components';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 export default function ExchangeDetailsCard(props) {
-  const { user: order, current: editable, request } = props;
+  const {
+    user: order, current: editable, request, status,
+  } = props;
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
   let username;
   if (isSuccess) {
     username = `${data.firstName} ${data.lastName}`;
   }
   const fee = order.wishList.length * 0.5;
-  const status = order.status;
   const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
   const chosenBooks = [
     {
@@ -32,9 +33,21 @@ export default function ExchangeDetailsCard(props) {
   return (
     <div style={{ padding: '0px 30px 0px 10px' }}>
       <h2 style={{ marginLeft: '5px' }}>{username}</h2>
-      <Books books={chosenBooks} editable={editable && (status == 1 && request || status == 2 && !request)} />
-      <Payment fee={fee} disabled={status < 3} completed={paid} editable={editable && status == 3} />
-      <Track disabled={status < 4} code={order.trackingCode} editable={editable && status == 4} />
+      <Books
+        books={chosenBooks}
+        editable={editable && ((status === 1 && request) || (status === 2 && !request))}
+      />
+      <Payment
+        fee={fee}
+        disabled={status < 3}
+        completed={paid}
+        editable={editable && status === 3}
+      />
+      <Track
+        disabled={status < 4}
+        code={order.trackingCode}
+        editable={editable && status === 4}
+      />
     </div>
   );
 }
@@ -58,9 +71,20 @@ function Books(props) {
 }
 
 function Payment(props) {
-  const { fee, disabled, completed, editable } = props;
-
-  const [isCompleted] = useState(completed);
+  const {
+    fee, disabled, completed, editable,
+  } = props;
+  const [isCompleted, setIsComplete] = useState(completed);
+  const onApprove = (data, actions) => {
+    message.success('Payment completed');
+    console.log(data.orderID, data.payerID);
+    setIsComplete(true);
+    return actions.order.capture();
+  };
+  const onError = (data, actions) => {
+    message.error('Something went wrong, please try again');
+    return actions.order.capture();
+  };
   return (
     <div className={`rounded-container${disabled ? ' disabled' : ''}`}>
       <div style={{ margin: '5px 0px' }}>
@@ -86,7 +110,9 @@ function Payment(props) {
           </Col>
           <Col span={5} className="vertical-center">
             <span className="fee">
-              {fee.toFixed(2)} €
+              {fee.toFixed(2)}
+              {' '}
+              €
             </span>
           </Col>
         </Row>
@@ -109,7 +135,14 @@ function Payment(props) {
                     Payment Pending
                   </h5>
                   {
-                    editable && <PayPalBtn amount={fee + 5} />
+                    editable
+                      && (
+                      <PayPalBtn
+                        amount={fee + 5}
+                        onApprove={onApprove}
+                        onError={onError}
+                      />
+                      )
                   }
                 </div>
               )
@@ -120,7 +153,9 @@ function Payment(props) {
             {' '}
             <br />
             <span style={{ fontWeight: 700 }}>
-              {(fee + 5).toFixed(2)} €
+              {(fee + 5).toFixed(2)}
+              {' '}
+              €
             </span>
           </Col>
         </Row>
@@ -154,15 +189,16 @@ function Track(props) {
     <div className={`rounded-container${disabled ? ' disabled' : ''}`}>
       <div style={{ margin: '8px 0px' }}>
         <h4>Tracking Code</h4>
-        {(!code && editable) &&
-          <div className='vertical-center'>
+        {(!code && editable)
+          && (
+          <div className="vertical-center">
             <Input style={{ flex: '1 1 auto', height: '35px' }} />
             <Button type="primary" className="btn-inline">Confirm</Button>
           </div>
-        }
+          )}
         {
-          (!code && !editable) &&
-          'Tracking code not uploaded yet'
+          (!code && !editable)
+          && 'Tracking code not uploaded yet'
         }
       </div>
     </div>

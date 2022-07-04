@@ -28,12 +28,17 @@ export default function OrderPage() {
     setCurrent(current - 1);
   };
 
+  let status;
+  if (isSuccess) {
+    status = Math.min(data.requester.status, data.responder.status);
+  }
   return (
     <div>
-      {isSuccess &&
+      {isSuccess
+        && (
         <Row align="top">
           <Col span={6}>
-            <Steps current={current} direction="vertical" size="small">
+            <Steps current={status - 1} direction="vertical">
               {steps.map((item) => (
                 <Step key={item.title} title={item.title} description={item.description} />
               ))}
@@ -45,37 +50,46 @@ export default function OrderPage() {
             </div>
             <Row>
               <Col span={12}>
-                <ExchangeDetailsCard user={data.requester} current={data.reqId === data.requester.userId} request />
+                <ExchangeDetailsCard
+                  user={data.requester}
+                  current={data.reqId === data.requester.userId}
+                  request
+                  status={status}
+                />
               </Col>
               <Col span={12}>
-                <ExchangeDetailsCard user={data.responder} current={data.reqId === data.responder.userId} />
+                <ExchangeDetailsCard
+                  user={data.responder}
+                  current={data.reqId === data.responder.userId}
+                  status={status}
+                />
               </Col>
             </Row>
             <div className="steps-action">
               {current < steps.length - 1 && (
-                <Button type="primary" onClick={() => next()}>
-                  Next
-                </Button>
+              <Button type="primary" onClick={() => next()}>
+                Next
+              </Button>
               )}
               {current === steps.length - 1 && (
-                <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                  Done
-                </Button>
+              <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                Done
+              </Button>
               )}
               {current > 0 && (
-                <Button
-                  style={{
-                    margin: '0 8px',
-                  }}
-                  onClick={() => prev()}
-                >
-                  Previous
-                </Button>
+              <Button
+                style={{
+                  margin: '0 8px',
+                }}
+                onClick={() => prev()}
+              >
+                Previous
+              </Button>
               )}
             </div>
           </Col>
         </Row>
-      }
+        )}
     </div>
   );
 }
