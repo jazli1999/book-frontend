@@ -2,6 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import config from '../config';
 import utils from '../utils';
 
+const textResponseHandler = async (response) => {
+  const text = await response.text();
+  return { data: text, status: response.status };
+}
+
 export const orderApiSlice = createApi({
   reducerPath: 'order',
   baseQuery: fetchBaseQuery({
@@ -18,20 +23,29 @@ export const orderApiSlice = createApi({
     }),
     updatePayment: builder.mutation({
       query: ({ id, ...body }) => ({
-        url: `/orders/${id}`,
+        url: `/orders/payment/${id}`,
         method: 'PUT',
         headers: {
           'content-type': 'application/json',
           authorization: utils.getJWT(),
         },
         body,
-        responseHandler: async (response) => {
-          const text = await response.text();
-          return { data: text, status: response.status };
-        },
+        responseHandler: async (response) => (await textResponseHandler(response)),
       }),
+    }),
+    updateTracking: builder.mutation({
+      query: ({ id, ...body}) => ({
+        url: `/orders/tracking/${id}`,
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          authorization: utils.getJWT(),
+        },
+        body,
+        responseHandler: async (response) => (await textResponseHandler(response)),
+      })
     }),
   }),
 });
 
-export const { useGetOrderQuery, useUpdatePaymentMutation } = orderApiSlice;
+export const { useGetOrderQuery, useUpdatePaymentMutation, useUpdateTrackingMutation } = orderApiSlice;

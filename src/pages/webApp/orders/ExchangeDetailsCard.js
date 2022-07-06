@@ -4,7 +4,7 @@ import {
 import React, { useState } from 'react';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
-import { useUpdatePaymentMutation } from '../../../slices/order.api.slice';
+import { useUpdatePaymentMutation, useUpdateTrackingMutation } from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 export default function ExchangeDetailsCard(props) {
@@ -49,6 +49,7 @@ export default function ExchangeDetailsCard(props) {
         disabled={status < 4}
         code={order.trackingCode}
         editable={editable && status === 4}
+        isReq={request}
       />
     </div>
   );
@@ -85,8 +86,7 @@ function Payment(props) {
       payerId: data.payerID,
       amount: String(fee + 5),
     };
-    actions.order.capture().then((resp) => {
-      console.log(resp);
+    actions.order.capture().then(() => {
       return updatePayment({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq), payment });
     })
       .then((resp) => {
@@ -201,21 +201,47 @@ function Tick() {
 }
 
 function Track(props) {
-  const { disabled, code, editable } = props;
+  const { disabled, code, editable, isReq } = props;
+  const [newCode, setNewCode] = useState(code);
+  const [displayCode, setDisplayCode] = useState(newCode);
+  const [loading, setLoading] = useState(false);
+  const [updateTracking] = useUpdateTrackingMutation();
+  const onConfirm = () => {
+    setLoading(true);
+    updateTracking({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq), trackingCode: newCode })
+      .then((resp) => {
+        if (resp.data.status === 200) {
+          message.success('Tracking code updated');
+          setDisplayCode(newCode);
+          setLoading(false);
+        } else {
+          message.error('Something went wrong, please try again');
+          setLoading(false);
+        }
+      });
+  }
+  const onChange = (e) => {
+    setNewCode(e);
+  }
+
   return (
     <div className={`rounded-container${disabled ? ' disabled' : ''}`}>
       <div style={{ margin: '8px 0px' }}>
         <h4>Tracking Code</h4>
-        {(!code && editable)
+        {(!displayCode && editable)
           && (
             <div className="vertical-center">
-              <Input style={{ flex: '1 1 auto', height: '35px' }} />
-              <Button type="primary" className="btn-inline">Confirm</Button>
+              <Input style={{ flex: '1 1 auto', height: '35px' }} onChange={(e) => onChange(e.target.value)}/>
+              <Button type="primary" className="btn-inline" onClick={onConfirm} disabled={loading}>Confirm</Button>
             </div>
           )}
         {
-          (!code && !editable)
+          (!displayCode && !editable)
           && 'Tracking code not uploaded yet'
+        }
+        {
+          displayCode
+          && <span>{displayCode}</span>
         }
       </div>
     </div>
