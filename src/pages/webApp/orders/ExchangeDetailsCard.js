@@ -9,7 +9,7 @@ import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 export default function ExchangeDetailsCard(props) {
   const {
-    user: order, current: editable, request, status,
+    user: order, current: editable, request, status, updateSteps,
   } = props;
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
   let username;
@@ -39,24 +39,28 @@ export default function ExchangeDetailsCard(props) {
         editable={editable && ((status === 1 && request) || (status === 2 && !request))}
         isReq={request}
         name={username}
+        updateSteps={updateSteps}
       />
       <Payment
         fee={fee}
         disabled={status < 3}
         completed={paid}
         editable={editable && status === 3}
+        updateSteps={updateSteps}
         isReq={request}
       />
       <Track
         disabled={status < 4}
         code={order.trackingCode}
         editable={editable && status === 4}
+        updateSteps={updateSteps}
         isReq={request}
       />
       <Confirmation
         disabled={status < 5}
         completed={order.status > 5}
         editable={editable && status === 5}
+        updateSteps={updateSteps}
         isReq={request}
         username={username}
       />
@@ -66,7 +70,7 @@ export default function ExchangeDetailsCard(props) {
 
 function Confirmation(props) {
   const {
-    disabled, editable, isReq, completed, username,
+    disabled, editable, isReq, completed, username, updateSteps,
   } = props;
   const [isCompleted, setIsCompleted] = useState(completed);
   /*
@@ -81,7 +85,8 @@ function Confirmation(props) {
     confirmReceipt({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq) })
       .then((resp) => {
         if (resp.data.status === 200) {
-          message.success('Tracking code updated');
+          message.success('Confirmed');
+          updateSteps(isReq, 6);
           setIsCompleted(true);
         } else {
           message.error('Something went wrong, please try again');
@@ -148,7 +153,7 @@ function Books(props) {
 
 function Payment(props) {
   const {
-    fee, disabled, completed, editable, isReq,
+    fee, disabled, completed, editable, isReq, updateSteps,
   } = props;
   const [isCompleted, setIsComplete] = useState(completed);
   const [updatePayment] = useUpdatePaymentMutation();
@@ -163,6 +168,7 @@ function Payment(props) {
       .then((resp) => {
         if (resp.data.status === 200) {
           message.success('Payment completed');
+          updateSteps(isReq, 4);
           setIsComplete(true);
         } else {
           message.error('Something went wrong, please contact us');
@@ -273,7 +279,7 @@ function Tick() {
 
 function Track(props) {
   const {
-    disabled, code, editable, isReq,
+    disabled, code, editable, isReq, updateSteps,
   } = props;
   const [newCode, setNewCode] = useState(code);
   const [displayCode, setDisplayCode] = useState(newCode);
@@ -286,6 +292,7 @@ function Track(props) {
         if (resp.data.status === 200) {
           message.success('Tracking code updated');
           setDisplayCode(newCode);
+          updateSteps(isReq, 5);
           setLoading(false);
         } else {
           message.error('Something went wrong, please try again');

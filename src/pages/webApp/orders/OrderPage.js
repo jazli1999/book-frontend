@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Steps, Col, Row, Space,
 } from 'antd';
@@ -9,7 +9,8 @@ import './index.less';
 
 export default function OrderPage() {
   const { data, isSuccess } = useGetOrderQuery('62c30d2ac65cae98b1d7c6c0');
-
+  const [updated, setUpdated] = useState(false);
+  const [newStep, setNewStep] = useState(0);
   const { Step } = Steps;
   const steps = [
     { title: <div>Exchange Requested</div>, icon: <StepLabel number={1} /> },
@@ -20,9 +21,16 @@ export default function OrderPage() {
     { title: <div>Review Exchange</div>, icon: <StepLabel number={6} /> },
   ];
 
+  const updateSteps = (isReq, step) => {
+    const otherStep = isReq ? data.responder.status : data.requester.status;
+    setNewStep(Math.min(step, otherStep) - 1);
+    setUpdated(true);
+  };
+
   let status;
   if (isSuccess) {
     status = Math.min(data.requester.status, data.responder.status);
+    console.log(status);
   }
   return (
     <div>
@@ -30,7 +38,7 @@ export default function OrderPage() {
         && (
           <Row align="top">
             <Col span={6} style={{ paddingTop: '45px' }}>
-              <Steps current={status - 1} direction="vertical">
+              <Steps current={updated ? newStep : status - 1} direction="vertical">
                 {steps.map((item) => (
                   <Step key={item.title} title={item.title} icon={item.icon} />
                 ))}
@@ -46,6 +54,7 @@ export default function OrderPage() {
                     user={data.requester}
                     current={data.reqId === data.requester.userId}
                     status={status}
+                    updateSteps={updateSteps}
                     request
                   />
                 </Col>
@@ -53,6 +62,7 @@ export default function OrderPage() {
                   <ExchangeDetailsCard
                     user={data.responder}
                     current={data.reqId === data.responder.userId}
+                    updateSteps={updateSteps}
                     status={status}
                   />
                 </Col>
