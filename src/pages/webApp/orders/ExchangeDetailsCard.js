@@ -57,7 +57,7 @@ export default function ExchangeDetailsCard(props) {
         isReq={request}
       />
       <Confirmation
-        disabled={status < 5}
+        disabled={status < 5 || !editable}
         completed={order.status > 5}
         editable={editable && status === 5}
         updateSteps={updateSteps}
@@ -99,12 +99,12 @@ function Confirmation(props) {
     if (isCompleted) {
       text = 'You have confirmed receipt of book(s)';
     } else {
-      text = 'Confirm received';
+      text = 'Confirm receipt of the book(s) you ordered';
     }
   } else if (isCompleted) {
     text = `${username} has confirmed receipt of your book(s)`;
   } else {
-    text = 'Waiting for your bookmate\'s confirmation';
+    text = `Waiting for ${username}'s confirmation`;
   }
   return (
     <div style={{ textAlign: 'center', marginTop: '-10px' }}>
@@ -117,11 +117,12 @@ function Confirmation(props) {
         && (
         <Button
           type="primary"
+          style={{ height: 'fit-content', whiteSpace: 'normal', padding: '10px 20px' }}
           className={disabled ? 'disabled-btn' : ''}
           disabled={disabled}
           onClick={onConfirm}
         >
-          <p style={{ fontWeight: 600 }}>{text}</p>
+          <p style={{ fontWeight: 600, marginBottom: 0, lineHeight: '16px' }}>{text}</p>
         </Button>
         )
       }
