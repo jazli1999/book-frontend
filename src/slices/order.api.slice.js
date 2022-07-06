@@ -16,7 +16,22 @@ export const orderApiSlice = createApi({
     getOrder: builder.query({
       query: (id) => `/orders/${id || ''}`,
     }),
+    updatePayment: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/orders/${id}`,
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          authorization: utils.getJWT(),
+        },
+        body,
+        responseHandler: async (response) => {
+          const text = await response.text();
+          return { data: text, status: response.status };
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetOrderQuery } = orderApiSlice;
+export const { useGetOrderQuery, useUpdatePaymentMutation } = orderApiSlice;

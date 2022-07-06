@@ -4,6 +4,7 @@ import {
 import React, { useState } from 'react';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
+import { useUpdatePaymentMutation } from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 export default function ExchangeDetailsCard(props) {
@@ -42,6 +43,7 @@ export default function ExchangeDetailsCard(props) {
         disabled={status < 3}
         completed={paid}
         editable={editable && status === 3}
+        isReq={request}
       />
       <Track
         disabled={status < 4}
@@ -60,8 +62,8 @@ function Books(props) {
       <br />
       <Space>
         {
-          books.map((book) => (
-            <img src={book.cover} alt="cover" style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
+          books.map((book, index) => (
+            <img key={index} src={book.cover} alt="cover" style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
           ))
         }
       </Space>
@@ -72,14 +74,29 @@ function Books(props) {
 
 function Payment(props) {
   const {
-    fee, disabled, completed, editable,
+    fee, disabled, completed, editable, isReq,
   } = props;
   const [isCompleted, setIsComplete] = useState(completed);
+  const [updatePayment] = useUpdatePaymentMutation();
+
   const onApprove = (data, actions) => {
-    message.success('Payment completed');
-    console.log(data.orderID, data.payerID);
-    setIsComplete(true);
-    return actions.order.capture();
+    const payment = {
+      orderId: data.orderID,
+      payerId: data.payerID,
+      amount: String(fee + 5),
+    };
+    actions.order.capture().then((resp) => {
+      console.log(resp);
+      return updatePayment({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq), payment });
+    })
+      .then((resp) => {
+        if (resp.data.status === 200) {
+          message.success('Payment completed');
+          setIsComplete(true);
+        } else {
+          message.error('Something went wrong, please contact us');
+        }
+      });
   };
   const onError = (data, actions) => {
     message.error('Something went wrong, please try again');
@@ -136,13 +153,13 @@ function Payment(props) {
                   </h5>
                   {
                     editable
-                      && (
+                    && (
                       <PayPalBtn
                         amount={fee + 5}
                         onApprove={onApprove}
                         onError={onError}
                       />
-                      )
+                    )
                   }
                 </div>
               )
@@ -191,10 +208,10 @@ function Track(props) {
         <h4>Tracking Code</h4>
         {(!code && editable)
           && (
-          <div className="vertical-center">
-            <Input style={{ flex: '1 1 auto', height: '35px' }} />
-            <Button type="primary" className="btn-inline">Confirm</Button>
-          </div>
+            <div className="vertical-center">
+              <Input style={{ flex: '1 1 auto', height: '35px' }} />
+              <Button type="primary" className="btn-inline">Confirm</Button>
+            </div>
           )}
         {
           (!code && !editable)

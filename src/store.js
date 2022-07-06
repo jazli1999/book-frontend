@@ -11,5 +11,6 @@ export default configureStore({
     [orderApiSlice.reducerPath]: orderApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-    .concat(userApiSlice.middleware),
+    .concat(userApiSlice.middleware)
+    .concat(orderApiSlice.middleware),
 });
