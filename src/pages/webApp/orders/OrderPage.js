@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Button, message, Steps, Col, Row, Space,
+  Steps, Col, Row, Space,
 } from 'antd';
 import { useGetOrderQuery } from '../../../slices/order.api.slice';
 import ExchangeDetailsCard from './ExchangeDetailsCard';
@@ -8,7 +8,6 @@ import ExchangeDetailsCard from './ExchangeDetailsCard';
 import './index.less';
 
 export default function OrderPage() {
-  const [current, setCurrent] = useState(0);
   const { data, isSuccess } = useGetOrderQuery('62c30d2ac65cae98b1d7c6c0');
 
   const { Step } = Steps;
@@ -19,16 +18,7 @@ export default function OrderPage() {
     { title: <div>Ship Your Books</div>, icon: <StepLabel number={4} /> },
     { title: <div>Confirm Receipt</div>, icon: <StepLabel number={5} /> },
     { title: <div>Review Exchange</div>, icon: <StepLabel number={6} /> },
-    // { title: '', icon: <span /> },
   ];
-
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
 
   let status;
   if (isSuccess) {
@@ -55,8 +45,8 @@ export default function OrderPage() {
                   <ExchangeDetailsCard
                     user={data.requester}
                     current={data.reqId === data.requester.userId}
-                    request
                     status={status}
+                    request
                   />
                 </Col>
                 <Col span={12}>
@@ -67,28 +57,6 @@ export default function OrderPage() {
                   />
                 </Col>
               </Row>
-              <div className="steps-action">
-                {current < steps.length - 1 && (
-                  <Button type="primary" onClick={() => next()}>
-                    Next
-                  </Button>
-                )}
-                {current === steps.length - 1 && (
-                  <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                    Done
-                  </Button>
-                )}
-                {current > 0 && (
-                  <Button
-                    style={{
-                      margin: '0 8px',
-                    }}
-                    onClick={() => prev()}
-                  >
-                    Previous
-                  </Button>
-                )}
-              </div>
             </Col>
           </Row>
         )}

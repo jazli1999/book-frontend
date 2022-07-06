@@ -4,7 +4,7 @@ import {
 import React, { useState } from 'react';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
-import { useUpdatePaymentMutation, useUpdateTrackingMutation } from '../../../slices/order.api.slice';
+import { useUpdatePaymentMutation, useUpdateTrackingMutation, useConfirmReceiptMutation } from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 export default function ExchangeDetailsCard(props) {
@@ -33,10 +33,12 @@ export default function ExchangeDetailsCard(props) {
 
   return (
     <div style={{ padding: '0px 30px 0px 10px' }}>
-      <h2 style={{ marginLeft: '5px' }}>{username}</h2>
+      <h2 style={{ margin: '5px', fontSize: '13pt' }}>{username}</h2>
       <Books
         books={chosenBooks}
         editable={editable && ((status === 1 && request) || (status === 2 && !request))}
+        isReq={request}
+        name={username}
       />
       <Payment
         fee={fee}
@@ -51,15 +53,86 @@ export default function ExchangeDetailsCard(props) {
         editable={editable && status === 4}
         isReq={request}
       />
+      <Confirmation
+        disabled={status < 5}
+        completed={order.status > 5}
+        editable={editable && status === 5}
+        isReq={request}
+        username={username}
+      />
     </div>
   );
 }
 
+function Confirmation(props) {
+  const {
+    disabled, editable, isReq, completed, username,
+  } = props;
+  const [isCompleted, setIsCompleted] = useState(completed);
+  /*
+   * disabled: hasn't reached this step
+   * editable: whether the current logged in user corresponds to the current card
+   * isReq: flag sent to backend to note which user's detail to update
+   */
+
+  const [confirmReceipt] = useConfirmReceiptMutation();
+
+  const onConfirm = () => {
+    confirmReceipt({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq) })
+      .then((resp) => {
+        if (resp.data.status === 200) {
+          message.success('Tracking code updated');
+          setIsCompleted(true);
+        } else {
+          message.error('Something went wrong, please try again');
+        }
+      });
+  };
+
+  let text;
+  if (editable) {
+    if (isCompleted) {
+      text = 'You have confirmed receipt of book(s)';
+    } else {
+      text = 'Confirm received';
+    }
+  } else if (isCompleted) {
+    text = `${username} has confirmed receipt of your book(s)`;
+  } else {
+    text = 'Waiting for your bookmate\'s confirmation';
+  }
+  return (
+    <div style={{ textAlign: 'center', marginTop: '-10px' }}>
+      {
+        isCompleted
+        && <div style={{ marginTop: '30px', fontWeight: 500 }}>{text}</div>
+      }
+      {
+        !isCompleted
+        && (
+        <Button
+          type="primary"
+          className={disabled ? 'disabled-btn' : ''}
+          disabled={disabled}
+          onClick={onConfirm}
+        >
+          <p style={{ fontWeight: 600 }}>{text}</p>
+        </Button>
+        )
+      }
+    </div>
+
+  );
+}
+
 function Books(props) {
-  const { books } = props;
+  const { books, isReq, name } = props;
   return (
     <div className="rounded-container" style={{ paddingTop: '3px' }}>
-      <span className="comment">She wants:</span>
+      <span className="comment">
+        {isReq ? 'You want' : `${name} wants`}
+        :
+      </span>
       <br />
       <Space>
         {
@@ -86,9 +159,7 @@ function Payment(props) {
       payerId: data.payerID,
       amount: String(fee + 5),
     };
-    actions.order.capture().then(() => {
-      return updatePayment({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq), payment });
-    })
+    actions.order.capture().then(() => updatePayment({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq), payment }))
       .then((resp) => {
         if (resp.data.status === 200) {
           message.success('Payment completed');
@@ -201,7 +272,9 @@ function Tick() {
 }
 
 function Track(props) {
-  const { disabled, code, editable, isReq } = props;
+  const {
+    disabled, code, editable, isReq,
+  } = props;
   const [newCode, setNewCode] = useState(code);
   const [displayCode, setDisplayCode] = useState(newCode);
   const [loading, setLoading] = useState(false);
@@ -219,10 +292,10 @@ function Track(props) {
           setLoading(false);
         }
       });
-  }
+  };
   const onChange = (e) => {
     setNewCode(e);
-  }
+  };
 
   return (
     <div className={`rounded-container${disabled ? ' disabled' : ''}`}>
@@ -231,7 +304,7 @@ function Track(props) {
         {(!displayCode && editable)
           && (
             <div className="vertical-center">
-              <Input style={{ flex: '1 1 auto', height: '35px' }} onChange={(e) => onChange(e.target.value)}/>
+              <Input style={{ flex: '1 1 auto', height: '35px' }} onChange={(e) => onChange(e.target.value)} />
               <Button type="primary" className="btn-inline" onClick={onConfirm} disabled={loading}>Confirm</Button>
             </div>
           )}
