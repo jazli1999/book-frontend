@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import {
   Steps, Col, Row, Space,
 } from 'antd';
+import { useParams } from 'react-router';
 import { useGetOrderQuery } from '../../../slices/order.api.slice';
 import ExchangeDetailsCard from './ExchangeDetailsCard';
 
 import './index.less';
 
 export default function OrderPage() {
-  const { data, isSuccess } = useGetOrderQuery('62c30d2ac65cae98b1d7c6c0');
+  const { id } = useParams();
+  const { data, isSuccess } = useGetOrderQuery(id);
   const [updated, setUpdated] = useState(false);
   const [newStep, setNewStep] = useState(0);
   const { Step } = Steps;
@@ -30,7 +32,6 @@ export default function OrderPage() {
   let status;
   if (isSuccess) {
     status = Math.min(data.requester.status, data.responder.status);
-    console.log(status);
   }
   return (
     <div>
