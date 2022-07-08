@@ -1,17 +1,20 @@
 import {
-  Col, Row, Space, Divider, Input, Button, message,
+  Col, Row, Space, Divider, Input, Button, message, Empty, Modal,
 } from 'antd';
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
+import { CloseOutlined } from '@ant-design/icons';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
 import { useUpdatePaymentMutation, useUpdateTrackingMutation, useConfirmReceiptMutation } from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
+import PickBookModal from './PickBookModal';
 
 export default function ExchangeDetailsCard(props) {
   const {
     user: order, current: editable, request, status, updateSteps,
   } = props;
+
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
   let username;
   if (isSuccess) {
@@ -20,12 +23,11 @@ export default function ExchangeDetailsCard(props) {
   const fee = order.wishList.length * 0.5;
   const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
   const chosenBooks = order.wishList;
-
   return (
     <div style={{ padding: '0px 30px 0px 10px' }}>
-      <h2 style={{ margin: '5px', fontSize: '13pt' }}>{username}</h2>
       <Books
         books={chosenBooks}
+        isCurrent={editable}
         editable={editable && ((status === 1 && request) || (status === 2 && !request))}
         isReq={request}
         name={username}
@@ -108,15 +110,15 @@ function Confirmation(props) {
       {
         !isCompleted
         && (
-        <Button
-          type="primary"
-          style={{ height: 'fit-content', whiteSpace: 'normal', padding: '10px 20px' }}
-          className={disabled ? 'disabled-btn' : ''}
-          disabled={disabled}
-          onClick={onConfirm}
-        >
-          <p style={{ fontWeight: 600, marginBottom: 0, lineHeight: '16px' }}>{text}</p>
-        </Button>
+          <Button
+            type="primary"
+            style={{ height: 'fit-content', whiteSpace: 'normal', padding: '10px 20px' }}
+            className={disabled ? 'disabled-btn' : ''}
+            disabled={disabled}
+            onClick={onConfirm}
+          >
+            <p style={{ fontWeight: 600, marginBottom: 0, lineHeight: '16px' }}>{text}</p>
+          </Button>
         )
       }
     </div>
@@ -125,23 +127,64 @@ function Confirmation(props) {
 }
 
 function Books(props) {
-  const { books, isReq, name } = props;
+  const {
+    isCurrent, books, editable, name,
+  } = props;
+  const [edit, setEdit] = useState(false);
   return (
-    <div className="rounded-container" style={{ paddingTop: '3px' }}>
-      <span className="comment">
-        {isReq ? 'You want' : `${name} wants`}
-        :
-      </span>
-      <br />
-      <Space>
-        {
-          books.map((book, index) => (
-            <img key={index} src={book.image} alt={book.title} style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
-          ))
-        }
-      </Space>
+    <div>
+      <div className="vertical-center">
+        <h2 style={{ margin: '5px', fontSize: '13pt' }}>{name}</h2>
+        {editable
+          && (
+          <Button
+            className="match-btn"
+            type="primary"
+            size="small"
+            onClick={() => { setEdit(true); }}
+            ghost
+          >
+            {' '}
+            <span style={{ fontWeight: 600 }}>Edit Books</span>
+          </Button>
+          )}
 
+      </div>
+      <Modal
+        visible={edit}
+        width={900}
+        title="Pick the book(s) you want"
+        closeIcon={<CloseOutlined style={{ textAlign: 'right', position: 'absolute', right: 22 }} />}
+        onCancel={() => { setEdit(false); }}
+      >
+        <PickBookModal />
+      </Modal>
+      <div className="rounded-container" style={{ paddingTop: '3px' }}>
+        <span className="comment">
+          {isCurrent ? 'You want' : `${name} wants`}
+          :
+        </span>
+        <br />
+        {
+          (books.length > 0)
+          && (
+          <Space>
+            {
+              books.map((book, index) => (
+                <img key={index} src={book.image} alt={book.title} style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
+              ))
+            }
+          </Space>
+          )
+        }
+        {
+          (books.length === 0)
+          && <Empty description="" style={{ height: '100px' }} />
+        }
+
+      </div>
     </div>
+
   );
 }
 
