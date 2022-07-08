@@ -21,14 +21,13 @@ export const orderApiSlice = createApi({
     getOrder: builder.query({
       query: (id) => `/orders/${id || ''}`,
     }),
+    getUserOrders: builder.query({
+      query: () => '/orders',
+    }),
     updatePayment: builder.mutation({
       query: ({ id, ...body }) => ({
         url: `/orders/payment/${id}`,
         method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-          authorization: utils.getJWT(),
-        },
         body,
         responseHandler: async (response) => {
           const res = await textResponseHandler(response);
@@ -40,10 +39,6 @@ export const orderApiSlice = createApi({
       query: ({ id, ...body }) => ({
         url: `/orders/tracking/${id}`,
         method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-          authorization: utils.getJWT(),
-        },
         body,
         responseHandler: async (response) => {
           const res = await textResponseHandler(response);
@@ -71,6 +66,7 @@ export const orderApiSlice = createApi({
 
 export const {
   useGetOrderQuery,
+  useGetUserOrdersQuery,
   useUpdatePaymentMutation,
   useUpdateTrackingMutation,
   useConfirmReceiptMutation,

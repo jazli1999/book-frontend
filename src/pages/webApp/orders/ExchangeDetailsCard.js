@@ -2,6 +2,7 @@ import {
   Col, Row, Space, Divider, Input, Button, message,
 } from 'antd';
 import React, { useState } from 'react';
+import { useParams } from 'react-router';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
 import { useUpdatePaymentMutation, useUpdateTrackingMutation, useConfirmReceiptMutation } from '../../../slices/order.api.slice';
@@ -73,6 +74,8 @@ function Confirmation(props) {
     disabled, editable, isReq, completed, username, updateSteps,
   } = props;
   const [isCompleted, setIsCompleted] = useState(completed);
+  const { id } = useParams();
+
   /*
    * disabled: hasn't reached this step
    * editable: whether the current logged in user corresponds to the current card
@@ -82,7 +85,7 @@ function Confirmation(props) {
   const [confirmReceipt] = useConfirmReceiptMutation();
 
   const onConfirm = () => {
-    confirmReceipt({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq) })
+    confirmReceipt({ id, isReq: Number(isReq) })
       .then((resp) => {
         if (resp.data.status === 200) {
           message.success('Confirmed');
@@ -158,6 +161,7 @@ function Payment(props) {
   } = props;
   const [isCompleted, setIsComplete] = useState(completed);
   const [updatePayment] = useUpdatePaymentMutation();
+  const { id } = useParams();
 
   const onApprove = (data, actions) => {
     const payment = {
@@ -165,7 +169,7 @@ function Payment(props) {
       payerId: data.payerID,
       amount: String(fee + 5),
     };
-    actions.order.capture().then(() => updatePayment({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq), payment }))
+    actions.order.capture().then(() => updatePayment({ id, isReq: Number(isReq), payment }))
       .then((resp) => {
         if (resp.data.status === 200) {
           message.success('Payment completed');
@@ -282,13 +286,14 @@ function Track(props) {
   const {
     disabled, code, editable, isReq, updateSteps,
   } = props;
+  const { id } = useParams();
   const [newCode, setNewCode] = useState(code);
   const [displayCode, setDisplayCode] = useState(newCode);
   const [loading, setLoading] = useState(false);
   const [updateTracking] = useUpdateTrackingMutation();
   const onConfirm = () => {
     setLoading(true);
-    updateTracking({ id: '62c30d2ac65cae98b1d7c6c0', isReq: Number(isReq), trackingCode: newCode })
+    updateTracking({ id, isReq: Number(isReq), trackingCode: newCode })
       .then((resp) => {
         if (resp.data.status === 200) {
           message.success('Tracking code updated');
