@@ -19,18 +19,7 @@ export default function ExchangeDetailsCard(props) {
   }
   const fee = order.wishList.length * 0.5;
   const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
-  const chosenBooks = [
-    {
-      cover:
-        'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: 'isFavorite',
-    },
-    {
-      cover:
-        'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: 'isFavorite',
-    },
-  ];
+  const chosenBooks = order.wishList;
 
   return (
     <div style={{ padding: '0px 30px 0px 10px' }}>
@@ -60,7 +49,8 @@ export default function ExchangeDetailsCard(props) {
       <Confirmation
         disabled={status < 5 || !editable}
         completed={order.status > 5}
-        editable={editable && status === 5}
+        isCurrent={editable}
+        editable={editable}
         updateSteps={updateSteps}
         isReq={request}
         username={username}
@@ -146,7 +136,7 @@ function Books(props) {
       <Space>
         {
           books.map((book, index) => (
-            <img key={index} src={book.cover} alt="cover" style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
+            <img key={index} src={book.image} alt={book.title} style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
           ))
         }
       </Space>
