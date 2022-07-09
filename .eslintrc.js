@@ -28,5 +28,6 @@ module.exports = {
     'react/no-array-index-key': ['off'],
     'no-console': ['off'],
     'linebreak-style': ['off'],
+    'no-param-reassign': ['off'],
   },
 };

@@ -1,7 +1,7 @@
-import Stepper from "./Stepper";
-import ExchangeDetailsCard from "./ExchangeDetailsCard";
-import OrderListPage from "./OrderListPage";
-export {
+import OrderPage from './OrderPage';
+import ExchangeDetailsCard from './ExchangeDetailsCard';
+import OrderListPage from './OrderListPage';
 
-    Stepper, ExchangeDetailsCard, OrderListPage
+export {
+  OrderPage, ExchangeDetailsCard, OrderListPage,
 };

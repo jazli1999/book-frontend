@@ -3,24 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import {
   Form, Input, Button, message,
 } from 'antd';
+import { useDispatch } from 'react-redux';
+
 import { Logo } from '../../components';
 import authRepository from '../../repositories/auth.repository';
 import Exchange from '../../assets/images/exchange.png';
 import utils from '../../utils';
 
 import './index.less';
+import { setName } from '../../slices/user.slice';
 
 function LoginPanel() {
   const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const { setJWT } = utils;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onFinish = (values) => {
     setLoading(true);
     const { email, password } = values;
     if (isLogin) {
       authRepository.login(email, password).then((res) => {
         setJWT(res.data.token);
+        dispatch(setName(res.data.username));
         message.success('Welcome back');
         navigate('/app');
       }).catch((err) => {

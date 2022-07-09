@@ -24,7 +24,7 @@ const BookSearch = () => {
         <Form.Item name="isbn" label="ISBN">
           <Input />
         </Form.Item>
-      </Col>
+      </Col>,
     );
     children.push(
       <Col span={10} key={2}>
@@ -86,6 +86,6 @@ const BookSearch = () => {
       <BookSearchResult resultData={results} />
     </div>
   );
-};
+}
 
 export default BookSearch;

@@ -1,7 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, message, Space } from 'antd';
-import { ProfileOutlined, LogoutOutlined, TeamOutlined,UserAddOutlined } from '@ant-design/icons';
+import {
+  ProfileOutlined, LogoutOutlined, TeamOutlined, UserAddOutlined,
+} from '@ant-design/icons';
+import { useGetUserInfoQuery } from '../slices/user.api.slice';
+
 import SearchButton from './SearchButton';
 import Logo from './Logo';
 import utils from '../utils';
@@ -10,6 +14,11 @@ import './index.less';
 
 export default function HeaderMenu() {
   const navigate = useNavigate();
+  const { data, isSuccess } = useGetUserInfoQuery();
+  let username;
+  if (isSuccess) {
+    username = data.firstName;
+  }
 
   const menuStyle = {
     height: '63px',
@@ -25,8 +34,6 @@ export default function HeaderMenu() {
     message.success('Successfuly logged out');
     navigate('/welcome');
   };
-
-  const userName = 'Emma';
 
   const greetingStyle = {
     width: '100%',
@@ -55,7 +62,7 @@ export default function HeaderMenu() {
         <span style={greetingStyle}>
           Hi,
           {' '}
-          <span>{userName}</span>
+          <span>{username}</span>
         </span>
       ),
     },
@@ -64,7 +71,7 @@ export default function HeaderMenu() {
       label: 'Bookmates',
       children: [
         {
-          key: 'settings',
+          key: 'friends',
           label: 'My Bookmates',
           icon: <TeamOutlined />,
           onClick: () => navigate('/app/bookmates/list'),
@@ -77,7 +84,7 @@ export default function HeaderMenu() {
           onClick: () => navigate('/app/main'),
         },
       ],
-    
+
     },
     { key: 'messages', label: 'Messages' },
     { key: 'orders', onClick: () => navigate('/app/orders'), label: 'Orders' },
