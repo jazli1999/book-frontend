@@ -28,7 +28,7 @@ function App() {
             <Route path="orders" element={<Pages.OrderListPage />} />
             <Route path="orders/transaction/:id" element={<Pages.Stepper />} />
             <Route path="bookmates/list" element={<Pages.CurrentBookMateList />} />
-            <Route path="profile/collection/edit" element={<Pages.BookListEdit />} />
+            <Route path="profile/:listType/edit" element={<Pages.BookListEdit />} />
 
             
           </Route>
