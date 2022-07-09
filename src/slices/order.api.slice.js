@@ -24,6 +24,17 @@ export const orderApiSlice = createApi({
     getUserOrders: builder.query({
       query: () => '/orders',
     }),
+    pickBooks: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/orders/books/${id}`,
+        method: 'PUT',
+        body,
+        responseHandler: async (response) => {
+          const res = await textResponseHandler(response);
+          return res;
+        },
+      }),
+    }),
     updatePayment: builder.mutation({
       query: ({ id, ...body }) => ({
         url: `/orders/payment/${id}`,
@@ -67,6 +78,7 @@ export const orderApiSlice = createApi({
 export const {
   useGetOrderQuery,
   useGetUserOrdersQuery,
+  usePickBooksMutation,
   useUpdatePaymentMutation,
   useUpdateTrackingMutation,
   useConfirmReceiptMutation,

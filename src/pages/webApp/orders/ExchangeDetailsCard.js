@@ -6,13 +6,18 @@ import { useParams } from 'react-router';
 import { CloseOutlined } from '@ant-design/icons';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
-import { useUpdatePaymentMutation, useUpdateTrackingMutation, useConfirmReceiptMutation } from '../../../slices/order.api.slice';
+import {
+  useUpdatePaymentMutation,
+  useUpdateTrackingMutation,
+  useConfirmReceiptMutation,
+  usePickBooksMutation,
+} from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 import PickBookModal from './PickBookModal';
 
 export default function ExchangeDetailsCard(props) {
   const {
-    user: order, current: editable, request, status, updateSteps,
+    user: order, current: editable, request, status, updateSteps, bookmateId,
   } = props;
 
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
@@ -31,6 +36,7 @@ export default function ExchangeDetailsCard(props) {
         editable={editable && ((status === 1 && request) || (status === 2 && !request))}
         isReq={request}
         name={username}
+        bookmateId={bookmateId}
         updateSteps={updateSteps}
       />
       <Payment
@@ -128,36 +134,84 @@ function Confirmation(props) {
 
 function Books(props) {
   const {
-    isCurrent, books, editable, name,
+    isCurrent, books, editable, name, bookmateId, isReq, updateSteps,
   } = props;
   const [edit, setEdit] = useState(false);
+  const [renderBooks, setRenderBooks] = useState(books);
+  const [syncBooks, setSyncBooks] = useState(renderBooks);
+  const [confirmed, setConfirmed] = useState(!editable);
+  const [pickBooks] = usePickBooksMutation();
+  const { id } = useParams();
+
+  const sendBooks = () => {
+    if (renderBooks.length === 0) {
+      message.error('You haven\'t picked any books');
+      return;
+    }
+    pickBooks({
+      id,
+      isReq: Number(isReq),
+      bookList: renderBooks.map((book) => book.id),
+    }).then((resp) => {
+      if (resp.data.status === 200) {
+        message.success('Book list confirmed');
+        if (isReq) {
+          updateSteps(isReq, 2);
+        } else {
+          updateSteps(!isReq, 3);
+        }
+        setConfirmed(true);
+      } else {
+        message.error('Something went wrong, please try again');
+      }
+    });
+  };
+
   return (
     <div>
       <div className="vertical-center">
         <h2 style={{ margin: '5px', fontSize: '13pt' }}>{name}</h2>
-        {editable
+        {!confirmed
           && (
-          <Button
-            className="match-btn"
-            type="primary"
-            size="small"
-            onClick={() => { setEdit(true); }}
-            ghost
-          >
-            {' '}
-            <span style={{ fontWeight: 600 }}>Edit Books</span>
-          </Button>
+            <span>
+              <Button
+                className="match-btn"
+                type="primary"
+                size="small"
+                onClick={() => { setEdit(true); }}
+                ghost
+              >
+                {' '}
+                <span style={{ fontWeight: 600 }}>Pick Books</span>
+              </Button>
+              <Button
+                className="match-btn"
+                type="primary"
+                size="small"
+                style={{ marginLeft: '5px' }}
+                onClick={sendBooks}
+              >
+                {' '}
+                <span style={{ fontWeight: 600 }}>Confirm</span>
+              </Button>
+            </span>
+
           )}
 
       </div>
       <Modal
         visible={edit}
-        width={900}
+        width={960}
+        style={{ minWidth: 960 }}
         title="Pick the book(s) you want"
         closeIcon={<CloseOutlined style={{ textAlign: 'right', position: 'absolute', right: 22 }} />}
         onCancel={() => { setEdit(false); }}
+        onOk={() => {
+          setRenderBooks(syncBooks);
+          setEdit(false);
+        }}
       >
-        <PickBookModal />
+        <PickBookModal bookmateId={bookmateId} updateList={setSyncBooks} />
       </Modal>
       <div className="rounded-container" style={{ paddingTop: '3px' }}>
         <span className="comment">
@@ -166,19 +220,19 @@ function Books(props) {
         </span>
         <br />
         {
-          (books.length > 0)
+          (renderBooks.length > 0)
           && (
-          <Space>
-            {
-              books.map((book, index) => (
-                <img key={index} src={book.image} alt={book.title} style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
-              ))
-            }
-          </Space>
+            <Space>
+              {
+                renderBooks.map((book, index) => (
+                  <img key={index} src={book.image} alt={book.title} style={{ height: '100px', width: '70px', objectFit: 'cover' }} />
+                ))
+              }
+            </Space>
           )
         }
         {
-          (books.length === 0)
+          (renderBooks.length === 0)
           && <Empty description="" style={{ height: '100px' }} />
         }
 
