@@ -36,6 +36,14 @@ export default function BookmateCard(props) {
       cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
       mark: null,
     },
+    {
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+      mark: null,
+    },
+    {
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+      mark: null,
+    },
   ];
 
   const wishList = [
@@ -161,7 +169,7 @@ function BookList(props) {
       <Row gutter={8}>
         {props.books.map((book, index) => (
           <Col key={index} span={6}>
-            <MarkableCover src={book.cover} mark={book.mark} />
+            <MarkableCover src={book.cover} mark={book.mark}  />
           </Col>
         ))}
       </Row>
