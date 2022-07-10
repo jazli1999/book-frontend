@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Steps, Col, Row, Space,
 } from 'antd';
@@ -11,8 +10,6 @@ import './index.less';
 export default function OrderPage() {
   const { id } = useParams();
   const { data, isSuccess } = useGetOrderQuery(id);
-  const [updated, setUpdated] = useState(false);
-  const [newStep, setNewStep] = useState(0);
   const { Step } = Steps;
   const steps = [
     { title: <div>Exchange Requested</div>, icon: <StepLabel number={1} /> },
@@ -23,23 +20,27 @@ export default function OrderPage() {
     { title: <div>Review Exchange</div>, icon: <StepLabel number={6} /> },
   ];
 
-  const updateSteps = (isReq, step) => {
-    const otherStep = isReq ? data.responder.status : data.requester.status;
-    setNewStep(Math.min(step, otherStep) - 1);
-    setUpdated(true);
-  };
-
   let status;
   if (isSuccess) {
     status = Math.min(data.requester.status, data.responder.status);
   }
+
+  const updateSteps = (isReq, step) => {
+    if (step === 2 || step === 3) {
+      window.location.reload();
+    } else {
+      const otherStep = isReq ? data.responder.status : data.requester.status;
+      const newStep = (Math.min(step, otherStep) - 1);
+      if (newStep > status - 1) window.location.reload();
+    }
+  };
   return (
     <div>
       {isSuccess
         && (
           <Row align="top">
             <Col span={6} style={{ paddingTop: '45px' }}>
-              <Steps current={updated ? newStep : status - 1} direction="vertical">
+              <Steps current={status - 1} direction="vertical">
                 {steps.map((item) => (
                   <Step key={item.title} title={item.title} icon={item.icon} />
                 ))}
@@ -56,6 +57,7 @@ export default function OrderPage() {
                     current={data.reqId === data.requester.userId}
                     status={status}
                     updateSteps={updateSteps}
+                    bookmateId={data.responder.userId}
                     request
                   />
                 </Col>
@@ -64,6 +66,7 @@ export default function OrderPage() {
                     user={data.responder}
                     current={data.reqId === data.responder.userId}
                     updateSteps={updateSteps}
+                    bookmateId={data.requester.userId}
                     status={status}
                   />
                 </Col>

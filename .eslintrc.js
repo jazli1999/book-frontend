@@ -29,5 +29,8 @@ module.exports = {
     'no-console': ['off'],
     'linebreak-style': ['off'],
     'no-param-reassign': ['off'],
+    'no-restricted-syntax': ['off'],
+    'jsx-a11y/anchor-is-valid': ['off'],
+    'no-underscore-dangle': ['off'],
   },
 };

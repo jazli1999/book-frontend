@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import ProfilePage from './ProfilePage';
 import PersonalInfo from './PersonalInfo';
 import BookList from './BookList';
@@ -10,3 +11,12 @@ export {
   BookList,
   BookListEdit,BookSearch, BookSearchResult
 };
+=======
+import ProfilePage from './ProfilePage';
+import PersonalInfo from './PersonalInfo';
+
+export {
+  ProfilePage,
+  PersonalInfo,
+};
+>>>>>>> origin/main
