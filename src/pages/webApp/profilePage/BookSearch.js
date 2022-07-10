@@ -2,16 +2,29 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import BookSearchResult from "./BookSearchResult";
 import dummyData from "../dummyData";
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, Row, message } from "antd";
+import { useGetBookMutation } from "../../../slices/book.api.slice";
 
 const BookSearch = () => {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState();
+  const [getBook] = useGetBookMutation();
+
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-    //make a call to service instead of using dummy data
-    const dummyResults = dummyData.bookList.slice(0, 5);
-    setResults(dummyResults);
+    console.log('val',values)
+    getBook(JSON.stringify(values)).then((resp)=> {
+      if (resp.data.status === 200) {
+        console.log('Returned results: ',resp.data)
+        setResults(JSON.parse(resp.data.data).searchResult);
+      } else {
+        message.error('Something went wrong, please try again');
+      }
+    });
+  
+    console.log('results');
+    console.log(results)
+
+    setResults(results);
   };
 
   const [form] = Form.useForm();
@@ -75,6 +88,7 @@ const BookSearch = () => {
               }}
               onClick={() => {
                 form.resetFields();
+      
               }}
             >
               Clear
