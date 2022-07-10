@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Form, Input, Button, message,
+  Form, Input, Button, message, Checkbox,
 } from 'antd';
 import { useDispatch } from 'react-redux';
 
@@ -101,24 +101,28 @@ function LoginPanel() {
               >
                 Email
               </span>
-)}
+            )}
           >
             <Input placeholder="name@example.com" />
           </Form.Item>
           <Form.Item name="password" label={<span className="input-label">Password</span>}>
             <Input placeholder="min. 8 characters" type="password" />
           </Form.Item>
-          {/* <Form.Item name="keep" valuePropName="checked">
-            <Checkbox style={{ marginTop: '-10px' }}>
-              <span style={{ fontSize: '10pt' }}>
-                Keep me logged in
-              </span>
-            </Checkbox>
-          </Form.Item> */}
+          {!isLogin
+            &&
+            <Form.Item name="keep" valuePropName="checked">
+              <Checkbox style={{ marginTop: '-10px' }}>
+                {/* useless so far */}
+                <span style={{ fontSize: '10pt' }}>
+                  Agree the user agreement
+                </span>
+              </Checkbox>
+            </Form.Item>
+          }
           <Form.Item>
             <div className="form-action-container">
-              <div>
-                <Button type="primary" htmlType="submit" loading={loading}>
+              <div style={{ textAlign: 'center' }}>
+                <Button type="primary" htmlType="submit" loading={loading} style={{ width: '200px' }}>
                   {isLogin ? 'Log in' : 'Register'}
                 </Button>
                 {isLogin
