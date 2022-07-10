@@ -80,7 +80,7 @@ function Book(props) {
     <div className="shelf-book-item">
       <Row style={{ flexFlow: 'nowrap' }}>
         <Col>
-          <img src={props.cover} alt="cover" style={{ height: '110px', width: '70px', objectFit: 'cover' }} />
+          <img src={props.image} alt="cover" style={{ height: '110px', width: '70px', objectFit: 'cover' }} />
         </Col>
         <Col style={{ padding: '0px 8px' }}>
           <p className="shelf-book-title">{props.title}</p>
