@@ -1,6 +1,6 @@
 import { Col, Row, Divider } from 'antd';
 import PersonalInfo from './PersonalInfo';
-import BookList from './BookList';
+import BookList from '../../../components/BookList';
 import dummyData from '../dummyData';
 
 function ProfilePage() {
@@ -15,10 +15,10 @@ function ProfilePage() {
         </Col>
         <Divider type="vertical" orientationMargin="100px" />
         <Col span={8}>
-          <BookList title="Book Collection" bookList={bookList} isEditable={true} isCollection={true} isWishList={false}/>
+          <BookList title="Book Collection" bookList={bookList} isEditable isCollection isWishList={false} />
         </Col>
         <Col span={8}>
-          <BookList title="Wish List" booklist={[]} isEditable={true}  isCollection={false} isWishList={true}/>
+          <BookList title="Wish List" booklist={[]} isEditable isCollection={false} isWishList />
         </Col>
       </Row>
 

@@ -14,9 +14,8 @@ export default function BookmateCard(props) {
   const { Meta } = Card;
 
   const handleUserDetailClick = (userId) => {
-    // 👇️ refers to the div element
     console.log('div clicked: ', userId);
-    navigate(`/app/user/profile/${userId}`);
+    navigate(`/app/users/${userId}`);
   };
 
   const availableList = [
@@ -89,7 +88,7 @@ export default function BookmateCard(props) {
   return (
     <Card
       hoverable
-      onClick={() => { handleUserDetailClick(1); }}
+      onClick={() => { handleUserDetailClick('62c00c2c7bb8a50fac4ac677'); }}
       style={cardStyle}
       cover={(
         <div style={shelfStyle}>
@@ -169,7 +168,7 @@ function BookList(props) {
       <Row gutter={8}>
         {props.books.map((book, index) => (
           <Col key={index} span={6}>
-            <MarkableCover src={book.cover} mark={book.mark}  />
+            <MarkableCover src={book.cover} mark={book.mark} />
           </Col>
         ))}
       </Row>

@@ -23,11 +23,25 @@ export default function BookList(props) {
         <h2 style={{ display: 'inline', marginBottom: '0px' }}>
           {props.title}
         </h2>
-        {props.isEditable && (
+        {props.isEditable && props.isCollection && !props.isWishList && (
         <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
-          <span style={{ fontWeight: 700 }}>Edit</span>
+          <a href="/app/profile/collection/edit">
+            <span style={{ fontWeight: 700 }}>Edit</span>
+            {' '}
+          </a>
+
         </Button>
-        ) }
+        )}
+
+        {props.isEditable && !props.isCollection && props.isWishList && (
+        <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
+          <a href="/app/profile/wishlist/edit">
+            <span style={{ fontWeight: 700 }}>Edit</span>
+            {' '}
+          </a>
+
+        </Button>
+        )}
       </div>
       <div>
         <List

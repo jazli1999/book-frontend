@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Row } from 'antd';
 import BookmateDetails from './BookmateDetails';
+import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 import '../index.less';
 
 export default function BookmateProfilePage() {
   const { id } = useParams(); // retrieve the id  dynamic params from the current URL
+
+  const { data, isSuccess } = useGetUserInfoQuery(id);
+  if (isSuccess) {
+    console.log(data);
+  }
 
   const getUserDetail = () => {
     // normally it will retrieve from backend.

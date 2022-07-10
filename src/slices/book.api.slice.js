@@ -27,7 +27,7 @@ export const bookApiSlice = createApi({
           return res;
         },
       }),
-    })
+    }),
   }),
 });
 

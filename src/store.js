@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { orderApiSlice } from './slices/order.api.slice';
 import { userApiSlice } from './slices/user.api.slice';
-import { bookApiSlice } from './slices/book.api.slice'; 
+import { bookApiSlice } from './slices/book.api.slice';
 import userReducer from './slices/user.slice';
 
 export default configureStore({
