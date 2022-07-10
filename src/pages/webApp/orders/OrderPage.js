@@ -2,14 +2,38 @@ import {
   Steps, Col, Row, Space,
 } from 'antd';
 import { useParams } from 'react-router';
-import { useGetOrderQuery } from '../../../slices/order.api.slice';
+import { useGetOrderQuery, useCreateOrderMutation } from '../../../slices/order.api.slice';
 import ExchangeDetailsCard from './ExchangeDetailsCard';
 
 import './index.less';
 
-export default function OrderPage() {
+export default function OrderPage(props) {
+  const { create } = props;
   const { id } = useParams();
-  const { data, isSuccess } = useGetOrderQuery(id);
+  let order; let
+    hasSuccess;
+  if (create) {
+    order = {
+      requester: {
+        wishList: [],
+        payment: {},
+        status: 1,
+      },
+      responder: {
+        userId: id,
+        wishList: [],
+        payment: {},
+        status: 1,
+      },
+    };
+    hasSuccess = true;
+  } else {
+    const { data, isSuccess } = useGetOrderQuery(id);
+    if (isSuccess) {
+      hasSuccess = true;
+      order = data;
+    }
+  }
   const { Step } = Steps;
   const steps = [
     { title: <div>Exchange Requested</div>, icon: <StepLabel number={1} /> },
@@ -20,23 +44,34 @@ export default function OrderPage() {
     { title: <div>Review Exchange</div>, icon: <StepLabel number={6} /> },
   ];
 
+  const [createOrder] = useCreateOrderMutation();
+
+  const createOrderCall = (books) => {
+    order.requester.wishList = books;
+    createOrder({ order }).then((returnOrder) => {
+      const a = document.createElement('a');
+      a.href = `/app/orders/${returnOrder.data._id}`;
+      a.click();
+    });
+  };
+
   let status;
-  if (isSuccess) {
-    status = Math.min(data.requester.status, data.responder.status);
+  if (hasSuccess) {
+    status = Math.min(order.requester.status, order.responder.status);
   }
 
   const updateSteps = (isReq, step) => {
     if (step === 2 || step === 3) {
       window.location.reload();
     } else {
-      const otherStep = isReq ? data.responder.status : data.requester.status;
+      const otherStep = isReq ? order.responder.status : order.requester.status;
       const newStep = (Math.min(step, otherStep) - 1);
       if (newStep > status - 1) window.location.reload();
     }
   };
   return (
     <div>
-      {isSuccess
+      {hasSuccess
         && (
           <Row align="top">
             <Col span={6} style={{ paddingTop: '45px' }}>
@@ -53,20 +88,22 @@ export default function OrderPage() {
               <Row>
                 <Col span={12}>
                   <ExchangeDetailsCard
-                    user={data.requester}
-                    current={data.reqId === data.requester.userId}
+                    user={order.requester}
+                    current={order.reqId === order.requester.userId}
                     status={status}
                     updateSteps={updateSteps}
-                    bookmateId={data.responder.userId}
+                    bookmateId={order.responder.userId}
+                    create={create}
+                    createOrder={createOrderCall}
                     request
                   />
                 </Col>
                 <Col span={12}>
                   <ExchangeDetailsCard
-                    user={data.responder}
-                    current={data.reqId === data.responder.userId}
+                    user={order.responder}
+                    current={order.reqId === order.responder.userId}
                     updateSteps={updateSteps}
-                    bookmateId={data.requester.userId}
+                    bookmateId={order.requester.userId}
                     status={status}
                   />
                 </Col>

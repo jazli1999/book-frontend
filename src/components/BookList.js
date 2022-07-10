@@ -5,7 +5,9 @@ import {
 import { Book } from '.';
 
 export default function BookList(props) {
-  const { emptyTextNode, column, bookList } = props;
+  const {
+    emptyTextNode, column, bookList, pageSize,
+  } = props;
 
   const editBtnStyle = {
     borderWidth: '1.4px',
@@ -49,7 +51,7 @@ export default function BookList(props) {
           grid={{ column: columnCount }}
           size="default"
           pagination={{
-            pageSize: 4 * columnCount,
+            pageSize: pageSize || 4 * columnCount,
             size: 'small',
             style: { width: 'fit-content', margin: 'auto' },
             hideOnSinglePage: true,

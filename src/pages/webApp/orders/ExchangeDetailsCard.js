@@ -17,7 +17,7 @@ import PickBookModal from './PickBookModal';
 
 export default function ExchangeDetailsCard(props) {
   const {
-    user: order, current: editable, request, status, updateSteps, bookmateId,
+    user: order, current: editable, request, status, updateSteps, bookmateId, create, createOrder,
   } = props;
 
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
@@ -38,6 +38,8 @@ export default function ExchangeDetailsCard(props) {
         name={username}
         bookmateId={bookmateId}
         updateSteps={updateSteps}
+        createOrder={createOrder}
+        create={create}
       />
       <Payment
         fee={fee}
@@ -134,7 +136,7 @@ function Confirmation(props) {
 
 function Books(props) {
   const {
-    isCurrent, books, editable, name, bookmateId, isReq, updateSteps,
+    isCurrent, books, editable, name, bookmateId, isReq, updateSteps, create, createOrder,
   } = props;
   const [edit, setEdit] = useState(false);
   const [renderBooks, setRenderBooks] = useState(books);
@@ -167,10 +169,18 @@ function Books(props) {
     });
   };
 
+  const sendOrder = () => {
+    if (renderBooks.length === 0) {
+      message.error('You haven\'t picked any books');
+      return;
+    }
+    createOrder(renderBooks.map((book) => book.id));
+  };
+
   return (
     <div>
       <div className="vertical-center">
-        <h2 style={{ margin: '5px', fontSize: '13pt' }}>{name}</h2>
+        <h2 style={{ margin: '5px', fontSize: '13pt' }}>{create ? 'You' : name}</h2>
         {!confirmed
           && (
             <span>
@@ -189,7 +199,7 @@ function Books(props) {
                 type="primary"
                 size="small"
                 style={{ marginLeft: '5px' }}
-                onClick={sendBooks}
+                onClick={create ? sendOrder : sendBooks}
               >
                 {' '}
                 <span style={{ fontWeight: 600 }}>Confirm</span>
