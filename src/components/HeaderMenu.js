@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, message, Space } from 'antd';
 import {
-  ProfileOutlined, LogoutOutlined, TeamOutlined, UserAddOutlined,
+  ProfileOutlined, LogoutOutlined,
 } from '@ant-design/icons';
 import { useGetUserInfoQuery } from '../slices/user.api.slice';
 

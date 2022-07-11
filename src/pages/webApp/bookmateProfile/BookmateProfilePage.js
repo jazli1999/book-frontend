@@ -88,10 +88,11 @@ export default function BookmateProfilePage() {
                       {user.firstName}
                       's Book Collection
                     </h4>
-                    <BookList 
-                      bookList={getBookList(user.bookCollection, user.exchangeableCollection)} 
-                      column={3} 
-                      pageSize={9} />
+                    <BookList
+                      bookList={getBookList(user.bookCollection, user.exchangeableCollection)}
+                      column={3}
+                      pageSize={9}
+                    />
                   </Col>
                   <Col span={12}>
                     <h4 style={{ marginBottom: '-20px' }}>
