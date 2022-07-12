@@ -3,11 +3,11 @@ import "antd/dist/antd.css";
 import BookSearchResult from "./BookSearchResult";
 import dummyData from "../dummyData";
 import { Button, Col, Form, Input, Row, message } from "antd";
-import { useGetBookMutation } from "../../../slices/book.api.slice";
+import { useGetBooksMutation } from "../../../slices/book.api.slice";
 
 const BookSearch = () => {
   const [results, setResults] = useState();
-  const [getBook] = useGetBookMutation();
+  const [getBook] = useGetBooksMutation();
 
 
   const onFinish = (values) => {

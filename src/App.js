@@ -29,6 +29,7 @@ function App() {
             <Route path="orders/:id" element={<Pages.OrderPage />} />
             <Route path="bookmates/list" element={<Pages.CurrentBookMateList />} />
             <Route path="profile/:listType/edit" element={<Pages.BookListEdit />} />
+            <Route path="book/details/:isbnUrl" element={<Pages.BookDetails />} />
           </Route>
         </Routes>
       </Router>
