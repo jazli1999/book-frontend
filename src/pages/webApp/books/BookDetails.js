@@ -20,9 +20,6 @@ export default function BookDetails() {
     let description;
     let categories;
     if (isSuccess) {
-      console.log('isbn', isbnUrl )
-
-      console.log('data',data)
       isbn = data.ISBN;
       title = data.title;
       authors = data.authors;
