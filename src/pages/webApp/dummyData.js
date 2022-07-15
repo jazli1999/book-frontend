@@ -73,16 +73,36 @@ const bookList = [{
 },
 ];
 
-const bookmateData = [{ name: 'Eren G', description: 'I love reading', score: 81 },
-  { name: 'Test User', description: 'I love reading too', score: 78 },
-  { name: 'John Doe', description: "I actually don't like reading", score: 60 },
-  { name: 'Eren G', description: 'I love reading', score: 81 },
-  { name: 'Test User', description: 'I love reading too', score: 78 },
-  { name: 'John Doe', description: "I actually don't like reading", score: 60 },
-  { name: 'Eren G', description: 'I love reading', score: 81 },
-  { name: 'Test User', description: 'I love reading too', score: 78 },
-  { name: 'John Doe', description: "I actually don't like reading", score: 60 },
-  { name: 'Eren G', description: 'I love reading', score: 81 }];
+const bookmateData = [{
+  name: 'Eren G', description: 'I love reading', score: 81, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'Test User', description: 'I love reading too', score: 78, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'John Doe', description: "I actually don't like reading", score: 60, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'Eren G', description: 'I love reading', score: 81, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'Test User', description: 'I love reading too', score: 78, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'John Doe', description: "I actually don't like reading", score: 60, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'Eren G', description: 'I love reading', score: 81, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'Test User', description: 'I love reading too', score: 78, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'John Doe', description: "I actually don't like reading", score: 60, id: '62c00c2c7bb8a50fac4ac677',
+},
+{
+  name: 'Eren G', description: 'I love reading', score: 81, id: '62c00c2c7bb8a50fac4ac677',
+}];
 
 export default {
   bookList,

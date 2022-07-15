@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, message, Space } from 'antd';
 import {
-  ProfileOutlined, LogoutOutlined, TeamOutlined, UserAddOutlined,
+  ProfileOutlined, LogoutOutlined,
 } from '@ant-design/icons';
 import { useGetUserInfoQuery } from '../slices/user.api.slice';
 
@@ -67,26 +67,11 @@ export default function HeaderMenu() {
       ),
     },
     {
-      key: 'bookmates',
-      label: 'Bookmates',
-      children: [
-        {
-          key: 'friends',
-          label: 'My Bookmates',
-          icon: <TeamOutlined />,
-          onClick: () => navigate('/app/bookmates/list'),
-        },
-        { type: 'divider' },
-        {
-          key: 'explore',
-          label: 'Explore',
-          icon: <UserAddOutlined />,
-          onClick: () => navigate('/app/main'),
-        },
-      ],
-
+      key: 'explore',
+      label: 'Explore',
+      onClick: () => navigate('/app'),
     },
-    { key: 'messages', label: 'Messages' },
+    { key: 'bookmates', label: 'Bookmates', onClick: () => navigate('/app/bookmates') },
     { key: 'orders', onClick: () => navigate('/app/orders'), label: 'Orders' },
     {
       key: 'profileSubmenu',

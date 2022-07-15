@@ -1,55 +1,68 @@
-import { Avatar, List, message } from 'antd';
-import VirtualList from 'rc-virtual-list';
-import { useEffect, useState } from 'react';
-
-const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-const ContainerHeight = 400;
+import { useState } from 'react';
+import {
+  Card, Row, Col, List, Divider, Empty, Button,
+} from 'antd';
+import { useNavigate } from 'react-router';
+import dummyData from '../dummyData';
 
 function CurrentBookMateList() {
-  const [data, setData] = useState([]);
+  const [focus, setFocus] = useState(null);
+  const navigate = useNavigate();
 
-  const appendData = () => {
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then((body) => {
-        setData(data.concat(body.results));
-        message.success(`${body.results.length} more items loaded!`);
-      });
+  const toProfile = (id) => {
+    navigate(`/app/users/${id}`);
   };
-
-  useEffect(() => {
-    appendData();
-  }, []);
-
-  const onScroll = (e) => {
-    if (
-      e.currentTarget.scrollHeight - e.currentTarget.scrollTop
-      === ContainerHeight
-    ) {
-      appendData();
-    }
-  };
-
   return (
-    <List>
-      <VirtualList
-        data={data}
-        height={ContainerHeight}
-        itemHeight={47}
-        itemKey="email"
-        onScroll={onScroll}
-      >
-        {(item) => (
-          <List.Item key={item.email}>
-            <List.Item.Meta
-              avatar={<Avatar src={item.picture.large} />}
-              title={<a href="/app/user/profile/1">{item.name.last}</a>}
-              description={item.email}
-            />
-          </List.Item>
-        )}
-      </VirtualList>
-    </List>
+    <div>
+      <Row>
+        <Col span={8}>
+          <h1>Your Bookmates</h1>
+          <List
+            itemLayout="vertical"
+            dataSource={dummyData.bookmateData}
+            renderItem={(item) => (
+              <div>
+                <Card
+                  style={{
+                    background: '#fbfdfb', padding: '10px', border: 'none', margin: '0px', borderRadius: '0px',
+                  }}
+                  onClick={() => setFocus(item)}
+                  hoverable
+                >
+                  <h3 style={{ marginBottom: '0px' }}>{item.name}</h3>
+                  {item.description}
+                </Card>
+                <Divider style={{ margin: '0px' }} />
+              </div>
+            )}
+          />
+        </Col>
+        <Col span={16}>
+          {focus && (
+            <div>
+              <h2>{focus.name}</h2>
+              <Button
+                className="match-btn"
+                type="primary"
+                onClick={() => toProfile(focus.id)}
+                ghost
+              >
+                Profile
+              </Button>
+            </div>
+          )}
+          {!focus && (
+            <div style={{
+              height: '80%', width: '100%', textAlign: 'center', marginTop: '50px',
+            }}
+            >
+              <h3>Click on a bookmate and see your messages!</h3>
+              <Empty description="" />
+            </div>
+          )}
+        </Col>
+      </Row>
+    </div>
   );
 }
 

@@ -12,11 +12,12 @@ import {
 } from "antd";
 import MarkableCover from "../mainPage/MarkableCover";
 export default function BookSearchResult(props) {
-  console.log("data->", props.resultData);
+  console.log('data->', props.resultData);
   return (
     <div>
       <Divider />
-      <ResultList books={props.resultData} isEditable={true} />{" "}
+      <ResultList books={props.resultData} isEditable />
+      {' '}
     </div>
   );
 }

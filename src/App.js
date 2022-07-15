@@ -24,10 +24,11 @@ function App() {
             <Route index element={<Pages.MainPage />} />
             <Route path="main" element={<Pages.MainPage />} />
             <Route path="profile" element={<Pages.ProfilePage />} />
-            <Route path="user/profile/:id" element={<Pages.BookmateProfilePage />} />
+            <Route path="users/:id" element={<Pages.BookmateProfilePage />} />
             <Route path="orders" element={<Pages.OrderListPage />} />
+            <Route path="orders/create/:id" element={<Pages.OrderPage create />} />
             <Route path="orders/:id" element={<Pages.OrderPage />} />
-            <Route path="bookmates/list" element={<Pages.CurrentBookMateList />} />
+            <Route path="bookmates" element={<Pages.CurrentBookMateList />} />
             <Route path="profile/:listType/edit" element={<Pages.BookListEdit />} />
             <Route path="book/details/:isbnUrl" element={<Pages.BookDetails />} />
           </Route>

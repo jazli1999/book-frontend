@@ -24,6 +24,13 @@ export const orderApiSlice = createApi({
     getUserOrders: builder.query({
       query: () => '/orders',
     }),
+    createOrder: builder.mutation({
+      query: ({ ...body }) => ({
+        url: '/orders',
+        method: 'POST',
+        body,
+      }),
+    }),
     pickBooks: builder.mutation({
       query: ({ id, ...body }) => ({
         url: `/orders/books/${id}`,
@@ -78,6 +85,7 @@ export const orderApiSlice = createApi({
 export const {
   useGetOrderQuery,
   useGetUserOrdersQuery,
+  useCreateOrderMutation,
   usePickBooksMutation,
   useUpdatePaymentMutation,
   useUpdateTrackingMutation,

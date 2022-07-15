@@ -109,7 +109,7 @@ function LoginPanel() {
             <Input placeholder="min. 8 characters" type="password" />
           </Form.Item>
           {!isLogin
-            &&
+            && (
             <Form.Item name="keep" valuePropName="checked">
               <Checkbox style={{ marginTop: '-10px' }}>
                 {/* useless so far */}
@@ -118,7 +118,7 @@ function LoginPanel() {
                 </span>
               </Checkbox>
             </Form.Item>
-          }
+            )}
           <Form.Item>
             <div className="form-action-container">
               <div style={{ textAlign: 'center' }}>
