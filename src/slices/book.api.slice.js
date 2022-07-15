@@ -30,11 +30,15 @@ export const bookApiSlice = createApi({
           return res;
         },
       }),
-    })
+    }),
+    getExchangeableBookOwners: builder.query({
+      query: (isbn) => `/books/gbooks/owners/${isbn}`,
+    }),
   }),
 });
 
 export const {
   useGetBookInfoQuery,
   useGetBooksMutation,
+  useGetExchangeableBookOwnersQuery
 } = bookApiSlice;

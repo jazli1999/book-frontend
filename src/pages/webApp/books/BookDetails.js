@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Row, Card, Divider, Avatar, Descriptions, Tabs } from "antd";
 import { useParams } from "react-router";
 import { useGetBookInfoQuery, useGetBookQuery } from "../../../slices/book.api.slice";
+import UserList from "./UserList";
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
@@ -56,7 +57,7 @@ export default function BookDetails() {
 
           <Tabs defaultActiveKey="1" type="card">
             <TabPane tab="Book Owners" key="owners">
-              Book owner list
+              <UserList isbn={isbnUrl}/>
             </TabPane>
           </Tabs>
         </Col>
