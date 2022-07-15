@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import 'antd/dist/antd.css';
-import {
-  Button, Col, Form, Input, Row, message,
-} from 'antd';
-import BookSearchResult from './BookSearchResult';
-import dummyData from '../dummyData';
-import { useGetBookMutation } from '../../../slices/book.api.slice';
+import React, { useState } from "react";
+import "antd/dist/antd.css";
+import BookSearchResult from "./BookSearchResult";
+import dummyData from "../dummyData";
+import { Button, Col, Form, Input, Row, message } from "antd";
+import { useGetBooksMutation } from "../../../slices/book.api.slice";
 
 function BookSearch() {
   const [results, setResults] = useState();
-  const [getBook] = useGetBookMutation();
+  const [getBook] = useGetBooksMutation();
 
   const onFinish = (values) => {
     console.log('val', values);

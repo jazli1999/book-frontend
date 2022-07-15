@@ -18,9 +18,12 @@ export const bookApiSlice = createApi({
   }),
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
-    getBook: builder.mutation({
+    getBookInfo: builder.query({
+      query: (isbn) => `/books/gbooks/details/${isbn || ''}`,
+    }),
+    getBooks: builder.mutation({
       query: (queryObj) => ({
-        url: `books/gbooks/${queryObj}`,
+        url: `/books/gbooks/${queryObj}`,
         method: 'GET',
         responseHandler: async (response) => {
           const res = await textResponseHandler(response);
@@ -28,9 +31,14 @@ export const bookApiSlice = createApi({
         },
       }),
     }),
+    getExchangeableBookOwners: builder.query({
+      query: (isbn) => `/books/gbooks/owners/${isbn}`,
+    }),
   }),
 });
 
 export const {
-  useGetBookMutation,
+  useGetBookInfoQuery,
+  useGetBooksMutation,
+  useGetExchangeableBookOwnersQuery
 } = bookApiSlice;
