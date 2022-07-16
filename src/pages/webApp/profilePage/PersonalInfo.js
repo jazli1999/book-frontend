@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
   Button, Form, Input, Select, DatePicker,
-  Col, Row, message,
+  Col, Row, Typography, message,
 } from 'antd';
+
 
 import moment from 'moment';
 import {
@@ -11,6 +12,8 @@ import {
 } from '../../../slices/user.api.slice';
 
 import '../index.less';
+import { useNavigate } from 'react-router';
+const { Text } = Typography;
 
 export default function PersonalInfo() {
   const [form] = Form.useForm();
@@ -20,7 +23,7 @@ export default function PersonalInfo() {
   const [edit, setEdit] = useState(false);
 
   const [updateInfo] = useUpdateUserInfoMutation();
-
+  const navigate = useNavigate();
   const parseDate = (date) => `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
   moment().utcOffset(2);
   const onFinish = (values) => {
@@ -49,10 +52,14 @@ export default function PersonalInfo() {
   const onFinishFailed = () => {
     message.error('Please fill all mandatory fields');
   };
-
+  
   const onCancel = () => {
     form.resetFields();
     setEdit(false);
+  };
+
+  const onSubscription = () => {
+    navigate('/app/subscription')
   };
 
   const editBtnStyle = {
@@ -67,10 +74,19 @@ export default function PersonalInfo() {
 
   let birthday;
   let hasBirthday;
+  let subscription;
+  let hasSubscription;
   if (isSuccess) {
     hasBirthday = Object.prototype.hasOwnProperty.call(userInfo, 'birthday');
     const today = parseDate(new Date());
     birthday = userInfo.birthday || today;
+    hasSubscription = Object.prototype.hasOwnProperty.call(userInfo, 'premium');
+    if (hasSubscription) {
+      subscription = userInfo.premium.isPremium ? 'Premium' : 'Free';
+    }
+    else {
+      subscription = 'Free';
+    }
   }
 
   return (
@@ -109,6 +125,7 @@ export default function PersonalInfo() {
                   ...userInfo,
                   ...userInfo.address,
                   birthday: moment(birthday, dateFormat),
+                  subscription,
                 }}
               >
                 <Row align="top" justify="space-between" gutter={16}>
@@ -210,6 +227,31 @@ export default function PersonalInfo() {
                     <Form.Item name="houseNumber" label="No.">
                       <Input disabled={!edit} />
                     </Form.Item>
+                  </Col>
+                </Row>
+                
+                
+                <Row align="top" justify="space-between" gutter={16}>
+                  <Col span={12}>
+                    <Form.Item name="subscription" label= "Membership" >
+                       <Text level={3}> {subscription}</Text>
+                    </Form.Item>
+                  </Col>
+                
+                  <Col span={12}>
+                    {edit &&(
+                      <div style={{ marginTop: '40px' }}>
+                        <Button
+                          className="match-btn"
+                          type="primary"
+                          size="small"
+                          onClick={onSubscription}
+                          ghost
+                        >
+                          <span style={ {fontWeight: 700} }>Manage Subscription</span>                          
+                        </Button>
+                      </div>
+                  )}                    
                   </Col>
                 </Row>
 
