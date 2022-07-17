@@ -105,6 +105,7 @@ export default function OrderPage(props) {
                     updateSteps={updateSteps}
                     bookmateId={order.requester.userId}
                     status={status}
+                    orderStatus={order.orderStatus}
                   />
                 </Col>
               </Row>
