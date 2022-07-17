@@ -1,9 +1,7 @@
 import { Col, Row, Card, Space, Typography, message } from 'antd';
 import './index.less';
+import { useState, useEffect } from 'react';
 import { PayPalBtn } from '../../../components';
-import {
-  useGetUserInfoQuery,
-} from '../../../slices/user.api.slice';
 
 import {
   useGetSubscriptionInfoMutation,
@@ -11,23 +9,80 @@ import {
   useUpdateSubscriptionMutation,
 } from '../../../slices/subscription.api.slice';
 
+import {
+  useGetUserInfoQuery
+} from '../../../slices/user.api.slice';
+
 const { Title } = Typography;
 function SubscriptionPage() {
-  const { data: userInfo, isSuccess } = useGetUserInfoQuery();
-  let hasSubscription;
-  if (isSuccess) {
-    message.warn(userInfo)
-    hasSubscription = Object.prototype.hasOwnProperty.call(userInfo, 'premium');
-  }
+    
+  const onStart = ()=> {
+    const [initialized, setInitialized] = useState(false);
+    let userSuccess= false;
+    useEffect(()=>{
+      const { data: userInfo, isSuccess } = useGetUserInfoQuery();
+      userSuccess = isSuccess;
+    }, []);
 
+    let hasSubscription;
+    let subSuccess;
+    useEffect(()=>{
+      useGetSubscriptionInfoMutation(userInfo._id).then((resp)=>{
+          hasSubscription = resp.data.isPremium;
+          subSuccess=true;
+      });
+      setInitialized(true);
+    }, [userSuccess]);
+  };
+  
+  /**
+  useEffect(()=>{
+    if(isSuccess){
+      useGetSubscriptionInfoMutation(userInfo._id).then((resp)=>{
+          const hasSubscription = resp.data.isPremium;
+          const subSuccess=true;
+      });
+    }
+  });
+   
+  let hasSubscription;
+  let subSuccess;
+  
+  console.log(userInfo);
+  if( isSuccess){
+    useGetSubscriptionInfoMutation(userInfo._id).then((resp) => {
+        hasSubscription = resp.data.isPremium;
+        subSuccess=true;
+    });
+  } 
+  let newInfo;
+  if (subSuccess) {
+    newInfo = { id:userInfo._id, model:'monthly'};
+    if ( hasSubscription){
+        console.log("Hi there");
+        useUpdateSubscriptionMutation(newInfo);
+        //upSuccess = true;
+      }
+      else{
+        console.log("No there");
+        useCreateSubscriptionMutation(newInfo);
+        //crSuccess = true;
+    }
+  }
+  */
+
+    
+  
+  
   const onApproveMonth = (data, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
+      newInfo ={ id:userInfo._id, model:'monthly'}
       if ( hasSubscription){
-        useUpdateSubscriptionMutation('monthly');
+        useUpdateSubscriptionMutation(newInfo);
       }
       else{
-        useCreateSubscriptionMutation('monthly');
+        useCreateSubscriptionMutation(newInfo);
       }        
     });
   };
@@ -35,11 +90,12 @@ function SubscriptionPage() {
   const onApproveYear = (data, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
+      newInfo ={ id:userInfo._id, model:'yearly'}
       if ( hasSubscription){
-        useUpdateSubscriptionMutation('yearly');
+        useUpdateSubscriptionMutation(newInfo);
       }
       else{
-        useCreateSubscriptionMutation('yearly');
+        useCreateSubscriptionMutation(newInfo);
       }        
     });
   };
@@ -52,7 +108,7 @@ function SubscriptionPage() {
   return (
     <div id="ad">
       <div>
-        <Title style={{color: "white"}}>Subscription Plans</Title>
+        <Title style={{color: "white"}} onClick	 ={onStart}>Subscription Plans</Title>
         <Space size = 'large'>
           <Row justify="space-around" align="middle" gutter={30} >
             <Col span={12}>

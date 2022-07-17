@@ -2,6 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import config from '../config';
 import utils from '../utils';
 
+const textResponseHandler = async (response) => {
+  const text = await response.text();
+  return { data: text, status: response.status };
+};
+
 export const subscriptionApiSlice = createApi({
   reducerPath: 'subscription',
   baseQuery: fetchBaseQuery({
@@ -13,31 +18,30 @@ export const subscriptionApiSlice = createApi({
   }),
   keepUnusedDataFor: 0, // do not cache
   endpoints: (builder) => ({
-    getSubscriptionInfo: builder.mutation({
-      query: (values) => ({
-        url: '/subscription/status',
-        method: 'GET',
-        headers: {
-          'content-Type': 'application/json',
-        },
-      }),
+      getSubscriptionInfo: builder.mutation({
+        query: (id) => ({
+          url: `/subscription/status/${id}`,
+          method: 'GET',
+        }),
     }),
     createSubscription: builder.mutation({
       query: (values) => ({
-        url: '/subscription/start/' + values,
+        url: '/subscription/start/',
         method: 'PUT',
         headers: {
           'content-Type': 'application/json',
         },
+        body: { userId: values.id, subscriptionModel: values.model }
       }),
     }),
     updateSubscription: builder.mutation({
       query: (values) => ({
-        url: '/subscription/update/' + values,
+        url: '/subscription/update/',
         method: 'PUT',
         headers: {
           'content-Type': 'application/json',
         },
+        body: { userId: values.id, subscriptionModel: values.model }
       }),
     }),
   }),
