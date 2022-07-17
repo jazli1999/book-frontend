@@ -1,6 +1,7 @@
 import { Col, Row, Card, Space, Typography, message } from 'antd';
 import './index.less';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { PayPalBtn } from '../../../components';
 
 import {
@@ -23,6 +24,7 @@ function SubscriptionPage() {
   const { data: userInfo, isSuccess } = useGetUserInfoQuery();
   let hasSubscription;
   let subSuccess;
+  const navigate = useNavigate();
 
   useEffect(()=>{
     console.log(userInfo);
@@ -44,7 +46,8 @@ function SubscriptionPage() {
       }
       else{
         createSubscription(newInfo);
-      }        
+      }
+      navigate('/app/profile');        
     });
   };
 
@@ -57,7 +60,8 @@ function SubscriptionPage() {
       }
       else{
         createSubscription(newInfo);
-      }        
+      }
+      navigate('/app/profile');        
     });
   };
 

@@ -75,7 +75,9 @@ export default function PersonalInfo() {
   let birthday;
   let hasBirthday;
   let subscription;
+  let endDate;
   let hasSubscription;
+  let isFree;
   if (isSuccess) {
     hasBirthday = Object.prototype.hasOwnProperty.call(userInfo, 'birthday');
     const today = parseDate(new Date());
@@ -83,9 +85,13 @@ export default function PersonalInfo() {
     hasSubscription = Object.prototype.hasOwnProperty.call(userInfo, 'premium');
     if (hasSubscription) {
       subscription = userInfo.premium.isPremium ? 'Premium' : 'Free';
+      isFree = userInfo.premium.isPremium ? false : true;
+      endDate = moment(userInfo.premium.endDate).format('YYYY-MM-DD');
     }
     else {
       subscription = 'Free';
+      endDate = '';
+      isFree = true;
     }
   }
 
@@ -234,7 +240,7 @@ export default function PersonalInfo() {
                 <Row align="top" justify="space-between" gutter={16}>
                   <Col span={12}>
                     <Form.Item name="subscription" label= "Membership" >
-                       <Text level={3}> {subscription}</Text>
+                      <Text level={3}> {subscription}</Text>              
                     </Form.Item>
                   </Col>
                 
@@ -254,6 +260,15 @@ export default function PersonalInfo() {
                   )}                    
                   </Col>
                 </Row>
+                
+                {!isFree && (
+                <Row align="top" justify="space-between">
+                  <Text level={3}>Expires at {endDate}</Text>
+                </Row>
+                )}                 
+                
+
+                
 
                 <Row align="top" justify="space-between" gutter={16}>
                   <Col span={24}>
