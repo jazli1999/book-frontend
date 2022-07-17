@@ -79,6 +79,21 @@ export const orderApiSlice = createApi({
         },
       }),
     }),
+    declineOrder: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/orders/decline/${id}`,
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          authorization: utils.getJWT(),
+        },
+        body,
+        responseHandler: async (response) => {
+          const res = await textResponseHandler(response);
+          return res;
+        }, 
+      }),
+    }),
   }),
 });
 
@@ -90,4 +105,5 @@ export const {
   useUpdatePaymentMutation,
   useUpdateTrackingMutation,
   useConfirmReceiptMutation,
+  useDeclineOrderMutation,
 } = orderApiSlice;

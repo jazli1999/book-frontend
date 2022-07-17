@@ -3,7 +3,7 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, ContactsOutlined } from '@ant-design/icons';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
 import {
@@ -11,6 +11,7 @@ import {
   useUpdateTrackingMutation,
   useConfirmReceiptMutation,
   usePickBooksMutation,
+  useDeclineOrderMutation,
 } from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 import PickBookModal from './PickBookModal';
@@ -142,7 +143,9 @@ function Books(props) {
   const [renderBooks, setRenderBooks] = useState(books);
   const [syncBooks, setSyncBooks] = useState(renderBooks);
   const [confirmed, setConfirmed] = useState(!editable);
+  const [declined, setDeclined] = useState(false);
   const [pickBooks] = usePickBooksMutation();
+  const [cancelOrders] = useDeclineOrderMutation();
   const { id } = useParams();
 
   const sendBooks = () => {
@@ -177,11 +180,31 @@ function Books(props) {
     createOrder(renderBooks.map((book) => book.id));
   };
 
+  const declineOrder = () => {
+    cancelOrders({
+      id,
+    }).then((resp) => {
+      if (resp.data.status === 200) {
+        message.success('Order Declined');
+        setDeclined(true);
+      } else {
+        message.error('Something went wrong, please try again');
+      }
+    });
+  };
+
   return (
     <div>
       <div className="vertical-center">
         <h2 style={{ margin: '5px', fontSize: '13pt' }}>{create ? 'You' : name}</h2>
-        {!confirmed
+        {
+          declined && (
+            <span>
+              Order is declined.
+            </span>
+          )
+        }
+        {(!confirmed && !declined)
           && (
             <span>
               <Button
@@ -204,6 +227,20 @@ function Books(props) {
                 {' '}
                 <span style={{ fontWeight: 600 }}>Confirm</span>
               </Button>
+              {
+                !create && (
+                  <Button
+                    className="match-btn"
+                    type="danger"
+                    size="small"
+                    style={{ marginLeft: '5px' }}
+                    onClick={declineOrder}
+                  >
+                    {' '}
+                    <span style={{ fontWeight: 600 }}>Decline Exchange Request</span>
+                  </Button>
+                )
+              }
             </span>
 
           )}
