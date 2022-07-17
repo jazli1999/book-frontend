@@ -18,7 +18,7 @@ import PickBookModal from './PickBookModal';
 
 export default function ExchangeDetailsCard(props) {
   const {
-    user: order, current: editable, request, status, updateSteps, bookmateId, create, createOrder,
+    user: order, current: editable, request, status, updateSteps, bookmateId, create, createOrder, orderStatus
   } = props;
 
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
@@ -41,6 +41,7 @@ export default function ExchangeDetailsCard(props) {
         updateSteps={updateSteps}
         createOrder={createOrder}
         create={create}
+        orderStatus={orderStatus}
       />
       <Payment
         fee={fee}
@@ -137,13 +138,13 @@ function Confirmation(props) {
 
 function Books(props) {
   const {
-    isCurrent, books, editable, name, bookmateId, isReq, updateSteps, create, createOrder,
+    isCurrent, books, editable, name, bookmateId, isReq, updateSteps, create, createOrder, orderStatus
   } = props;
   const [edit, setEdit] = useState(false);
   const [renderBooks, setRenderBooks] = useState(books);
   const [syncBooks, setSyncBooks] = useState(renderBooks);
   const [confirmed, setConfirmed] = useState(!editable);
-  const [declined, setDeclined] = useState(false);
+  const [declined, setDeclined] = useState(orderStatus === 'Declined');
   const [pickBooks] = usePickBooksMutation();
   const [cancelOrders] = useDeclineOrderMutation();
   const { id } = useParams();
