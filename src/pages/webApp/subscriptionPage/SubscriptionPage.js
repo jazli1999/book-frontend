@@ -14,75 +14,36 @@ import {
 } from '../../../slices/user.api.slice';
 
 const { Title } = Typography;
+
 function SubscriptionPage() {
     
-  const onStart = ()=> {
-    const [initialized, setInitialized] = useState(false);
-    let userSuccess= false;
-    useEffect(()=>{
-      const { data: userInfo, isSuccess } = useGetUserInfoQuery();
-      userSuccess = isSuccess;
-    }, []);
-
-    let hasSubscription;
-    let subSuccess;
-    useEffect(()=>{
-      useGetSubscriptionInfoMutation(userInfo._id).then((resp)=>{
-          hasSubscription = resp.data.isPremium;
-          subSuccess=true;
-      });
-      setInitialized(true);
-    }, [userSuccess]);
-  };
-  
-  /**
-  useEffect(()=>{
-    if(isSuccess){
-      useGetSubscriptionInfoMutation(userInfo._id).then((resp)=>{
-          const hasSubscription = resp.data.isPremium;
-          const subSuccess=true;
-      });
-    }
-  });
-   
+  const [getSubscription] = useGetSubscriptionInfoMutation();
+  const [updateSubscription] =useUpdateSubscriptionMutation();
+  const [createSubscription] =useCreateSubscriptionMutation();
+  const { data: userInfo, isSuccess } = useGetUserInfoQuery();
   let hasSubscription;
   let subSuccess;
-  
-  console.log(userInfo);
-  if( isSuccess){
-    useGetSubscriptionInfoMutation(userInfo._id).then((resp) => {
+
+  useEffect(()=>{
+    console.log(userInfo);
+    if(Object.prototype.hasOwnProperty.call(userInfo, '_id')){
+      getSubscription(userInfo._id).then((resp)=>{
         hasSubscription = resp.data.isPremium;
         subSuccess=true;
-    });
-  } 
-  let newInfo;
-  if (subSuccess) {
-    newInfo = { id:userInfo._id, model:'monthly'};
-    if ( hasSubscription){
-        console.log("Hi there");
-        useUpdateSubscriptionMutation(newInfo);
-        //upSuccess = true;
-      }
-      else{
-        console.log("No there");
-        useCreateSubscriptionMutation(newInfo);
-        //crSuccess = true;
-    }
-  }
-  */
+      });
+    }    
+  }, [isSuccess]);
 
-    
-  
-  
+
   const onApproveMonth = (data, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
-      newInfo ={ id:userInfo._id, model:'monthly'}
+      let newInfo ={ id:userInfo._id, model:'monthly'}
       if ( hasSubscription){
-        useUpdateSubscriptionMutation(newInfo);
+        updateSubscription(newInfo);
       }
       else{
-        useCreateSubscriptionMutation(newInfo);
+        createSubscription(newInfo);
       }        
     });
   };
@@ -90,12 +51,12 @@ function SubscriptionPage() {
   const onApproveYear = (data, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
-      newInfo ={ id:userInfo._id, model:'yearly'}
+      let newInfo ={ id:userInfo._id, model:'yearly'}
       if ( hasSubscription){
-        useUpdateSubscriptionMutation(newInfo);
+        updateSubscription(newInfo);
       }
       else{
-        useCreateSubscriptionMutation(newInfo);
+        createSubscription(newInfo);
       }        
     });
   };
@@ -108,7 +69,7 @@ function SubscriptionPage() {
   return (
     <div id="ad">
       <div>
-        <Title style={{color: "white"}} onClick	 ={onStart}>Subscription Plans</Title>
+        <Title style={{color: "white"}}>Subscription Plans</Title>
         <Space size = 'large'>
           <Row justify="space-around" align="middle" gutter={30} >
             <Col span={12}>
