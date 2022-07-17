@@ -15,31 +15,33 @@ export const subscriptionApiSlice = createApi({
   endpoints: (builder) => ({
       getSubscriptionInfo: builder.mutation({
         query: (id) => ({
-          url: `/subscription/status/${id}`,
+          url: '/subscription/status/',
           method: 'GET',
         }),
     }),
     createSubscription: builder.mutation({
       query: (values) => ({
-        url: '/subscription/start/',
+        url: `/subscription/start/${values.model}`,
         method: 'PUT',
         headers: {
           'content-Type': 'application/json',
         },
-        body: { userId: values.id, subscriptionModel: values.model }
       }),
     }),
     updateSubscription: builder.mutation({
       query: (values) => ({
-        url: '/subscription/update/',
+        url: `/subscription/update/${values.model}`,
         method: 'PUT',
         headers: {
           'content-Type': 'application/json',
         },
-        body: { userId: values.id, subscriptionModel: values.model }
       }),
     }),
   }),
 });
 
-export const { useGetSubscriptionInfoMutation, useCreateSubscriptionMutation, useUpdateSubscriptionMutation } = subscriptionApiSlice;
+export const { 
+  useGetSubscriptionInfoMutation, 
+  useCreateSubscriptionMutation, 
+  useUpdateSubscriptionMutation 
+} = subscriptionApiSlice;
