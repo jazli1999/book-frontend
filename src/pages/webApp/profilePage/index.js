@@ -9,5 +9,5 @@ export {
   PersonalInfo,
   BookSearch,
   BookSearchResult,
-  ListEdit
+  ListEdit,
 };
