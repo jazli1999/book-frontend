@@ -36,7 +36,7 @@ export const userApiSlice = createApi({
         headers: {
           'content-Type': 'application/json',
         },
-        
+
       }),
     }),
     updateWishList: builder.mutation({
@@ -47,10 +47,12 @@ export const userApiSlice = createApi({
         headers: {
           'content-Type': 'application/json',
         },
-        
+
       }),
     }),
   }),
 });
 
-export const { useGetUserInfoQuery, useUpdateUserInfoMutation,useUpdateBookCollectionMutation, useUpdateWishListMutation } = userApiSlice;
+export const {
+  useGetUserInfoQuery, useUpdateUserInfoMutation, useUpdateBookCollectionMutation, useUpdateWishListMutation,
+} = userApiSlice;

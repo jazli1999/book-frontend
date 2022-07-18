@@ -1,10 +1,21 @@
 import {
+<<<<<<< HEAD
   Avatar, List, Spin,
 } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import { useGetExchangeableBookOwnersQuery } from '../../../slices/book.api.slice';
 
 // const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
+=======
+  Avatar, List, message, Spin,
+} from 'antd';
+import VirtualList from 'rc-virtual-list';
+import { useEffect, useState } from 'react';
+import { UserOutlined } from '@ant-design/icons';
+import { useGetExchangeableBookOwnersQuery } from '../../../slices/book.api.slice';
+
+const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
+>>>>>>> 83c9352 (eslint changes)
 const ContainerHeight = 400;
 
 function UserList(props) {

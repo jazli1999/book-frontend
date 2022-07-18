@@ -8,9 +8,9 @@ function ProfilePage() {
   const { data, isSuccess } = useGetUserInfoQuery();
   let bookCollection;
   let wishList;
-  if(isSuccess){
-    bookCollection = data.bookCollection
-    wishList = data.wishList
+  if (isSuccess) {
+    bookCollection = data.bookCollection;
+    wishList = data.wishList;
   }
   return (
     <div>
