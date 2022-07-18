@@ -40,5 +40,5 @@ export const bookApiSlice = createApi({
 export const {
   useGetBookInfoQuery,
   useGetBooksMutation,
-  useGetExchangeableBookOwnersQuery
+  useGetExchangeableBookOwnersQuery,
 } = bookApiSlice;

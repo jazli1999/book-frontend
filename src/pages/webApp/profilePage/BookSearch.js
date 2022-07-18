@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import "antd/dist/antd.css";
-import BookSearchResult from "./BookSearchResult";
-import dummyData from "../dummyData";
-import { Button, Col, Form, Input, Row, message } from "antd";
-import { useGetBooksMutation } from "../../../slices/book.api.slice";
+import React, { useState } from 'react';
+import {
+  Button, Col, Form, Input, Row, message,
+} from 'antd';
+import BookSearchResult from './BookSearchResult';
+import { useGetBooksMutation } from '../../../slices/book.api.slice';
 
 function BookSearch() {
   const [results, setResults] = useState();

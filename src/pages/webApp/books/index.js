@@ -1,6 +1,7 @@
-import BookDetails from "./BookDetails";
-import UserList from "./UserList";
+import BookDetails from './BookDetails';
+import UserList from './UserList';
+
 export {
-  
-    BookDetails
+  BookDetails,
+  UserList,
 };

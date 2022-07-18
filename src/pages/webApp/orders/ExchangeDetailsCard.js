@@ -3,7 +3,7 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
-import { CloseOutlined, ContactsOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import WhiteTick from '../../../assets/images/white_tick.svg';
 import { PayPalBtn } from '../../../components';
 import {
@@ -18,7 +18,15 @@ import PickBookModal from './PickBookModal';
 
 export default function ExchangeDetailsCard(props) {
   const {
-    user: order, current: editable, request, status, updateSteps, bookmateId, create, createOrder, orderStatus
+    user: order,
+    current: editable,
+    request,
+    status,
+    updateSteps,
+    bookmateId,
+    create,
+    createOrder,
+    orderStatus,
   } = props;
 
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
@@ -138,7 +146,16 @@ function Confirmation(props) {
 
 function Books(props) {
   const {
-    isCurrent, books, editable, name, bookmateId, isReq, updateSteps, create, createOrder, orderStatus
+    isCurrent,
+    books,
+    editable,
+    name,
+    bookmateId,
+    isReq,
+    updateSteps,
+    create,
+    createOrder,
+    orderStatus,
   } = props;
   const [edit, setEdit] = useState(false);
   const [renderBooks, setRenderBooks] = useState(books);

@@ -32,5 +32,6 @@ module.exports = {
     'no-restricted-syntax': ['off'],
     'jsx-a11y/anchor-is-valid': ['off'],
     'no-underscore-dangle': ['off'],
+    'import/prefer-default-export': ['off'],
   },
 };

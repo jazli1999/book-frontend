@@ -91,7 +91,7 @@ export const orderApiSlice = createApi({
         responseHandler: async (response) => {
           const res = await textResponseHandler(response);
           return res;
-        }, 
+        },
       }),
     }),
   }),
