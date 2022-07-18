@@ -1,6 +1,8 @@
-import { Col, Row, Card, Space, Typography, message } from 'antd';
+import {
+  Col, Row, Card, Space, Typography, message,
+} from 'antd';
 import './index.less';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { PayPalBtn } from '../../../components';
 
@@ -11,57 +13,51 @@ import {
 } from '../../../slices/subscription.api.slice';
 
 import {
-  useGetUserInfoQuery
+  useGetUserInfoQuery,
 } from '../../../slices/user.api.slice';
 
 const { Title } = Typography;
 
 function SubscriptionPage() {
-    
   const [getSubscription] = useGetSubscriptionInfoMutation();
-  const [updateSubscription] =useUpdateSubscriptionMutation();
-  const [createSubscription] =useCreateSubscriptionMutation();
+  const [updateSubscription] = useUpdateSubscriptionMutation();
+  const [createSubscription] = useCreateSubscriptionMutation();
   const { data: userInfo, isSuccess } = useGetUserInfoQuery();
   let hasSubscription;
-  let subSuccess;
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(userInfo);
-    if(Object.prototype.hasOwnProperty.call(userInfo, '_id')){
-      getSubscription(userInfo._id).then((resp)=>{
+    if (Object.prototype.hasOwnProperty.call(userInfo, '_id')) {
+      getSubscription(userInfo._id).then((resp) => {
         hasSubscription = resp.data.isPremium;
-        subSuccess=true;
       });
-    }    
+    }
   }, [isSuccess]);
-
 
   const onApproveMonth = (data, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
-      let newInfo ={ id:userInfo._id, model:'monthly'}
-      if ( hasSubscription){
+      const newInfo = { id: userInfo._id, model: 'monthly' };
+      if (hasSubscription) {
         updateSubscription(newInfo);
-      }
-      else{
+      } else {
         createSubscription(newInfo);
       }
-      navigate('/app/profile');        
+      navigate('/app/profile');
     });
   };
 
   const onApproveYear = (data, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
-      let newInfo ={ id:userInfo._id, model:'yearly'}
-      if ( hasSubscription){
+      const newInfo = { id: userInfo._id, model: 'yearly' };
+      if (hasSubscription) {
         updateSubscription(newInfo);
-      }
-      else{
+      } else {
         createSubscription(newInfo);
       }
-      navigate('/app/profile');        
+      navigate('/app/profile');
     });
   };
 
@@ -73,9 +69,9 @@ function SubscriptionPage() {
   return (
     <div id="ad">
       <div>
-        <Title style={{color: "white"}}>Subscription Plans</Title>
-        <Space size = 'large'>
-          <Row justify="space-around" align="middle" gutter={30} >
+        <Title style={{ color: 'white' }}>Subscription Plans</Title>
+        <Space size="large">
+          <Row justify="space-around" align="middle" gutter={30}>
             <Col span={12}>
               <Card title="Monthly" bordered={false}>
                 <p>Only 5 Euro</p>
@@ -83,9 +79,9 @@ function SubscriptionPage() {
                 <p>Get Matching Scores</p>
                 <p>No Transaction Fee</p>
                 <PayPalBtn
-                        amount={5}
-                        onApprove={onApproveMonth}
-                        onError={onError}
+                  amount={5}
+                  onApprove={onApproveMonth}
+                  onError={onError}
                 />
               </Card>
             </Col>
@@ -97,17 +93,17 @@ function SubscriptionPage() {
                 <p>Get Matching Scores</p>
                 <p>No Transaction Fee</p>
                 <PayPalBtn
-                        amount={40}
-                        onApprove={onApproveYear}
-                        onError={onError}
+                  amount={40}
+                  onApprove={onApproveYear}
+                  onError={onError}
                 />
               </Card>
             </Col>
           </Row>
-        </Space>  
+        </Space>
       </div>
     </div>
-      
+
   );
 }
 

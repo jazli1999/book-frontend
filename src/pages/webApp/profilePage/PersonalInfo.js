@@ -4,15 +4,15 @@ import {
   Col, Row, Typography, message,
 } from 'antd';
 
-
 import moment from 'moment';
+import { useNavigate } from 'react-router';
+
 import {
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
 } from '../../../slices/user.api.slice';
-
 import '../index.less';
-import { useNavigate } from 'react-router';
+
 const { Text } = Typography;
 
 export default function PersonalInfo() {
@@ -52,14 +52,14 @@ export default function PersonalInfo() {
   const onFinishFailed = () => {
     message.error('Please fill all mandatory fields');
   };
-  
+
   const onCancel = () => {
     form.resetFields();
     setEdit(false);
   };
 
   const onSubscription = () => {
-    navigate('/app/subscription')
+    navigate('/app/subscription');
   };
 
   const editBtnStyle = {
@@ -85,10 +85,9 @@ export default function PersonalInfo() {
     hasSubscription = Object.prototype.hasOwnProperty.call(userInfo, 'premium');
     if (hasSubscription) {
       subscription = userInfo.premium.isPremium ? 'Premium' : 'Free';
-      isFree = userInfo.premium.isPremium ? false : true;
+      isFree = !userInfo.premium.isPremium;
       endDate = moment(userInfo.premium.endDate).format('YYYY-MM-DD');
-    }
-    else {
+    } else {
       subscription = 'Free';
       endDate = '';
       isFree = true;
@@ -235,17 +234,19 @@ export default function PersonalInfo() {
                     </Form.Item>
                   </Col>
                 </Row>
-                
-                
+
                 <Row align="top" justify="space-between" gutter={16}>
                   <Col span={12}>
-                    <Form.Item name="subscription" label= "Membership" >
-                      <Text level={3}> {subscription}</Text>              
+                    <Form.Item name="subscription" label="Membership">
+                      <Text level={3}>
+                        {' '}
+                        {subscription}
+                      </Text>
                     </Form.Item>
                   </Col>
-                
+
                   <Col span={12}>
-                    {edit &&(
+                    {edit && (
                       <div style={{ marginTop: '40px' }}>
                         <Button
                           className="match-btn"
@@ -254,21 +255,21 @@ export default function PersonalInfo() {
                           onClick={onSubscription}
                           ghost
                         >
-                          <span style={ {fontWeight: 700} }>Manage Subscription</span>                          
+                          <span style={{ fontWeight: 700 }}>Manage Subscription</span>
                         </Button>
                       </div>
-                  )}                    
+                    )}
                   </Col>
                 </Row>
-                
+
                 {!isFree && (
                 <Row align="top" justify="space-between">
-                  <Text level={3}>Expires at {endDate}</Text>
+                  <Text level={3}>
+                    Expires at
+                    {endDate}
+                  </Text>
                 </Row>
-                )}                 
-                
-
-                
+                )}
 
                 <Row align="top" justify="space-between" gutter={16}>
                   <Col span={24}>
