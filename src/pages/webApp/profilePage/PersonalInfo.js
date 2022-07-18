@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import {
-  Button, Form, Input, Select, DatePicker,
+  Button, Form, Input, Select, DatePicker, Modal,
   Col, Row, Typography, message,
 } from 'antd';
 
 import moment from 'moment';
-import { useNavigate } from 'react-router';
 
 import {
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
 } from '../../../slices/user.api.slice';
 import '../index.less';
+import { SubscriptionPage } from '../subscriptionPage';
 
 const { Text } = Typography;
 
@@ -21,9 +21,9 @@ export default function PersonalInfo() {
   const { Option } = Select;
   const { TextArea } = Input;
   const [edit, setEdit] = useState(false);
+  const [showSubs, setShowSubs] = useState(false);
 
   const [updateInfo] = useUpdateUserInfoMutation();
-  const navigate = useNavigate();
   const parseDate = (date) => `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
   moment().utcOffset(2);
   const onFinish = (values) => {
@@ -59,7 +59,7 @@ export default function PersonalInfo() {
   };
 
   const onSubscription = () => {
-    navigate('/app/subscription');
+    setShowSubs(true);
   };
 
   const editBtnStyle = {
@@ -99,6 +99,16 @@ export default function PersonalInfo() {
       {isSuccess
         && (
           <div>
+            <Modal
+              visible={showSubs}
+              onCancel={() => setShowSubs(false)}
+              width={800}
+              footer={false}
+              closeIcon={<span style={{ color: 'white', fontSize: '14pt' }}>x</span>}
+              bodyStyle={{ height: '460px' }}
+            >
+              <SubscriptionPage />
+            </Modal>
             <div className="vertical-center" style={{ marginBottom: '15px' }}>
               <h2 style={{ display: 'inline', marginBottom: '0px' }}>
                 Basic Information
@@ -266,6 +276,7 @@ export default function PersonalInfo() {
                 <Row align="top" justify="space-between">
                   <Text level={3}>
                     Expires at
+                    {' '}
                     {endDate}
                   </Text>
                 </Row>

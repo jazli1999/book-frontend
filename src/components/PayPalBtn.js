@@ -20,7 +20,9 @@ function PayPalBtn(props) {
           createOrder={(data, actions) => createOrder(data, actions)}
           onApprove={(data, actions) => onApprove(data, actions)}
           onError={(data, actions) => onError(data, actions)}
-          style={{ layout: 'horizontal', height: 25, color: 'white' }}
+          style={{
+            layout: 'horizontal', height: 25, color: 'white', tagline: false,
+          }}
         />
       </div>
 

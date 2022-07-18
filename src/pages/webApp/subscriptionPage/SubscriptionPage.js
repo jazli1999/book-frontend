@@ -1,106 +1,108 @@
 import {
-  Col, Row, Card, Space, Typography, message,
+  Col, Row, Divider, message,
 } from 'antd';
 import './index.less';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
 import { PayPalBtn } from '../../../components';
 
 import {
-  useGetSubscriptionInfoMutation,
+  useGetSubscriptionInfoQuery,
   useCreateSubscriptionMutation,
   useUpdateSubscriptionMutation,
 } from '../../../slices/subscription.api.slice';
 
-import {
-  useGetUserInfoQuery,
-} from '../../../slices/user.api.slice';
-
-const { Title } = Typography;
-
 function SubscriptionPage() {
-  const [getSubscription] = useGetSubscriptionInfoMutation();
   const [updateSubscription] = useUpdateSubscriptionMutation();
   const [createSubscription] = useCreateSubscriptionMutation();
-  const { data: userInfo, isSuccess } = useGetUserInfoQuery();
+  const { data, isSuccess } = useGetSubscriptionInfoQuery();
+
   let hasSubscription;
-  const navigate = useNavigate();
+  if (isSuccess) {
+    hasSubscription = data.isPremium;
+  }
 
-  useEffect(() => {
-    console.log(userInfo);
-    if (Object.prototype.hasOwnProperty.call(userInfo, '_id')) {
-      getSubscription(userInfo._id).then((resp) => {
-        hasSubscription = resp.data.isPremium;
-      });
-    }
-  }, [isSuccess]);
-
-  const onApproveMonth = (data, actions) => {
+  const onApproveMonth = (_, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
-      const newInfo = { id: userInfo._id, model: 'monthly' };
+      const newInfo = { model: 'monthly' };
       if (hasSubscription) {
         updateSubscription(newInfo);
       } else {
         createSubscription(newInfo);
       }
-      navigate('/app/profile');
+      window.location.reload();
     });
   };
 
-  const onApproveYear = (data, actions) => {
+  const onApproveYear = (_, actions) => {
     actions.order.capture().then(() => {
       message.success('Payment completed');
-      const newInfo = { id: userInfo._id, model: 'yearly' };
+      const newInfo = { model: 'yearly' };
       if (hasSubscription) {
         updateSubscription(newInfo);
       } else {
         createSubscription(newInfo);
       }
-      navigate('/app/profile');
+      window.location.reload();
     });
   };
 
-  const onError = (data, actions) => {
+  const onError = (_, actions) => {
     message.error('Something went wrong, please try again');
     return actions.order.capture();
   };
 
   return (
-    <div id="ad">
-      <div>
-        <Title style={{ color: 'white' }}>Subscription Plans</Title>
-        <Space size="large">
-          <Row justify="space-around" align="middle" gutter={30}>
-            <Col span={12}>
-              <Card title="Monthly" bordered={false}>
-                <p>Only 5 Euro</p>
-                <p>Valid For a single month</p>
-                <p>Get Matching Scores</p>
-                <p>No Transaction Fee</p>
-                <PayPalBtn
-                  amount={5}
-                  onApprove={onApproveMonth}
-                  onError={onError}
-                />
-              </Card>
-            </Col>
+    <div className="bg" style={{ textAlign: 'center', width: '100%', padding: '20px' }}>
+      <h1 style={{ color: 'white' }}>Subscription Plans</h1>
+      <div className="vertical-center">
+        <Row justify="space-around" align="middle" gutter={30} style={{ margin: 'auto', marginTop: '10px' }}>
+          <Col span={12}>
+            <div
+              className="rounded-container subs-card"
+              style={{ textAligh: 'center' }}
+            >
+              <h3>Monthly Plan</h3>
+              <Divider />
+              <p>5 Euro Per Month</p>
+              <p>Unlimited bookmate recommendations</p>
+              <p>Matching scores visible</p>
+              <p>No exchange transaction fees</p>
+              <Divider style={{ marginBottom: '15px' }} />
+              <div className="vertical-center" style={{ justifyContent: 'center' }}>
+                <span style={{ display: 'inline-block' }}>Subscribe now with</span>
+                <div style={{ width: '100px', display: 'inline-block' }}>
+                  <PayPalBtn
+                    amount={5}
+                    onApprove={onApproveMonth}
+                    onError={onError}
+                  />
+                </div>
+              </div>
+            </div>
+          </Col>
 
-            <Col span={12}>
-              <Card title="Yearly" bordered={false}>
-                <p>40 Euro for Whole Year</p>
-                <p>Valid For a year</p>
-                <p>Get Matching Scores</p>
-                <p>No Transaction Fee</p>
-                <PayPalBtn
-                  amount={40}
-                  onApprove={onApproveYear}
-                  onError={onError}
-                />
-              </Card>
-            </Col>
-          </Row>
-        </Space>
+          <Col span={12}>
+            <div className="rounded-container subs-card">
+              <h3>Yearly Plan</h3>
+              <Divider />
+              <p>40 Euro per year</p>
+              <p>Unlimited bookmate recommendations</p>
+              <p>Matching scores visible</p>
+              <p>No exchange transaction fees</p>
+              <Divider style={{ marginBottom: '15px' }} />
+              <div className="vertical-center" style={{ justifyContent: 'center' }}>
+                <span style={{ display: 'inline-block' }}>Subscribe now with</span>
+                <div style={{ width: '100px', display: 'inline-block' }}>
+                  <PayPalBtn
+                    amount={40}
+                    onApprove={onApproveYear}
+                    onError={onError}
+                  />
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     </div>
 

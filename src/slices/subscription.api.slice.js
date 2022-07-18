@@ -13,11 +13,8 @@ export const subscriptionApiSlice = createApi({
   }),
   keepUnusedDataFor: 0, // do not cache
   endpoints: (builder) => ({
-    getSubscriptionInfo: builder.mutation({
-      query: () => ({
-        url: '/subscription/status/',
-        method: 'GET',
-      }),
+    getSubscriptionInfo: builder.query({
+      query: () => '/subscription/status/',
     }),
     createSubscription: builder.mutation({
       query: (values) => ({
@@ -41,7 +38,7 @@ export const subscriptionApiSlice = createApi({
 });
 
 export const {
-  useGetSubscriptionInfoMutation,
+  useGetSubscriptionInfoQuery,
   useCreateSubscriptionMutation,
   useUpdateSubscriptionMutation,
 } = subscriptionApiSlice;
