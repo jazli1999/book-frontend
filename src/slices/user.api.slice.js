@@ -28,7 +28,29 @@ export const userApiSlice = createApi({
         },
       }),
     }),
+    updateBookCollection: builder.mutation({
+      query: (updatedCollection) => ({
+        url: '/users/bclist',
+        method: 'PUT',
+        body: updatedCollection,
+        headers: {
+          'content-Type': 'application/json',
+        },
+        
+      }),
+    }),
+    updateWishList: builder.mutation({
+      query: (updatedList) => ({
+        url: '/users/wslist',
+        method: 'PUT',
+        body: updatedList,
+        headers: {
+          'content-Type': 'application/json',
+        },
+        
+      }),
+    }),
   }),
 });
 
-export const { useGetUserInfoQuery, useUpdateUserInfoMutation } = userApiSlice;
+export const { useGetUserInfoQuery, useUpdateUserInfoMutation,useUpdateBookCollectionMutation, useUpdateWishListMutation } = userApiSlice;

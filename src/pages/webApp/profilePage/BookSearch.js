@@ -5,7 +5,7 @@ import {
 import BookSearchResult from './BookSearchResult';
 import { useGetBooksMutation } from '../../../slices/book.api.slice';
 
-function BookSearch() {
+function BookSearch(props) {
   const [results, setResults] = useState();
   const [getBook] = useGetBooksMutation();
 
