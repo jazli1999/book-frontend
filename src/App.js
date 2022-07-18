@@ -8,6 +8,7 @@ import {
 import * as Pages from './pages';
 import utils from './utils';
 import './App.less';
+import ListEdit from './pages/webApp/profilePage/ListEdit';
 
 function App() {
   const token = utils.getJWT();
@@ -29,7 +30,7 @@ function App() {
             <Route path="orders/create/:id" element={<Pages.OrderPage create />} />
             <Route path="orders/:id" element={<Pages.OrderPage />} />
             <Route path="bookmates" element={<Pages.CurrentBookMateList />} />
-            <Route path="profile/:listType/edit" element={<Pages.BookListEdit />} />
+            <Route path="profile/:listType/edit" element={<Pages.ListEdit />} />
             <Route path="book/details/:isbnUrl" element={<Pages.BookDetails />} />
           </Route>
         </Routes>
