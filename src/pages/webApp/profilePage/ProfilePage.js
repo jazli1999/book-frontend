@@ -1,7 +1,6 @@
 import { Col, Row, Divider } from 'antd';
 import PersonalInfo from './PersonalInfo';
 import BookList from '../../../components/BookList';
-import dummyData from '../dummyData';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 function ProfilePage() {
@@ -15,22 +14,19 @@ function ProfilePage() {
   return (
     <div>
       <h1>My Profile</h1>
-      <Row align="top">
+      <Row style={{width: '100%'}}>
         <Col span={7}>
-
           <PersonalInfo />
         </Col>
         <Divider type="vertical" orientationMargin="100px" />
-        <Col span={7}>
+        <Col span={8}>
           <BookList title="Book Collection" bookList={bookCollection} isEditable isCollection isWishList={false} />
         </Col>
         <Divider type="vertical" orientationMargin="100px" />
-
-        <Col span={7}>
+        <Col span={8}>
           <BookList title="Wish List" bookList={wishList} isEditable isCollection={false} isWishList />
         </Col>
       </Row>
-
     </div>
   );
 }

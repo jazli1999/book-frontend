@@ -10,7 +10,7 @@ function Book(props) {
         <Col>
           <img src={props.image} alt="cover" style={{ height: '110px', width: '70px', objectFit: 'cover' }} />
         </Col>
-        <Col style={{ padding: '0px 8px', width: '122px' }}>
+        <Col style={{ padding: '0px 8px' }}>
           <p className="shelf-book-title">{props.title}</p>
           <p className="shelf-book-author">{props.author}</p>
           {props.exchangeable
