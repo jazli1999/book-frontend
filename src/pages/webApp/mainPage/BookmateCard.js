@@ -18,51 +18,17 @@ export default function BookmateCard(props) {
     navigate(`/app/users/${userId}`);
   };
 
-  const availableList = [
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: 'isFavorite',
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: 'isFavorite',
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: null,
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: null,
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: null,
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: null,
-    },
-  ];
+  const availableList = [];
+  bookmateData.bcCover.forEach((item, index) => {
+    availableList.push({ cover: bookmateData.bcCover[index], mark: bookmateData.bcMark[index] });
+  });
 
-  const wishList = [
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: 'isAvailable',
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: 'isAvailable',
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: 'isAvailable',
-    },
-    {
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      mark: null,
-    },
-  ];
+  // availableList.sort((a, b) => b.mark - a.mark);
+
+  const wishList = [];
+  bookmateData.wsCover.forEach((item, index) => {
+    wishList.push({ cover: bookmateData.wsCover[index], mark: bookmateData.wsMark[index] });
+  });
 
   const shelfStyle = {
     padding: '5px 15px',

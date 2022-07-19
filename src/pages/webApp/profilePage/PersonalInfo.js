@@ -44,6 +44,7 @@ export default function PersonalInfo() {
     };
     updateInfo(newInfo).then(() => {
       setEdit(false);
+      window.location.reload();
     }).catch(() => {
       message.error('Something went wrong');
     });

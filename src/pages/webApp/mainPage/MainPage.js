@@ -1,9 +1,28 @@
 import { List } from 'antd';
 import BookmateCard from './BookmateCard';
-import dummyData from '../dummyData';
+import { useGetRecommendQuery } from '../../../slices/bookmate.api.slice';
 
 function MainPage() {
-  const { bookmateData } = dummyData;
+  const { data, isSuccess } = useGetRecommendQuery();
+  let processedBookmates;
+
+  // calculate the intersection here
+
+  if (isSuccess) {
+    processedBookmates = data.map((bookmate) => ({
+      name: `${bookmate.firstName} ${bookmate.lastName}`,
+      description: bookmate.bio,
+      score: Math.trunc(bookmate.score),
+      id: bookmate._id,
+      bookCollection: bookmate.bookCollection,
+      wishList: bookmate.wishList,
+      bcCover: bookmate.bcCover,
+      bcMark: bookmate.bcMark,
+      wsCover: bookmate.wsCover,
+      wsMark: bookmate.wsMark,
+    }));
+  }
+  // console.log(processedBookmates);
 
   return (
     <div id="MainPage">
@@ -11,7 +30,8 @@ function MainPage() {
         <h1>Bookmates Recommended For You</h1>
       </div>
       <List
-        dataSource={bookmateData}
+        loading={!isSuccess}
+        dataSource={processedBookmates}
         grid={{ column: 3 }}
         size="default"
         pagination={{
