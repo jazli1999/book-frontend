@@ -8,7 +8,6 @@ import {
 import * as Pages from './pages';
 import utils from './utils';
 import './App.less';
-import ListEdit from './pages/webApp/profilePage/ListEdit';
 
 function App() {
   const token = utils.getJWT();

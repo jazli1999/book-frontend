@@ -9,8 +9,6 @@ import {
   Form,
   Input,
   message,
-  Divider,
-  Space,
 } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import {
@@ -20,6 +18,7 @@ import {
 } from '../../../slices/user.api.slice';
 import { useGetBooksMutation } from '../../../slices/book.api.slice';
 import { Book } from '../../../components';
+import { useParams } from 'react-router';
 
 function getBadge(icon) {
   const containerStyle = {
@@ -37,14 +36,14 @@ function getBadge(icon) {
   return <span style={containerStyle}>{icon}</span>;
 }
 
-export default function ListEdit(props) {
-  const { listType } = props;
+export default function ListEdit() {
+  const { listType } = useParams();
 
   const { data, isFetching, isSuccess } = useGetUserInfoQuery(); // get details of currenty logged in user
   let loadedBookList;
 
   if (isSuccess) {
-    if (listType == 'collection') loadedBookList = data.bookCollection;
+    if (listType === 'collection') loadedBookList = data.bookCollection;
     else {
       loadedBookList = data.wishList;
     }
@@ -58,10 +57,10 @@ export default function ListEdit(props) {
   const [updateWishList] = useUpdateWishListMutation();
   const [getBook] = useGetBooksMutation();
 
+  const title = listType === 'collection' ? 'Book Collection' : 'Wish List';
   const updateBookList = (updatedBookList) => {
-    console.log('update is on', updatedBookList);
     setBookList(updatedBookList);
-    if (listType == 'collection') {
+    if (listType === 'collection') {
       updateBookCollection(updatedBookList);
     } else {
       updateWishList(updatedBookList);
@@ -86,92 +85,67 @@ export default function ListEdit(props) {
 
   const [form] = Form.useForm();
 
-  const getFields = () => {
-    const children = [];
-
-    children.push(
-      <Col span={10} key={1}>
-        <Form.Item name="isbn" label="ISBN">
-          <Input />
-        </Form.Item>
-      </Col>,
-    );
-    children.push(
-      <Col span={10} key={2}>
-        <Form.Item name="title" label="Title">
-          <Input />
-        </Form.Item>
-      </Col>,
-    );
-    children.push(
-      <Col span={10} key={3}>
-        <Form.Item name="author" label="Author">
-          <Input />
-        </Form.Item>
-      </Col>,
-    );
-    children.push(
-      <Col span={10} key={4}>
-        <Form.Item name="publisher" label="Publisher">
-          <Input />
-        </Form.Item>
-      </Col>,
-    );
-    return children;
-  };
-
   return (
     <div>
-      <Row>
+      <Row gutter={10}>
         <Col span={12}>
-          <div>
-
+          <div className="rounded-container" style={{ height: '570px' }}>
+            <h4 style={{ margin: '5px 0px 0px 0px' }}>
+              Search for books to add to your {title}
+            </h4>
             <Form
               form={form}
               name="advanced_search"
-              className="ant-advanced-search-form"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
               onFinish={onFinish}
+              style={{ maxWidth: '700px', marginBottom: '10px' }}
             >
-              <Row gutter={24}>{getFields()}</Row>
-              <Row>
-                <Col
-                  span={24}
-                  style={{
-                    textAlign: 'right',
-                  }}
-                >
-                  <Button type="primary" htmlType="submit">
-                    Search
-                  </Button>
-                  <Button
-                    style={{
-                      margin: '0 8px',
-                    }}
-                    onClick={() => {
-                      form.resetFields();
-                    }}
-                  >
-                    Clear
-                  </Button>
+              <Row gutter={5}>
+                <Col span={10}>
+                  <Form.Item name="isbn" label="ISBN">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="author" label="Author">
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={14}>
+                  <Form.Item name="title" label="Title">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="publisher" label="Publisher">
+                    <Input />
+                  </Form.Item>
                 </Col>
               </Row>
-            </Form>
-            <Divider />
 
-            <div
-              className="rounded-container"
-              style={{ marginBottom: 0, minHeight: '440px' }}
-            >
-              <h4 style={{ marginBottom: 0 }}>
-                Search Results
-              </h4>
+              <Row style={{ width: 'fit-content', margin: 'auto' }}>
+                <Button type="primary" htmlType="submit" size="small" style={{ fontSize: '9pt' }}>
+                  Search
+                </Button>
+                <Button
+                  style={{
+                    margin: '0 8px',
+                    fontSize: '9pt',
+                  }}
+                  onClick={() => {
+                    form.resetFields();
+                  }}
+                  size="small"
+                >
+                  Clear
+                </Button>
+              </Row>
+            </Form>
+            <div>
               <div style={{ marginTop: '5px' }}>
                 <List
                   itemLayout="vertical"
                   grid={{ column: 3, gutter: [15, 0] }}
                   size="default"
                   pagination={{
-                    pageSize: 12,
+                    pageSize: 9,
                     size: 'small',
                     style: { width: 'fit-content', margin: 'auto' },
                     hideOnSinglePage: true,
@@ -195,31 +169,25 @@ export default function ListEdit(props) {
                     >
                       <Badge count={getBadge(<PlusOutlined />)} offset={[-5, 5]}>
                         <Book {...item} className="disabled" />
-
                       </Badge>
                     </a>
                   )}
                 />
               </div>
             </div>
-
           </div>
         </Col>
-        <Divider type="vertical" />
-        <Col span={10}>
-          <div
-            className="rounded-container"
-            style={{ marginBottom: 0, minHeight: '440px', minWidth: '220px' }}
-          >
-            <h4 style={{ marginBottom: 0 }}>Your List:</h4>
+        <Col span={8}>
+          <div className="rounded-container"  style={{ height: '570px' }}>
+            <h4 style={{ margin: '5px 0px 0px 0px' }}>Your {' '}{title}</h4>
             <div style={{ marginTop: '5px', marginLeft: '-10px' }}>
               <List
                 loading={isFetching}
                 itemLayout="vertical"
-                grid={{ column: 2 }}
+                grid={{ column: 2, gutter: [0, 0] }}
                 size="default"
                 pagination={{
-                  pageSize: 10,
+                  pageSize: 8,
                   size: 'small',
                   style: { width: 'fit-content', margin: 'auto' },
                   hideOnSinglePage: true,
@@ -244,12 +212,16 @@ export default function ListEdit(props) {
                   >
                     <Badge count={getBadge(<MinusOutlined />)} offset={[-5, 5]}>
                       <Book {...item} />
-
                     </Badge>
                   </a>
                 )}
               />
             </div>
+          </div>
+        </Col>
+        <Col span={4}>
+          <div className="rounded-container" style={{ height: '570px' }}>
+            <h4 style={{ margin: '5px 0px 0px 0px' }}>Removed Books</h4>
           </div>
         </Col>
       </Row>
