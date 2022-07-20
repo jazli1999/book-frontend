@@ -57,7 +57,6 @@ export default function ListEdit() {
     const books = [];
     const { exchangeableCollection: ex, bookCollection: collection, wishList: wish } = data;
     const rawBooks = listType === 'collection' ? collection : wish;
-    console.log(ex);
     for (const [index, book] of rawBooks.entries()) {
       books.push({
         ...book,
@@ -85,7 +84,6 @@ export default function ListEdit() {
 
   const changeEx = (index, newValue) => {
     bookList[index].exchangeable = newValue;
-    console.log(newValue);
     setBookList(bookList);
   };
 

@@ -34,7 +34,6 @@ function PickBookModal(props) {
   const { data, isFetching, isSuccess } = useGetUserInfoQuery(bookmateId);
   const [initialized, setInitialized] = useState(false);
 
-  console.log(initialized, isSuccess);
   if (!initialized && isSuccess) {
     const bookList = [];
     const { exchangeableCollection: ex, bookCollection: books } = data;

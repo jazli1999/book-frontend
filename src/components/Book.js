@@ -8,9 +8,7 @@ function Book(props) {
   const [checked, setChecked] = useState(props.exchangeable);
 
   useEffect(() => {
-    console.log(props.title, props.exchangeable, checked);
     if (props.changeEx) props.changeEx(props.index, checked);
-    console.log(props.title, props.exchangeable, checked);
   }, [checked]);
 
   return (
@@ -30,7 +28,6 @@ function Book(props) {
                 }}
                 role="button"
                 onClick={(e) => {
-                  console.log(`click ${props.title}`);
                   if (props.editable) {
                     e.stopPropagation();
                     setChecked(!checked);

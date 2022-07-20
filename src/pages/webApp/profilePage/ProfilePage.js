@@ -14,7 +14,6 @@ function ProfilePage() {
 
   useEffect(() => {
     getUserInfoAsync().then((resp) => {
-      console.log(resp.data);
       const { exchangeableCollection: exList, bookCollection: oriBC, wishList: oriWL } = resp.data;
       const wl = oriWL.map((item) => ({
         ...item,
