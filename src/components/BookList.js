@@ -17,6 +17,14 @@ export default function BookList(props) {
     padding: '0px 15px',
   };
 
+  const listStyle = props.bordered ? {
+    borderLeft: 'solid #d2d4d055',
+    borderWidth: '1.5px',
+    marginLeft: '-10px',
+    paddingLeft: '10px',
+    height: props.height,
+  } : {};
+
   const emptyHint = <Empty description={emptyTextNode} />;
   const columnCount = column || 2;
   return (
@@ -26,26 +34,26 @@ export default function BookList(props) {
           {props.title}
         </h2>
         {props.isEditable && props.isCollection && !props.isWishList && (
-        <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
-          <a href="/app/profile/collection/edit">
-            <span style={{ fontWeight: 700 }}>Edit</span>
-            {' '}
-          </a>
+          <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
+            <a href="/app/profile/collection/edit">
+              <span style={{ fontWeight: 700 }}>Edit</span>
+              {' '}
+            </a>
 
-        </Button>
+          </Button>
         )}
 
         {props.isEditable && !props.isCollection && props.isWishList && (
-        <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
-          <a href="/app/profile/wishlist/edit">
-            <span style={{ fontWeight: 700 }}>Edit</span>
-            {' '}
-          </a>
+          <Button className="match-btn" style={editBtnStyle} type="primary" size="small" ghost>
+            <a href="/app/profile/wishlist/edit">
+              <span style={{ fontWeight: 700 }}>Edit</span>
+              {' '}
+            </a>
 
-        </Button>
+          </Button>
         )}
       </div>
-      <div>
+      <div style={listStyle}>
         <List
           itemLayout="vertical"
           grid={{ column: columnCount }}
