@@ -1,16 +1,9 @@
 import React from 'react';
 import {
-<<<<<<< HEAD
   Col, Row, Divider, Descriptions, Tabs,
 } from 'antd';
 import { useParams } from 'react-router';
 import { useGetBookInfoQuery } from '../../../slices/book.api.slice';
-=======
-  Col, Row, Card, Divider, Avatar, Descriptions, Tabs,
-} from 'antd';
-import { useParams } from 'react-router';
-import { useGetBookInfoQuery, useGetBookQuery } from '../../../slices/book.api.slice';
->>>>>>> 83c9352 (eslint changes)
 import UserList from './UserList';
 
 const { TabPane } = Tabs;
@@ -42,11 +35,7 @@ export default function BookDetails() {
     <div>
       <Row gutter={14}>
         <Col span={4}>
-<<<<<<< HEAD
           <img alt="book cover" src={image} />
-=======
-          <img src={image} />
->>>>>>> 83c9352 (eslint changes)
         </Col>
         <Col span={12}>
           <Descriptions title={title} column="2">

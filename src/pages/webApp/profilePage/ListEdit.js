@@ -11,6 +11,7 @@ import {
   message,
 } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { useParams } from 'react-router';
 import {
   useGetUserInfoQuery,
   useUpdateBookCollectionMutation,
@@ -18,7 +19,6 @@ import {
 } from '../../../slices/user.api.slice';
 import { useGetBooksMutation } from '../../../slices/book.api.slice';
 import { Book } from '../../../components';
-import { useParams } from 'react-router';
 
 function getBadge(icon) {
   const containerStyle = {
@@ -91,7 +91,9 @@ export default function ListEdit() {
         <Col span={12}>
           <div className="rounded-container" style={{ height: '570px' }}>
             <h4 style={{ margin: '5px 0px 0px 0px' }}>
-              Search for books to add to your {title}
+              Search for books to add to your
+              {' '}
+              {title}
             </h4>
             <Form
               form={form}
@@ -178,8 +180,12 @@ export default function ListEdit() {
           </div>
         </Col>
         <Col span={8}>
-          <div className="rounded-container"  style={{ height: '570px' }}>
-            <h4 style={{ margin: '5px 0px 0px 0px' }}>Your {' '}{title}</h4>
+          <div className="rounded-container" style={{ height: '570px' }}>
+            <h4 style={{ margin: '5px 0px 0px 0px' }}>
+              Your
+              {' '}
+              {title}
+            </h4>
             <div style={{ marginTop: '5px', marginLeft: '-10px' }}>
               <List
                 loading={isFetching}

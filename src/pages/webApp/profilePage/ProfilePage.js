@@ -14,7 +14,7 @@ function ProfilePage() {
   return (
     <div>
       <h1>My Profile</h1>
-      <Row style={{width: '100%'}}>
+      <Row style={{ width: '100%' }}>
         <Col span={7}>
           <PersonalInfo />
         </Col>
@@ -24,7 +24,7 @@ function ProfilePage() {
         </Col>
         <Divider type="vertical" orientationMargin="100px" />
         <Col span={8}>
-          <BookList title="Wish List" bookList={wishList} isEditable isCollection={false} isWishList />
+          <BookList title="Wish List" bookList={wishList} isEditable isCollection={false} isWishList bordered height="520px" />
         </Col>
       </Row>
     </div>
