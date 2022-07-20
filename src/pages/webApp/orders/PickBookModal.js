@@ -84,7 +84,7 @@ function PickBookModal(props) {
                   }}
                 >
                   <Badge count={getBadge(<MinusOutlined />)} offset={[-5, 5]}>
-                    <Book {...item} />
+                    <Book {...item} showEx />
                   </Badge>
                 </a>
               )}
@@ -124,7 +124,7 @@ function PickBookModal(props) {
                   }}
                 >
                   <Badge count={getBadge(<PlusOutlined />)} offset={[-5, 5]}>
-                    <Book {...item} className="disabled" />
+                    <Book {...item} showEx />
                   </Badge>
                 </a>
               )}

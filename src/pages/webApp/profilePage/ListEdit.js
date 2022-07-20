@@ -57,11 +57,12 @@ export default function ListEdit() {
     const books = [];
     const { exchangeableCollection: ex, bookCollection: collection, wishList: wish } = data;
     const rawBooks = listType === 'collection' ? collection : wish;
+    console.log(ex);
     for (const [index, book] of rawBooks.entries()) {
       books.push({
         ...book,
         author: book.authors[0],
-        exchangeable: ex[index],
+        exchangeable: listType === 'wishlist' ? false : ex[index],
       });
     }
     setBookList(books);
@@ -80,6 +81,12 @@ export default function ListEdit() {
         message.error('Something went wrong, please try again');
       }
     });
+  };
+
+  const changeEx = (index, newValue) => {
+    bookList[index].exchangeable = newValue;
+    console.log(newValue);
+    setBookList(bookList);
   };
 
   const showConfirm = () => {
@@ -250,20 +257,24 @@ export default function ListEdit() {
                     href="#"
                     onClick={() => {
                       const index = bookList.indexOf(item);
-                      console.log('deleted element index', index);
+                      bookList[index].exchangeable = false;
+                      setBookList(bookList);
                       bookList.splice(index, 1);
                       const newRemoved = [
                         ...removedList,
-                        {
-                          ...item,
-                          exchangeable: false,
-                        },
+                        item,
                       ];
                       setRemovedList(newRemoved);
                     }}
                   >
                     <Badge count={getBadge(<MinusOutlined />)} offset={[-6, 4]}>
-                      <Book {...item} />
+                      <Book
+                        {...item}
+                        index={bookList.indexOf(item)}
+                        showEx={listType === 'collection'}
+                        changeEx={changeEx}
+                        editable
+                      />
                     </Badge>
                   </a>
                 )}

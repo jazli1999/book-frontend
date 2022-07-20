@@ -33,5 +33,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': ['off'],
     'no-underscore-dangle': ['off'],
     'import/prefer-default-export': ['off'],
+    'jsx-a11y/click-events-have-key-events': ['off'],
+    'jsx-a11y/interactive-supports-focus': ['off'],
   },
 };
