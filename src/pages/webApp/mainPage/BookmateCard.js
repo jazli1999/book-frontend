@@ -118,7 +118,7 @@ function CardTitle(props) {
           size="small"
           style={{ height: '22px', position: 'relative', top: '-2px' }}
           onClick={onMatchClick}
-          icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative'}} />}
+          icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative' }} />}
           type="primary"
           ghost
         >

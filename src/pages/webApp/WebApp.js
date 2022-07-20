@@ -13,7 +13,7 @@ function WebApp() {
         <Header>
           <HeaderMenu />
           <a href="/app">
-            <div id="click-logo"/>
+            <div id="click-logo" />
           </a>
         </Header>
         <Content className="app-body">
