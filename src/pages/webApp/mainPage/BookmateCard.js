@@ -58,7 +58,7 @@ export default function BookmateCard(props) {
       style={cardStyle}
       cover={(
         <div style={shelfStyle}>
-          <Space direction="vertical">
+          <Space direction="vertical" style={{ width: '100%' }}>
             <BookList title="Available books" books={availableList.slice(0, 4)} isEditable />
             <BookList title="Wish list" books={wishList.slice(0, 4)} isEditable />
           </Space>
@@ -129,7 +129,7 @@ function CardTitle(props) {
 
 function BookList(props) {
   return (
-    <Space size={1} direction="vertical">
+    <Space size={1} direction="vertical" style={{ width: '100%' }}>
       <span style={{ fontSize: '9pt' }}>{props.title}</span>
       <Row gutter={8}>
         {props.books.map((book, index) => (
