@@ -12,6 +12,9 @@ function WebApp() {
       <Layout>
         <Header>
           <HeaderMenu />
+          <a href="/app">
+            <div id="click-logo"/>
+          </a>
         </Header>
         <Content className="app-body">
           <Outlet />
