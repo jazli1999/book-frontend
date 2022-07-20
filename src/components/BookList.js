@@ -66,7 +66,7 @@ export default function BookList(props) {
           }}
           locale={{ emptyText: emptyHint }}
           dataSource={bookList}
-          renderItem={(item) => <Book {...item} />}
+          renderItem={(item) => <Book {...item} showEx />}
         />
       </div>
     </div>

@@ -9,26 +9,24 @@ function ProfilePage() {
   const [getUserInfoAsync] = useGetUserInfoAsyncMutation();
   const [bookCollection, setBookCollection] = useState([]);
   const [wishList, setWishList] = useState([]);
-  const [ex, setEx] = useState([]);
 
   const location = useLocation();
 
-  const mapBC = (item, index) => ({
-    ...item,
-    author: item.authors[0],
-    exchangeable: ex[index],
-  });
-
-  const mapWL = (item) => ({
-    ...item,
-    author: item.authors[0],
-  });
-
   useEffect(() => {
     getUserInfoAsync().then((resp) => {
-      setBookCollection(resp.data.bookCollection.map(mapBC));
-      setWishList(resp.data.wishList.map(mapWL));
-      setEx(resp.data.exchangeableCollection);
+      console.log(resp.data);
+      const { exchangeableCollection: exList, bookCollection: oriBC, wishList: oriWL } = resp.data;
+      const wl = oriWL.map((item) => ({
+        ...item,
+        author: item.authors[0],
+      }));
+      const bc = oriBC.map((item, index) => ({
+        ...item,
+        author: item.authors[0],
+        exchangeable: exList[index],
+      }));
+      setWishList(wl);
+      setBookCollection(bc);
     });
   }, [location.key]);
 
