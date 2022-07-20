@@ -103,7 +103,6 @@ function CardTitle(props) {
     marginLeft: '3px',
     fontSize: '9pt',
     position: 'relative',
-    top: '-1.5px',
   };
 
   const onMatchClick = (e) => {
@@ -117,9 +116,9 @@ function CardTitle(props) {
         <Button
           className="match-btn"
           size="small"
-          style={{ height: '22px' }}
+          style={{ height: '22px', position: 'relative', top: '-2px' }}
           onClick={onMatchClick}
-          icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative', top: '-1.5px' }} />}
+          icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative'}} />}
           type="primary"
           ghost
         >
