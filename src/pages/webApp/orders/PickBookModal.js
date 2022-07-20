@@ -50,7 +50,6 @@ function PickBookModal(props) {
         });
       }
     }
-    console.log(bookList);
     setPool(bookList);
     setInitialized(true);
   }

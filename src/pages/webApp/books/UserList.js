@@ -4,7 +4,6 @@ import {
 import VirtualList from 'rc-virtual-list';
 import { useGetExchangeableBookOwnersQuery } from '../../../slices/book.api.slice';
 
-// const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
 const ContainerHeight = 400;
 
 function UserList(props) {

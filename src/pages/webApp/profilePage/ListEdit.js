@@ -8,10 +8,11 @@ import {
   Button,
   Form,
   Input,
+  Modal,
   message,
 } from 'antd';
-import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router';
+import { PlusOutlined, MinusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { useNavigate, useParams } from 'react-router';
 import {
   useGetUserInfoQuery,
   useUpdateBookCollectionMutation,
@@ -23,10 +24,10 @@ import { Book } from '../../../components';
 function getBadge(icon) {
   const containerStyle = {
     background: '#658e49',
-    width: '20px',
-    height: '20px',
+    width: '15px',
+    height: '15px',
     borderRadius: '10px',
-    fontSize: '10pt',
+    fontSize: '8pt',
     color: 'white',
     display: 'flex',
     justifyContent: 'center',
@@ -39,48 +40,73 @@ function getBadge(icon) {
 export default function ListEdit() {
   const { listType } = useParams();
 
-  const { data, isFetching, isSuccess } = useGetUserInfoQuery(); // get details of currenty logged in user
-  let loadedBookList;
+  const { data, isFetching, isSuccess } = useGetUserInfoQuery();
+  const { confirm } = Modal;
 
-  if (isSuccess) {
-    if (listType === 'collection') loadedBookList = data.bookCollection;
-    else {
-      loadedBookList = data.wishList;
-    }
-  }
-
-  const [pool, setPool] = useState([]);
-  const [edit, setEdit] = useState(false);
   const [bookList, setBookList] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [removedList, setRemovedList] = useState([]);
+  const [initialized, setInitialized] = useState(false);
+  const navigate = useNavigate();
 
   const [updateBookCollection] = useUpdateBookCollectionMutation();
   const [updateWishList] = useUpdateWishListMutation();
   const [getBook] = useGetBooksMutation();
 
-  const title = listType === 'collection' ? 'Book Collection' : 'Wish List';
-  const updateBookList = (updatedBookList) => {
-    setBookList(updatedBookList);
-    if (listType === 'collection') {
-      updateBookCollection(updatedBookList);
-    } else {
-      updateWishList(updatedBookList);
+  if (!initialized && isSuccess) {
+    const books = [];
+    const { exchangeableCollection: ex, bookCollection: collection, wishList: wish } = data;
+    const rawBooks = listType === 'collection' ? collection : wish;
+    for (const [index, book] of rawBooks.entries()) {
+      books.push({
+        ...book,
+        author: book.authors[0],
+        exchangeable: ex[index],
+      });
     }
-  };
+    setBookList(books);
+    setInitialized(true);
+  }
 
-  const [searchResults, setSearchResults] = useState();
+  const title = listType === 'collection' ? 'Book Collection' : 'Wish List';
 
-  const onFinish = (values) => {
-    getBook(JSON.stringify(values)).then((resp) => {
+  const onSave = () => {
+    const updateBookList = listType === 'collection' ? updateBookCollection : updateWishList;
+    updateBookList(bookList).then((resp) => {
       if (resp.data.status === 200) {
-        setSearchResults(JSON.parse(resp.data.data).searchResult);
+        message.success(`${title} Updated`);
+        navigate('/app/profile');
       } else {
         message.error('Something went wrong, please try again');
       }
     });
+  };
 
-    setPool(searchResults);
-    setEdit(true);
-    setBookList(loadedBookList);
+  const showConfirm = () => {
+    confirm({
+      title: 'All changes will be discarded, continue?',
+      icon: <ExclamationCircleOutlined />,
+      okText: 'Discard',
+      okType: 'danger',
+      onOk() {
+        navigate('/app/profile', { refresh: true });
+      },
+    });
+  };
+
+  const onFinish = (values) => {
+    getBook(JSON.stringify(values)).then((resp) => {
+      if (resp.data.status === 200) {
+        const result = JSON.parse(resp.data.data).searchResult.map((item) => ({
+          ...item,
+          author: item.authors[0],
+        }));
+        setSearchResults(result);
+      } else {
+        message.error('Something went wrong, please try again');
+      }
+    });
+    // setPool(searchResults);
   };
 
   const [form] = Form.useForm();
@@ -146,31 +172,32 @@ export default function ListEdit() {
                   itemLayout="vertical"
                   grid={{ column: 3, gutter: [15, 0] }}
                   size="default"
+                  locale={{ emptyText: <Empty description="Search result will show up here" /> }}
                   pagination={{
                     pageSize: 9,
                     size: 'small',
                     style: { width: 'fit-content', margin: 'auto' },
                     hideOnSinglePage: true,
                   }}
-                  locale={{ emptyText: <Empty /> }}
-                  dataSource={pool}
+                  dataSource={searchResults}
                   renderItem={(item) => (
                     <a
                       href="#"
                       onClick={() => {
-                        const index = pool.indexOf(item);
-                        pool.splice(index, 1);
-                        setPool(pool);
+                        const index = searchResults.indexOf(item);
+                        searchResults.splice(index, 1);
+                        setSearchResults(searchResults);
                         const newAdded = [
                           ...bookList,
                           { ...item, exchangeable: false },
                         ];
-                        updateBookList(newAdded);
-                        setEdit(true);
+                        setBookList(newAdded);
                       }}
                     >
-                      <Badge count={getBadge(<PlusOutlined />)} offset={[-5, 5]}>
-                        <Book {...item} className="disabled" />
+                      <Badge count={getBadge(<PlusOutlined />)} offset={[-6, 4]}>
+                        <div style={{ width: '100%' }}>
+                          <Book {...item} />
+                        </div>
                       </Badge>
                     </a>
                   )}
@@ -180,17 +207,35 @@ export default function ListEdit() {
           </div>
         </Col>
         <Col span={8}>
-          <div className="rounded-container" style={{ height: '570px' }}>
-            <h4 style={{ margin: '5px 0px 0px 0px' }}>
+          <div className="rounded-container" style={{ height: '570px', padding: '6px 3px 6px 14px' }}>
+            <h4 style={{ margin: '5px 0px 0px 0px', display: 'inline-block' }}>
               Your
               {' '}
               {title}
             </h4>
+            <Button
+              className="match-btn"
+              size="small"
+              type="danger"
+              onClick={showConfirm}
+              ghost
+            >
+              Cancel
+            </Button>
+            <Button
+              className="match-btn"
+              size="small"
+              type="primary"
+              onClick={onSave}
+              style={{ marginLeft: '8px' }}
+            >
+              Save
+            </Button>
             <div style={{ marginTop: '5px', marginLeft: '-10px' }}>
               <List
                 loading={isFetching}
                 itemLayout="vertical"
-                grid={{ column: 2, gutter: [0, 0] }}
+                grid={{ column: 2 }}
                 size="default"
                 pagination={{
                   pageSize: 8,
@@ -199,24 +244,25 @@ export default function ListEdit() {
                   hideOnSinglePage: true,
                 }}
                 locale={{ emptyText: <Empty /> }}
-                dataSource={edit ? bookList : loadedBookList}
+                dataSource={bookList}
                 renderItem={(item) => (
                   <a
                     href="#"
                     onClick={() => {
-                      if (!edit) {
-                        setBookList(loadedBookList);
-                        setEdit(true);
-                      }
-
                       const index = bookList.indexOf(item);
                       console.log('deleted element index', index);
                       bookList.splice(index, 1);
-                      setPool([...pool, { ...item, exchangeable: true }]);
-                      updateBookList(bookList);
+                      const newRemoved = [
+                        ...removedList,
+                        {
+                          ...item,
+                          exchangeable: false,
+                        },
+                      ];
+                      setRemovedList(newRemoved);
                     }}
                   >
-                    <Badge count={getBadge(<MinusOutlined />)} offset={[-5, 5]}>
+                    <Badge count={getBadge(<MinusOutlined />)} offset={[-6, 4]}>
                       <Book {...item} />
                     </Badge>
                   </a>
@@ -226,8 +272,44 @@ export default function ListEdit() {
           </div>
         </Col>
         <Col span={4}>
-          <div className="rounded-container" style={{ height: '570px' }}>
-            <h4 style={{ margin: '5px 0px 0px 0px' }}>Removed Books</h4>
+          <div className="rounded-container" style={{ height: '570px', padding: '6px 3px 6px 5px' }}>
+            <h4 style={{ margin: '5px 6px 0px 9px' }}>Removed Books</h4>
+            <div style={{ marginTop: '5px' }}>
+              <List
+                itemLayout="vertical"
+                grid={{ column: 1 }}
+                size="default"
+                pagination={{
+                  pageSize: 4,
+                  size: 'small',
+                  style: { width: 'fit-content', margin: 'auto' },
+                  hideOnSinglePage: true,
+                }}
+                locale={{ emptyText: <Empty description="Removed books can be found here and added again" /> }}
+                dataSource={removedList}
+                renderItem={(item) => (
+                  <a
+                    href="#"
+                    onClick={() => {
+                      const index = removedList.indexOf(item);
+                      removedList.splice(index, 1);
+                      setRemovedList(removedList);
+                      const newAdded = [
+                        ...bookList,
+                        { ...item, exchangeable: false },
+                      ];
+                      setBookList(newAdded);
+                    }}
+                  >
+                    <Badge count={getBadge(<PlusOutlined />)} offset={[-6, 4]}>
+                      <div style={{ width: '100%' }}>
+                        <Book {...item} />
+                      </div>
+                    </Badge>
+                  </a>
+                )}
+              />
+            </div>
           </div>
         </Col>
       </Row>

@@ -2,6 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import config from '../config';
 import utils from '../utils';
 
+const textResponseHandler = async (response) => {
+  const text = await response.text();
+  return { data: text, status: response.status };
+};
+
 export const userApiSlice = createApi({
   reducerPath: 'user',
   baseQuery: fetchBaseQuery({
@@ -28,6 +33,12 @@ export const userApiSlice = createApi({
         },
       }),
     }),
+    getUserInfoAsync: builder.mutation({
+      query: () => ({
+        url: '/users',
+        method: 'GET',
+      }),
+    }),
     updateBookCollection: builder.mutation({
       query: (updatedCollection) => ({
         url: '/users/bclist',
@@ -36,7 +47,10 @@ export const userApiSlice = createApi({
         headers: {
           'content-Type': 'application/json',
         },
-
+        responseHandler: async (response) => {
+          const res = await textResponseHandler(response);
+          return res;
+        },
       }),
     }),
     updateWishList: builder.mutation({
@@ -47,12 +61,19 @@ export const userApiSlice = createApi({
         headers: {
           'content-Type': 'application/json',
         },
-
+        responseHandler: async (response) => {
+          const res = await textResponseHandler(response);
+          return res;
+        },
       }),
     }),
   }),
 });
 
 export const {
-  useGetUserInfoQuery, useUpdateUserInfoMutation, useUpdateBookCollectionMutation, useUpdateWishListMutation,
+  useGetUserInfoQuery,
+  useUpdateUserInfoMutation,
+  useUpdateBookCollectionMutation,
+  useUpdateWishListMutation,
+  useGetUserInfoAsyncMutation,
 } = userApiSlice;
