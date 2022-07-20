@@ -106,6 +106,10 @@ function CardTitle(props) {
     top: '-1.5px',
   };
 
+  const onMatchClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <div>
       <span style={{ float: 'left' }}>
@@ -114,6 +118,7 @@ function CardTitle(props) {
           className="match-btn"
           size="small"
           style={{ height: '22px' }}
+          onClick={onMatchClick}
           icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative', top: '-1.5px' }} />}
           type="primary"
           ghost
