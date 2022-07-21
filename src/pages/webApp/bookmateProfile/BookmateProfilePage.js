@@ -9,6 +9,8 @@ import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 import BookList from '../../../components/BookList';
 import CommentSection from './CommentSection';
 
+import DefaultCover from '../../../assets/images/default-cover.jpg';
+
 import './index.less';
 
 const getBookList = (books, ex) => {
@@ -17,7 +19,7 @@ const getBookList = (books, ex) => {
     bookList.push({
       title: book.title,
       author: book.authors[0],
-      image: book.image,
+      image: book.image || DefaultCover,
       exchangeable: ex ? ex[index] : false,
     });
   }

@@ -48,7 +48,7 @@ export default function BookmateCard(props) {
   };
 
   const metaStyle = {
-    padding: '20px',
+    padding: '15px',
   };
 
   return (
@@ -74,13 +74,6 @@ export default function BookmateCard(props) {
 }
 
 function CardTitle(props) {
-  const bioStyle = {
-    fontSize: '9pt',
-    color: '#323431',
-    marginBottom: '0px',
-    marginTop: '3px',
-  };
-
   const titleStyle = {
     fontSize: '11pt',
     color: '#323431',
@@ -95,7 +88,6 @@ function CardTitle(props) {
     fontSize: '19pt',
     color: '#80a566',
     fontWeight: 800,
-    float: 'right',
   };
 
   const btnStyle = {
@@ -110,8 +102,8 @@ function CardTitle(props) {
   };
 
   return (
-    <div>
-      <span style={{ float: 'left' }}>
+    <div className="vertical-center" style={{ justifyContent: 'space-between' }}>
+      <span>
         <span style={titleStyle}>{props.name}</span>
         <Button
           className="match-btn"
@@ -124,7 +116,7 @@ function CardTitle(props) {
         >
           <span style={btnStyle}>Match</span>
         </Button>
-        <p style={bioStyle}>{props.description}</p>
+        <p className="bio">{props.description}</p>
       </span>
       <span style={scoreColStyle}>{props.score}</span>
     </div>
@@ -135,7 +127,7 @@ function BookList(props) {
   return (
     <Space size={1} direction="vertical" style={{ width: '100%' }}>
       <span style={{ fontSize: '9pt' }}>{props.title}</span>
-      <Row gutter={8}>
+      <Row gutter={8} style={{ height: '100px' }}>
         {props.books.map((book, index) => (
           <Col key={index} span={6}>
             <MarkableCover src={book.cover} mark={book.mark} />

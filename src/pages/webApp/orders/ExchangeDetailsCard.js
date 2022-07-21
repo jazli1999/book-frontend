@@ -213,7 +213,7 @@ function Books(props) {
 
   return (
     <div>
-      <div className="vertical-center">
+      <div className="vertical-center" style={{ justifyContent: 'space-between' }}>
         <h2 style={{ margin: '5px', fontSize: '13pt' }}>{create ? 'You' : name}</h2>
         {
           declined && (
@@ -255,7 +255,7 @@ function Books(props) {
                     onClick={declineOrder}
                   >
                     {' '}
-                    <span style={{ fontWeight: 600 }}>Decline Exchange Request</span>
+                    <span style={{ fontWeight: 600 }}>Decline</span>
                   </Button>
                 )
               }

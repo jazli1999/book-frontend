@@ -1,6 +1,7 @@
 import { Badge } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
 import WhiteTick from '../../../assets/images/white_tick.svg';
+import DefaultCover from '../../../assets/images/default-cover.jpg';
 
 function getBadge(icon) {
   const containerStyle = {
@@ -31,7 +32,7 @@ function MarkableCover(props) {
     isAvailable: <img alt="is available" src={WhiteTick} style={{ width: '12px', marginTop: '1px' }} />,
   };
 
-  const cover = <img alt="cover" src={props.src} style={{ width: '100%', height: '100px', objectFit: 'cover' }} />;
+  const cover = <img alt="cover" src={props.src || DefaultCover} style={{ width: '100%', height: '100px', objectFit: 'cover' }} />;
   if (props.mark) {
     return (
       <Badge count={getBadge(badges[props.mark])} offset={[-5, 5]}>
