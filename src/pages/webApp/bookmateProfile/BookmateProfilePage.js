@@ -18,7 +18,7 @@ const getBookList = (books, ex) => {
       title: book.title,
       author: book.authors[0],
       image: book.image,
-      exchangeable: ex[index] || false,
+      exchangeable: ex ? ex[index] : false,
     });
   }
   return bookList;
