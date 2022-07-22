@@ -77,6 +77,7 @@ function LoginPanel() {
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         <Logo />
       </div>
+      <a style={{ float: 'right', fontWeight: 'bold' }} href="/about">About Us →</a>
       <div className="header-0" style={{ marginTop: '20px' }}>
         {isLogin ? 'Login' : 'Register'}
       </div>

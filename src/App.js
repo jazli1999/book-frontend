@@ -18,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate replace to={token ? '/app' : '/welcome'} />} />
           <Route path="/welcome" element={<Pages.StartPage />} />
+          <Route path="about" element={<Pages.AboutUs />} />
 
           <Route path="/app" element={<Pages.WebApp />}>
             <Route index element={<Pages.MainPage />} />
