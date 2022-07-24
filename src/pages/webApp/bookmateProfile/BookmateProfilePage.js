@@ -67,15 +67,15 @@ export default function BookmateProfilePage() {
                 <Space size={50}>
                   <Space size="large">
                     <span className="label">Country</span>
-                    <span>{user.address.country}</span>
+                    <span>{user.address?.country || '-'}</span>
                   </Space>
                   <Space size="large">
                     <span className="label">State</span>
-                    <span>{user.address.state}</span>
+                    <span>{user.address?.state || '-'}</span>
                   </Space>
                   <Space size="large">
                     <span className="label">City</span>
-                    <span>{user.address.city}</span>
+                    <span>{user.address?.city || '-'}</span>
                   </Space>
                 </Space>
                 <span style={{ display: 'inline-block', width: '350px', margin: '15px auto 0px auto' }}>{user.bio}</span>
