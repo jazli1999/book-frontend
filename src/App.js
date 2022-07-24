@@ -31,6 +31,7 @@ function App() {
             <Route path="bookmates" element={<Pages.CurrentBookMateList />} />
             <Route path="profile/:listType/edit" element={<Pages.ListEdit />} />
             <Route path="book/details/:isbnUrl" element={<Pages.BookDetails />} />
+            <Route path="search/:keyword" element={<Pages.BookSearchResultPage />} />
           </Route>
         </Routes>
       </Router>

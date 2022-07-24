@@ -54,7 +54,7 @@ export default function BookmateCard(props) {
   return (
     <Card
       hoverable
-      onClick={() => { handleUserDetailClick('62c00c2c7bb8a50fac4ac677'); }}
+      onClick={() => { handleUserDetailClick(bookmateData.id); }}
       style={cardStyle}
       cover={(
         <div style={shelfStyle}>

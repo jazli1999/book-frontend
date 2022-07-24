@@ -6,6 +6,7 @@ export * from './bookmateProfile';
 export * from './subscriptionPage';
 export * from './orders';
 export * from './books';
+export * from './bookSearch';
 export {
   WebApp,
 };
