@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Card, Col, Row, Button, Space,
+  Card, Col, Row, Button, Space, Modal,
 } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import MarkableCover from './MarkableCover';
+import { useSendFriendRequestMutation } from '../../../slices/bookmate.api.slice';
 
 import '../index.less';
 
@@ -13,6 +14,7 @@ export default function BookmateCard(props) {
   const navigate = useNavigate();
   const { Meta } = Card;
 
+  // console.log(bookmateData);
   const handleUserDetailClick = (userId) => {
     console.log('div clicked: ', userId);
     navigate(`/app/users/${userId}`);
@@ -74,6 +76,26 @@ export default function BookmateCard(props) {
 }
 
 function CardTitle(props) {
+  // console.log(props);
+  const [alreadyFriend, setAlreadyFriend] = useState(false);
+  const [alreadySent, setAlreadySent] = useState(false);
+  const { confirm } = Modal;
+  const [sendFriRequest] = useSendFriendRequestMutation();
+  const [initialized, setInitialized] = useState(false);
+
+  const index = props.currentUserFriendList.indexOf(props.id);
+  if (index !== -1) { // find in the list, already a friend
+    setAlreadyFriend(true);
+  }
+
+  if (!initialized) {
+    const sentIndex = props.alreadySentList.indexOf(props.id);
+    if (sentIndex !== -1) {
+      setAlreadySent(true);
+    }
+    setInitialized(true);
+  }
+
   const titleStyle = {
     fontSize: '11pt',
     color: '#323431',
@@ -97,25 +119,59 @@ function CardTitle(props) {
     position: 'relative',
   };
 
+  const sendFriendRequest = () => {
+    const requestBody = { userId: props.id };
+    sendFriRequest(requestBody);
+  };
+
   const onMatchClick = (e) => {
     e.stopPropagation();
+    confirm({
+      title: `Send friend request to ${props.name}?`,
+      icon: <ExclamationCircleOutlined />,
+      okText: 'Send',
+      okType: 'primary',
+      onOk() {
+        sendFriendRequest();
+        console.log('request sent!');
+        setAlreadySent(true);
+      },
+    });
   };
 
   return (
     <div className="vertical-center" style={{ justifyContent: 'space-between' }}>
       <span>
         <span style={titleStyle}>{props.name}</span>
-        <Button
-          className="match-btn"
-          size="small"
-          style={{ height: '22px', position: 'relative', top: '-2px' }}
-          onClick={onMatchClick}
-          icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative' }} />}
-          type="primary"
-          ghost
-        >
-          <span style={btnStyle}>Match</span>
-        </Button>
+        {
+          (alreadyFriend || alreadySent) && (
+          <Button
+            disabled
+            className="match-btn"
+            size="small"
+            style={{ height: '22px', position: 'relative', top: '-2px' }}
+            onClick={onMatchClick}
+            icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative' }} />}
+            type="primary"
+            ghost
+          >
+            <span style={btnStyle}>Match</span>
+          </Button>
+          )
+        }
+        { (!alreadyFriend && !alreadySent) && (
+          <Button
+            className="match-btn"
+            size="small"
+            style={{ height: '22px', position: 'relative', top: '-2px' }}
+            onClick={onMatchClick}
+            icon={<PlusOutlined style={{ fontSize: '9pt', position: 'relative' }} />}
+            type="primary"
+            ghost
+          >
+            <span style={btnStyle}>Match</span>
+          </Button>
+        )}
         <p className="bio">{props.description}</p>
       </span>
       <span style={scoreColStyle}>{props.score}</span>

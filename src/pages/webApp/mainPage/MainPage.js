@@ -1,14 +1,19 @@
 import { List } from 'antd';
 import BookmateCard from './BookmateCard';
 import { useGetRecommendQuery } from '../../../slices/bookmate.api.slice';
+import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 function MainPage() {
   const { data, isSuccess } = useGetRecommendQuery();
+  const { data: user, isSuccess: userSuccess } = useGetUserInfoQuery();
+
   let processedBookmates;
+
+  // need to get the current user's bookmates for the "match" button
 
   // calculate the intersection here
 
-  if (isSuccess) {
+  if (isSuccess && userSuccess) {
     processedBookmates = data.map((bookmate) => ({
       name: `${bookmate.firstName} ${bookmate.lastName}`,
       description: bookmate.bio,
@@ -20,6 +25,8 @@ function MainPage() {
       bcMark: bookmate.bcMark,
       wsCover: bookmate.wsCover,
       wsMark: bookmate.wsMark,
+      currentUserFriendList: user.bookmates, // for bookmateCard to calculate the match status
+      alreadySentList: user.bmSent,
     }));
   }
   // console.log(processedBookmates);

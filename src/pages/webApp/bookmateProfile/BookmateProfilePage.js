@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Spin, Space, Tabs, Row, Col, Button,
+  Spin, Space, Tabs, Row, Col, Button, Modal,
 } from 'antd';
 import { useParams, useNavigate } from 'react-router';
 
-import { ManOutlined, WomanOutlined } from '@ant-design/icons';
+import { ManOutlined, WomanOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
+import { useSendFriendRequestMutation } from '../../../slices/bookmate.api.slice';
 import BookList from '../../../components/BookList';
 import CommentSection from './CommentSection';
 
@@ -29,12 +30,20 @@ const getBookList = (books, ex) => {
 export default function BookmateProfilePage() {
   const { id } = useParams(); // retrieve the id  dynamic params from the current URL
   const { TabPane } = Tabs;
+  const { confirm } = Modal;
+  const [alreadyFriend, setAlreadyFriend] = useState(false);
+  const [alreadySent, setAlreadySent] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+  const [sendFriRequest] = useSendFriendRequestMutation();
 
   const navigate = useNavigate();
 
   const createOrder = () => {
     navigate(`/app/orders/create/${id}`);
   };
+
+  // send friendRequest here, the decline&accept will be in the message page
+  // check if already a friend
 
   const operations = (
     <Button type="primary" onClick={createOrder}>
@@ -43,6 +52,44 @@ export default function BookmateProfilePage() {
   );
 
   const { data: user, isSuccess, isFetching } = useGetUserInfoQuery(id);
+  const { data: cUser, isSuccess: cSuccess } = useGetUserInfoQuery();
+
+  const sendFriendRequest = () => {
+    const requestBody = { userId: id };
+    console.log(requestBody);
+    sendFriRequest(requestBody).then(() => {
+      setAlreadySent(true);
+    });
+  };
+
+  const onMatchClick = () => {
+    console.log('click success');
+    confirm({
+      title: `Send friend request to ${user.firstName}?`,
+      icon: <ExclamationCircleOutlined />,
+      okText: 'Send',
+      okType: 'primary',
+      onOk() {
+        sendFriendRequest();
+        console.log('request sent!');
+      },
+    });
+  };
+
+  if (cSuccess && !initialized) {
+    const index = cUser.bookmates.indexOf(id);
+    if (index !== -1) {
+      setAlreadyFriend(true);
+    }
+
+    const sentIndex = cUser.bmSent.indexOf(id);
+    if (sentIndex !== -1) {
+      setAlreadySent(true);
+    }
+
+    setInitialized(true);
+    // console.log(cUser);
+  }
 
   return (
     <div>
@@ -61,7 +108,11 @@ export default function BookmateProfilePage() {
                 {user.gender === 'female'
                   ? <WomanOutlined style={{ color: '#658e49', marginLeft: '5px' }} />
                   : <ManOutlined style={{ color: '#658e49', marginLeft: '5px' }} />}
-                <Button type="primary" size="default" className="match-btn" ghost>Match</Button>
+                {
+                    (!alreadyFriend && !alreadySent) && (
+                      <Button type="primary" onClick={onMatchClick} size="default" className="match-btn" ghost>Match</Button>
+                    )
+}
               </h1>
               <div style={{ width: '600px', textAlign: 'center', margin: '15px auto 0px auto' }}>
                 <Space size={50}>
@@ -82,7 +133,7 @@ export default function BookmateProfilePage() {
               </div>
             </div>
 
-            <Tabs defaultActiveKey="1" type="card" tabBarExtraContent={operations}>
+            <Tabs defaultActiveKey="1" type="card" tabBarExtraContent={alreadyFriend && operations}>
               <TabPane style={{ padding: '0px 15px' }} tab="Book Lists" key="books">
                 <Row gutter={20}>
                   <Col span={12}>
