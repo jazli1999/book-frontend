@@ -15,7 +15,8 @@ import {
 const { Content, Footer } = Layout;
 function MessageSection(props) {
     const {senderId, receiverId} = props;
-    const [dialog, setDialog] = useState([]);
+    const [message, setMessage] = useState([]);
+    const [dialog, setDialog] = useState('');
     const [getDialog] = useGetDialogMutation();
     const [sendMessage] = useSendMessageMutation();
     const [initialized, setInitialized] = useState(false);
@@ -24,6 +25,9 @@ function MessageSection(props) {
         const data = {"senderId": senderId, "receiverId":receiverId, "message":text};
         if (text !== ""){
             sendMessage(data);
+            setMessage('');
+            const new_message = {"user": senderId, "sender": senderId, "receiver":receiverId, "message":text};
+            setDialog( [...dialog, new_message ]);
         }
     }
     const onUpdate = () =>{
@@ -37,35 +41,29 @@ function MessageSection(props) {
             const data = {"senderId": senderId, "receiverId":receiverId};
                 getDialog(data).then((resp)=>{
                     setDialog( resp.data );
-                    console.log(resp.data);
                 });
                 setInitialized(true);
             }
 
     }, []);
-    if(!initialized){
 
-    }
     return(
-        <Layout>
-            <Content>
+        <Space  direction="vertical" size="middle" style={{ display: 'flex' }}>
+            <div>
                 <List
                 itemLayout="vertical"
                 size="default"
-                pagination={{
-                    size: 'small',
-                    style: { width: 'fit-content', margin: 'auto' },
-                    hideOnSinglePage: true,
-                }}
+                pagination = {false}
                 dataSource={dialog}
                 renderItem={(item) => <MessageCard user={props.senderId} sender={item.sender}
                                                  receiver={item.receiver} message={item.message} />}
                 /> 
-            </Content>
-            <Footer style={{ textAlign: 'center', alignSelf:'bottom' }}>
-                <Input placeholder="Basic usage" onPressEnter={(e)=> {onEnter(e.target.value); onUpdate()} }/>
-            </Footer>
-        </Layout>
+            </div>
+            <div style={{marginTop:'auto', textAlign: 'center'}}>
+                <Input value = {message} onChange={(e)=>setMessage(e.target.value) } 
+                onPressEnter={(e)=> { onEnter(e.target.value);  onUpdate()  } }/>
+            </div>
+        </Space>
     );
 }
 
