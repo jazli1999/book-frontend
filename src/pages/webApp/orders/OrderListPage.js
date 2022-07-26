@@ -2,7 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { List, Button, Space, Modal, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useGetUserOrdersQuery } from '../../../slices/order.api.slice';
+import { useGetUserOrdersQuery, useUpdateReviewMutation } from '../../../slices/order.api.slice';
+import { useSendReviewMutation } from '../../../slices/review.api.slice';
 
 import './index.less';
 
@@ -38,6 +39,11 @@ function OrderItem(props) {
   const navigate = useNavigate();
   const [reviewText, setReviewText] = useState('');
   const [visible, setVisible] = useState(false);
+  const [nowDisabled, setDisabled] = useState(item.isReviewed);
+
+  //const [order, gotOrder] = useGetOrdersQuery(item.id);
+  const {updateReview} = useUpdateReviewMutation();
+  const {sendReview} = useSendReviewMutation();
 
   const showModal = () =>{
     setVisible(true);
@@ -50,11 +56,16 @@ function OrderItem(props) {
 
   const handleOk = () => {
     setVisible(false);
-    //sendReview({})
+    setDisabled(true);
+    // Order Backend Connection
+    updateReview(item.id);
+    if(order)
+    sendReview({"order":item.id, "author":item.user_id, "content":reviewText,
+        "receiver":item.recevier_id});
   };
 
   return (
-    <List.Item className="list-item" style={{ display: 'grid' }}>
+    <List.Item className="list-item" loading={gotOrder} style={{ display: 'grid' }}>
       <span style={{ gridArea: '1 / 1 / 1 / 1' }}>
         <h4>
           Exchange Order with
@@ -76,6 +87,7 @@ function OrderItem(props) {
             type="primary"
             className="match-btn"
             style={{ height: '30px', marginLeft: '0px', width: '150px' }}
+            disabled = {nowDisabled || !item.isReviewed}
             onClick={() => { showModal() }}
           >
             Review Order
@@ -87,7 +99,7 @@ function OrderItem(props) {
                 <TextArea
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
-                    placeholder="Controlled autosize"
+                    placeholder="Please enter your review for the order"
                     autoSize={{
                     minRows: 3,
                     maxRows: 5,
