@@ -18,6 +18,11 @@ export default function HeaderMenu() {
   let username;
   if (isSuccess) {
     username = data.firstName;
+    if (!username && !window.location.href.includes('/app/profile')) {
+      const a = document.createElement('a');
+      a.href = '/app/profile';
+      a.click();
+    }
   }
 
   const menuStyle = {
@@ -26,7 +31,6 @@ export default function HeaderMenu() {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-
   };
 
   const logout = () => {

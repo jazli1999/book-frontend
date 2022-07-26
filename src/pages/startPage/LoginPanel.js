@@ -111,7 +111,7 @@ function LoginPanel() {
           </Form.Item>
           {!isLogin
             && (
-            <Form.Item name="keep" valuePropName="checked">
+            <Form.Item name="keep" valuePropName="checked" required>
               <Checkbox style={{ marginTop: '-10px' }}>
                 {/* useless so far */}
                 <span style={{ fontSize: '10pt' }}>
