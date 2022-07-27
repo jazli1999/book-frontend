@@ -157,7 +157,7 @@ export default function BookmateProfilePage() {
                 </Row>
               </TabPane>
               <TabPane tab="Comments" key="comments">
-                <CommentSection />
+                <CommentSection userId= {user._id}/>
               </TabPane>
             </Tabs>
           </div>

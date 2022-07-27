@@ -8,7 +8,7 @@ const textResponseHandler = async (response) => {
 };
 
 export const reviewApiSlice = createApi({
-  reducerPath: 'order',
+  reducerPath: 'review',
   baseQuery: fetchBaseQuery({
     baseUrl: config.BACKEND_URL,
     prepareHeaders: (headers) => {

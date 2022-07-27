@@ -95,14 +95,13 @@ export const orderApiSlice = createApi({
       }),
     }),
     updateReview: builder.mutation({
-      query: ({ id, ...body }) => ({
+      query: (id ) => ({
         url: `/orders/review/${id}`,
         method: 'PUT',
         headers: {
           'content-type': 'application/json',
           authorization: utils.getJWT(),
         },
-        body,
         responseHandler: async (response) => {
           const res = await textResponseHandler(response);
           return res;

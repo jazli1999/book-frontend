@@ -39,11 +39,15 @@ function OrderItem(props) {
   const navigate = useNavigate();
   const [reviewText, setReviewText] = useState('');
   const [visible, setVisible] = useState(false);
+  
+  if (item.isReviewed === undefined){
+    item.isReviewed = false;
+  }
   const [nowDisabled, setDisabled] = useState(item.isReviewed);
 
   //const [order, gotOrder] = useGetOrdersQuery(item.id);
-  const {updateReview} = useUpdateReviewMutation();
-  const {sendReview} = useSendReviewMutation();
+  const [updateReview] = useUpdateReviewMutation();
+  const [sendReview] = useSendReviewMutation();
 
   const showModal = () =>{
     setVisible(true);
@@ -57,15 +61,14 @@ function OrderItem(props) {
   const handleOk = () => {
     setVisible(false);
     setDisabled(true);
+    // ARDA: I do not need it anymore
     // Order Backend Connection
-    updateReview(item.id);
-    if(order)
-    sendReview({"order":item.id, "author":item.user_id, "content":reviewText,
-        "receiver":item.recevier_id});
+    //updateReview(item.id);
+    sendReview({"order":item.id, "author":item.user_id, "content":reviewText, "receiver":item.receiver_id});
   };
 
   return (
-    <List.Item className="list-item" loading={gotOrder} style={{ display: 'grid' }}>
+    <List.Item className="list-item" style={{ display: 'grid' }}>
       <span style={{ gridArea: '1 / 1 / 1 / 1' }}>
         <h4>
           Exchange Order with
@@ -87,15 +90,15 @@ function OrderItem(props) {
             type="primary"
             className="match-btn"
             style={{ height: '30px', marginLeft: '0px', width: '150px' }}
-            disabled = {nowDisabled || !item.isReviewed}
+            disabled = {nowDisabled}
             onClick={() => { showModal() }}
           >
             Review Order
           </Button>
             <Modal
                 visible={visible}
-                onOk={handleOk}
-                onCancel={handleCancel}> 
+                onOk={()=> handleOk()}
+                onCancel={()=>handleCancel()}> 
                 <TextArea
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}

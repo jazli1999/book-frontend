@@ -3,20 +3,17 @@ import { Avatar, Comment, List } from 'antd';
 import { useGetReviewQuery } from '../../../slices/review.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
-function CommentSection() {
-  const { user, hasUser} = useGetUserInfoQuery();
-  const { isFetching, setFatching } = useState(false);
-  const [getReviews] = useGetReviewQuery;
-  const [data,setData] = useState([]);
+function CommentSection(props) {
+  //const { user, hasUser} = useGetUserInfoQuery();
+  const [isFetching, setFatching ] = useState(false);
+  //const [getReviews] = useGetReviewQuery();
+  //const [data, setData] = useState([]);
 
-  useEffect(()=>{
-    if(hasUser){
-      getReviews(user._id).then( (data)=>{
-        setData(data);
-        setFatching(true);
-      });
-    }
-  }, [hasUser])
+  const {data, hasReviews} = useGetReviewQuery(props.userId);
+
+  if(hasReviews){
+      setFatching(true);
+  }
   
   return (
     <div>
@@ -40,19 +37,38 @@ function CommentSection() {
 }
 
 function CommentItem(props){
-  const { reviewer, hasReviewer} = useGetUserInfoQuery(props.author);
-  <Comment
-      loading ={hasReviewer}
-      author={<a href="/">{reviewer.firstName} {reviewer.lastName}</a>}
-      avatar={
-        <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
-    }
-      content={(
-        <p>
-          {props.content}
-        </p>
-    )}
-  />
+  const { data: reviewer, isSuccess: hasReviewer } = useGetUserInfoQuery(props.item.author);
+  const [ gotReview, setReview ] = useState(false);
+  const [lastName, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+
+  useEffect(()=>{
+    console.log(hasReviewer);
+    console.log()
+    if(hasReviewer){
+    console.log(reviewer);
+    setLastName(reviewer.lastName);
+    setFirstName(reviewer.firstName);
+    setReview(true);
+  }
+
+  }, [hasReviewer]);
+  
+
+  return(
+    <Comment
+        loading ={gotReview}
+        author={<a href="/users/${props.item.author}">{firstName} {lastName}</a>}
+        avatar={
+          <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+      }
+        content={(
+          <p>
+            {props.item.content}
+          </p>
+      )}
+    />
+  );
 }
 
 export default CommentSection;

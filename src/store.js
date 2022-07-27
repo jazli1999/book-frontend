@@ -5,6 +5,7 @@ import { bookApiSlice } from './slices/book.api.slice';
 import { bookmateApiSlice } from './slices/bookmate.api.slice';
 import userReducer from './slices/user.slice';
 import { subscriptionApiSlice } from './slices/subscription.api.slice';
+import { reviewApiSlice } from './slices/review.api.slice';
 
 export default configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export default configureStore({
     [userApiSlice.reducerPath]: userApiSlice.reducer,
     [orderApiSlice.reducerPath]: orderApiSlice.reducer,
     [bookApiSlice.reducerPath]: bookApiSlice.reducer,
+    [reviewApiSlice.reducerPath]: reviewApiSlice.reducer,
     [bookmateApiSlice.reducerPath]: bookmateApiSlice.reducer,
     [subscriptionApiSlice.reducerPath]: subscriptionApiSlice.reducer,
   },
@@ -20,5 +22,6 @@ export default configureStore({
     .concat(orderApiSlice.middleware)
     .concat(bookApiSlice.middleware)
     .concat(bookmateApiSlice.middleware)
-    .concat(subscriptionApiSlice.middleware),
+    .concat(subscriptionApiSlice.middleware)
+    .concat(reviewApiSlice.middleware),
 });
