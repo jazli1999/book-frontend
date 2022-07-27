@@ -174,7 +174,12 @@ function CardTitle(props) {
         )}
         <p className="bio">{props.description}</p>
       </span>
-      <span style={scoreColStyle}>{props.score}</span>
+      {
+        !isNaN(props.score) && <span style={scoreColStyle}>{props.score}</span>
+      }
+      {
+        isNaN(props.score) && <span className="blurry-text" style={scoreColStyle}>N/A</span>
+      }
     </div>
   );
 }
