@@ -83,15 +83,14 @@ function CardTitle(props) {
   const [sendFriRequest] = useSendFriendRequestMutation();
   const [initialized, setInitialized] = useState(false);
 
-  const index = props.currentUserFriendList.indexOf(props.id);
-  if (index !== -1) { // find in the list, already a friend
-    setAlreadyFriend(true);
-  }
-
   if (!initialized) {
     const sentIndex = props.alreadySentList.indexOf(props.id);
     if (sentIndex !== -1) {
       setAlreadySent(true);
+    }
+    const index = props.currentUserFriendList.indexOf(props.id);
+    if (index !== -1) { // find in the list, already a friend
+      setAlreadyFriend(true);
     }
     setInitialized(true);
   }
@@ -121,7 +120,10 @@ function CardTitle(props) {
 
   const sendFriendRequest = () => {
     const requestBody = { userId: props.id };
-    sendFriRequest(requestBody);
+    sendFriRequest(requestBody).then(() => {
+      setAlreadySent(true);
+      window.location.reload();
+    });
   };
 
   const onMatchClick = (e) => {
@@ -134,7 +136,6 @@ function CardTitle(props) {
       onOk() {
         sendFriendRequest();
         console.log('request sent!');
-        setAlreadySent(true);
       },
     });
   };
@@ -175,10 +176,10 @@ function CardTitle(props) {
         <p className="bio">{props.description}</p>
       </span>
       {
-        !isNaN(props.score) && <span style={scoreColStyle}>{props.score}</span>
+        !Number.isNaN(props.score) && <span style={scoreColStyle}>{props.score}</span>
       }
       {
-        isNaN(props.score) && <span className="blurry-text" style={scoreColStyle}>N/A</span>
+        Number.isNaN(props.score) && <span className="blurry-text" style={scoreColStyle}>N/A</span>
       }
     </div>
   );

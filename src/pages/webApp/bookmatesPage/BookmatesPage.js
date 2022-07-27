@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import {
-  Card, Row, Col, List, Divider, Empty,
+  Card, Row, Col, List, Divider, Empty, Button,
 } from 'antd';
 import MessageSection from './MessageSection';
 
-import { useGetCurrentQuery } from '../../../slices/bookmate.api.slice';
+import { useGetCurrentQuery, useAcceptFriendRequestMutation, useDeclineFriendRequestMutation } from '../../../slices/bookmate.api.slice';
 
 import {
   useGetUserInfoQuery,
@@ -15,6 +15,10 @@ function BookmatesPage() {
   const [initialized, setInitialized] = useState(false);
   const [userId, setId] = useState(null);
   // const [dialog, setDialog] = useState([]);
+  const [bookmates, setBookmates] = useState();
+  const [bmReceived, setBmReceived] = useState();
+  const [acpFriRequest] = useAcceptFriendRequestMutation();
+  const [decFriRequest] = useDeclineFriendRequestMutation();
 
   // const [getDialogBackend] = useGetDialogMutation();
   const { data: currentBookmates, isSuccess: currentSuccess } = useGetCurrentQuery();
@@ -29,24 +33,64 @@ function BookmatesPage() {
 
   if (currentSuccess && selfSuccess && !initialized) {
     setId(userInfo._id);
+    setBookmates(currentBookmates.Bookmates);
+    setBmReceived(currentBookmates.bmReceived);
     setInitialized(true);
   }
+
+  const onAcceptClick = () => {
+    const requestBody = { userId: focus._id };
+    console.log(requestBody);
+    acpFriRequest(requestBody).then(() => {
+      window.location.reload();
+    });
+  };
+
+  const onDeclineClick = () => {
+    const requestBody = { userId: focus._id };
+    console.log(requestBody);
+    decFriRequest(requestBody).then(() => {
+      window.location.reload();
+    });
+  };
+
   return (
     <div>
       <Row gutter={30}>
         <Col span={10}>
-          <h1>Your Bookmates</h1>
+          <h1>Received Bookmates Requests</h1>
           <List
             itemLayout="vertical"
             loading={!initialized}
-            dataSource={currentBookmates}
+            dataSource={bmReceived}
             renderItem={(item) => (
               <div>
                 <Card
                   style={{
                     background: '#fbfdfb', padding: '10px', border: 'none', margin: '0px', borderRadius: '0px',
                   }}
-                  onClick={() => { setFocus(item); }}
+                  onClick={() => { setFocus({ rec: true, ...item }); }}
+                  hoverable
+                >
+                  <h3 style={{ marginBottom: '0px' }}>{`${item.firstName} ${item.lastName}`}</h3>
+                  {item.bio}
+                </Card>
+                <Divider style={{ margin: '0px' }} />
+              </div>
+            )}
+          />
+          <h1>Your Bookmates</h1>
+          <List
+            itemLayout="vertical"
+            loading={!initialized}
+            dataSource={bookmates}
+            renderItem={(item) => (
+              <div>
+                <Card
+                  style={{
+                    background: '#fbfdfb', padding: '10px', border: 'none', margin: '0px', borderRadius: '0px',
+                  }}
+                  onClick={() => { setFocus({ rec: false, ...item }); }}
                   hoverable
                 >
                   <h3 style={{ marginBottom: '0px' }}>{`${item.firstName} ${item.lastName}`}</h3>
@@ -58,9 +102,15 @@ function BookmatesPage() {
           />
         </Col>
         <Col span={14}>
-          {focus && (
+          {focus && !focus.rec && (
             <div id="message-container">
               <MessageSection name={`${focus.firstName} ${focus.lastName}`} senderId={userId} receiverId={focus._id} />
+            </div>
+          )}
+          {focus && focus.rec && (
+            <div>
+              <Button type="primary" onClick={onAcceptClick} size="default" className="match-btn" ghost>Accept Friend Request</Button>
+              <Button type="danger" onClick={onDeclineClick} size="default" className="match-btn" ghost>Decline Friend Request</Button>
             </div>
           )}
           {!focus && (
