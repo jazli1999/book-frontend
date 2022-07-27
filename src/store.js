@@ -5,6 +5,7 @@ import { bookApiSlice } from './slices/book.api.slice';
 import { bookmateApiSlice } from './slices/bookmate.api.slice';
 import userReducer from './slices/user.slice';
 import { subscriptionApiSlice } from './slices/subscription.api.slice';
+import { messageApiSlice } from './slices/message.api.slice';
 
 export default configureStore({
   reducer: {
@@ -14,11 +15,13 @@ export default configureStore({
     [bookApiSlice.reducerPath]: bookApiSlice.reducer,
     [bookmateApiSlice.reducerPath]: bookmateApiSlice.reducer,
     [subscriptionApiSlice.reducerPath]: subscriptionApiSlice.reducer,
+    [messageApiSlice.reducerPath]: messageApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(userApiSlice.middleware)
     .concat(orderApiSlice.middleware)
     .concat(bookApiSlice.middleware)
     .concat(bookmateApiSlice.middleware)
-    .concat(subscriptionApiSlice.middleware),
+    .concat(subscriptionApiSlice.middleware)
+    .concat(messageApiSlice.middleware),
 });

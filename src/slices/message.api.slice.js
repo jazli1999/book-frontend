@@ -2,8 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import config from '../config';
 import utils from '../utils';
 
-
-
 export const messageApiSlice = createApi({
   reducerPath: 'message',
   baseQuery: fetchBaseQuery({
