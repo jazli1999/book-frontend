@@ -13,7 +13,7 @@ const setJWT = (token) => {
 };
 
 const clearJWT = () => {
-  document.cookie = `${config.AUTH_KEY}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  document.cookie = `${config.AUTH_KEY}=; Path=/`;
 };
 
 export default {
