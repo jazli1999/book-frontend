@@ -4,7 +4,7 @@ import {
   List, Button, Space, Modal, Input,
 } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useGetUserOrdersQuery, useUpdateReviewMutation } from '../../../slices/order.api.slice';
+import { useGetUserOrdersQuery } from '../../../slices/order.api.slice';
 import { useSendReviewMutation } from '../../../slices/review.api.slice';
 
 import './index.less';
@@ -48,7 +48,6 @@ function OrderItem(props) {
   const [nowDisabled, setDisabled] = useState(item.isReviewed);
 
   // const [order, gotOrder] = useGetOrdersQuery(item.id);
-  const [updateReview] = useUpdateReviewMutation();
   const [sendReview] = useSendReviewMutation();
 
   const showModal = () => {
