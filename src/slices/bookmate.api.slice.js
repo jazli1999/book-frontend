@@ -43,6 +43,9 @@ export const bookmateApiSlice = createApi({
         body,
       }),
     }),
+    getCurrent: builder.query({
+      query: () => '/bookmates/current',
+    }),
   }),
 });
 
@@ -52,4 +55,5 @@ export const {
   useSendFriendRequestMutation,
   useAcceptFriendRequestMutation,
   useDeclineFriendRequestMutation,
+  useGetCurrentQuery,
 } = bookmateApiSlice;

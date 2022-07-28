@@ -126,8 +126,12 @@ export default function PersonalInfo() {
                   <span style={{ fontWeight: 700 }}>Edit</span>
                 </Button>
               )}
-
             </div>
+            {
+              !userInfo.firstName && (
+                <span style={{ color: 'red', position: 'relative', top: '-10px' }}>Required fields need to be filled before access other pages</span>
+              )
+            }
             <div id="profileInformation">
               <Form
                 form={form}

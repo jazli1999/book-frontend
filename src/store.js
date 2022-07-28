@@ -6,6 +6,8 @@ import { bookmateApiSlice } from './slices/bookmate.api.slice';
 import userReducer from './slices/user.slice';
 import { subscriptionApiSlice } from './slices/subscription.api.slice';
 import { reviewApiSlice } from './slices/review.api.slice';
+import { messageApiSlice } from './slices/message.api.slice';
+
 
 export default configureStore({
   reducer: {
@@ -16,6 +18,7 @@ export default configureStore({
     [reviewApiSlice.reducerPath]: reviewApiSlice.reducer,
     [bookmateApiSlice.reducerPath]: bookmateApiSlice.reducer,
     [subscriptionApiSlice.reducerPath]: subscriptionApiSlice.reducer,
+    [messageApiSlice.reducerPath]: messageApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(userApiSlice.middleware)
@@ -23,5 +26,6 @@ export default configureStore({
     .concat(bookApiSlice.middleware)
     .concat(bookmateApiSlice.middleware)
     .concat(subscriptionApiSlice.middleware)
-    .concat(reviewApiSlice.middleware),
+    .concat(reviewApiSlice.middleware)
+    .concat(messageApiSlice.middleware),
 });
