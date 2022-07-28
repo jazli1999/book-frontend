@@ -4,17 +4,17 @@ import { useGetReviewQuery } from '../../../slices/review.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 function CommentSection(props) {
-  //const { user, hasUser} = useGetUserInfoQuery();
-  const [isFetching, setFatching ] = useState(false);
-  //const [getReviews] = useGetReviewQuery();
-  //const [data, setData] = useState([]);
+  // const { user, hasUser} = useGetUserInfoQuery();
+  const [isFetching, setFatching] = useState(false);
+  // const [getReviews] = useGetReviewQuery();
+  // const [data, setData] = useState([]);
 
-  const {data, hasReviews} = useGetReviewQuery(props.userId);
+  const { data, hasReviews } = useGetReviewQuery(props.userId);
 
-  if(hasReviews){
-      setFatching(true);
+  if (hasReviews) {
+    setFatching(true);
   }
-  
+
   return (
     <div>
       <List
@@ -36,36 +36,40 @@ function CommentSection(props) {
   );
 }
 
-function CommentItem(props){
+function CommentItem(props) {
   const { data: reviewer, isSuccess: hasReviewer } = useGetUserInfoQuery(props.item.author);
-  const [ gotReview, setReview ] = useState(false);
+  const [gotReview, setReview] = useState(false);
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(hasReviewer);
-    console.log()
-    if(hasReviewer){
-    console.log(reviewer);
-    setLastName(reviewer.lastName);
-    setFirstName(reviewer.firstName);
-    setReview(true);
-  }
-
+    console.log();
+    if (hasReviewer) {
+      console.log(reviewer);
+      setLastName(reviewer.lastName);
+      setFirstName(reviewer.firstName);
+      setReview(true);
+    }
   }, [hasReviewer]);
-  
 
-  return(
+  return (
     <Comment
-        loading ={gotReview}
-        author={<a href="/users/${props.item.author}">{firstName} {lastName}</a>}
-        avatar={
-          <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+      loading={gotReview}
+      author={(
+        <a href="/users/${props.item.author}">
+          {firstName}
+          {' '}
+          {lastName}
+        </a>
+)}
+      avatar={
+        <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
       }
-        content={(
-          <p>
-            {props.item.content}
-          </p>
+      content={(
+        <p>
+          {props.item.content}
+        </p>
       )}
     />
   );

@@ -25,8 +25,6 @@ export default function BookmateCard(props) {
     availableList.push({ cover: bookmateData.bcCover[index], mark: bookmateData.bcMark[index] });
   });
 
-  // availableList.sort((a, b) => b.mark - a.mark);
-
   const wishList = [];
   bookmateData.wsCover.forEach((item, index) => {
     wishList.push({ cover: bookmateData.wsCover[index], mark: bookmateData.wsMark[index] });
@@ -122,7 +120,6 @@ function CardTitle(props) {
     const requestBody = { userId: props.id };
     sendFriRequest(requestBody).then(() => {
       setAlreadySent(true);
-      window.location.reload();
     });
   };
 

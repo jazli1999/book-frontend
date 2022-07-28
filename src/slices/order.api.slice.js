@@ -95,7 +95,7 @@ export const orderApiSlice = createApi({
       }),
     }),
     updateReview: builder.mutation({
-      query: (id ) => ({
+      query: (id) => ({
         url: `/orders/review/${id}`,
         method: 'PUT',
         headers: {

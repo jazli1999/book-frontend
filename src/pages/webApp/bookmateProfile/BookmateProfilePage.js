@@ -59,7 +59,6 @@ export default function BookmateProfilePage() {
     console.log(requestBody);
     sendFriRequest(requestBody).then(() => {
       setAlreadySent(true);
-      window.location.reload();
     });
   };
 
@@ -159,7 +158,7 @@ export default function BookmateProfilePage() {
                 </Row>
               </TabPane>
               <TabPane tab="Comments" key="comments">
-                <CommentSection userId= {user._id}/>
+                <CommentSection userId={user._id} />
               </TabPane>
             </Tabs>
           </div>

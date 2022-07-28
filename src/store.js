@@ -8,7 +8,6 @@ import { subscriptionApiSlice } from './slices/subscription.api.slice';
 import { reviewApiSlice } from './slices/review.api.slice';
 import { messageApiSlice } from './slices/message.api.slice';
 
-
 export default configureStore({
   reducer: {
     user: userReducer,
