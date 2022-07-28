@@ -19,6 +19,7 @@ const getBookList = (books, ex) => {
   for (const [index, book] of books.entries()) {
     bookList.push({
       title: book.title,
+      ISBN: book.ISBN,
       author: book.authors[0],
       image: book.image || DefaultCover,
       exchangeable: ex ? ex[index] : false,

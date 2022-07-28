@@ -2,12 +2,15 @@ import React from 'react';
 import {
   List, Button, Empty,
 } from 'antd';
+import { useNavigate } from 'react-router';
+
 import { Book } from '.';
 
 export default function BookList(props) {
   const {
     emptyTextNode, column, bookList, pageSize,
   } = props;
+  const navigate = useNavigate();
 
   const editBtnStyle = {
     borderWidth: '1.4px',
@@ -24,6 +27,11 @@ export default function BookList(props) {
     paddingLeft: '10px',
     height: props.height,
   } : {};
+
+  const handleBookDetailClick = (isbn) => {
+    console.log('hendlebookdetail: ', isbn);
+    navigate(`/app/book/details/${isbn}`);
+  };
 
   const emptyHint = <Empty description={emptyTextNode} />;
   const columnCount = column || 2;
@@ -66,7 +74,17 @@ export default function BookList(props) {
           }}
           locale={{ emptyText: emptyHint }}
           dataSource={bookList}
-          renderItem={(item) => <Book {...item} showEx />}
+          renderItem={(item) => (
+            <a
+              role="button"
+              onClick={() => {
+                handleBookDetailClick(item.ISBN);
+                console.log(item.ISBN);
+              }}
+            >
+              <Book {...item} showEx />
+            </a>
+          )}
         />
       </div>
     </div>

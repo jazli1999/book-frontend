@@ -16,7 +16,7 @@ function UserList(props) {
       {isFetching && <Spin />}
       {isSuccess && (
         <List>
-          <VirtualList data={data} height={ContainerHeight} itemKey="lastName">
+          <VirtualList data={data} height={ContainerHeight} itemKey="userId">
             {(item) => (
               <List.Item>
                 <List.Item.Meta
