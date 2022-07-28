@@ -113,6 +113,7 @@ export default function BookmateProfilePage() {
                     (!alreadyFriend && !alreadySent) && (
                       <Button type="primary" onClick={onMatchClick} size="default" className="match-btn" ghost>Match</Button>
                     )
+
                 }
               </h1>
               <div style={{ width: '600px', textAlign: 'center', margin: '15px auto 0px auto' }}>
@@ -158,7 +159,7 @@ export default function BookmateProfilePage() {
                 </Row>
               </TabPane>
               <TabPane tab="Comments" key="comments">
-                <CommentSection />
+                <CommentSection userId= {user._id}/>
               </TabPane>
             </Tabs>
           </div>
