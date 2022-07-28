@@ -3,8 +3,13 @@ import {
   Card, Row, Col, List, Divider, Empty, Button, Space,
 } from 'antd';
 import MessageSection from './MessageSection';
+import { PlusCircleOutlined } from '@ant-design/icons';
 
-import { useGetCurrentQuery, useAcceptFriendRequestMutation, useDeclineFriendRequestMutation } from '../../../slices/bookmate.api.slice';
+import {
+  useGetCurrentQuery,
+  useAcceptFriendRequestMutation,
+  useDeclineFriendRequestMutation
+} from '../../../slices/bookmate.api.slice';
 
 import {
   useGetUserInfoQuery,
@@ -73,18 +78,29 @@ function BookmatesPage() {
               <div>
                 <Card
                   style={{
-                    background: '#fbfdfb', padding: '10px', border: 'none', margin: '0px', borderRadius: '0px',
+                    background: '#fbfdfb',
+                    padding: '10px',
+                    border: 'none',
+                    margin: '0px',
+                    borderRadius: '0px',
                   }}
                   onClick={() => { setFocus({ rec: true, ...item }); }}
                   hoverable
                 >
-                  <h3 style={{ marginBottom: '0px' }}>
-                    {`${item.firstName} ${item.lastName}`}
-                    {' '}
-                    sends you
-                    {' '}
-                  </h3>
-                  {item.bio}
+                  <div
+                    className="vertical-center"
+                    style={{ justifyContent: 'space-between' }}
+                  >
+                    <div>
+                      <h3 style={{ marginBottom: '0px', color: "#6f716e" }}>
+                        {`${item.firstName} ${item.lastName}`}
+                      </h3>
+                    <span style={{ color: "#6f716e" }}>{item.bio}</span>
+                    </div>
+                    <div style={{ marginRight: '10px', fontSize: '20pt', color: '#7ea465' }}>
+                      <PlusCircleOutlined />
+                    </div>
+                  </div>
                 </Card>
                 <Divider style={{ margin: '0px' }} />
               </div>
@@ -121,7 +137,7 @@ function BookmatesPage() {
           {focus && focus.rec && (
             <div style={requestStyle}>
               <h2>
-                <a href={`/app/users/${focus._id}`}>{ `${focus.firstName} ${focus.lastName}`}</a>
+                <a href={`/app/users/${focus._id}`}>{`${focus.firstName} ${focus.lastName}`}</a>
                 {' '}
                 sends you a matching request
               </h2>
