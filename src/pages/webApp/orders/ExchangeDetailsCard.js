@@ -1,7 +1,7 @@
 import {
   Col, Row, Space, Divider, Input, Button, message, Empty, Modal,
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { CloseOutlined } from '@ant-design/icons';
 import WhiteTick from '../../../assets/images/white_tick.svg';
@@ -14,6 +14,7 @@ import {
   useDeclineOrderMutation,
 } from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
+import { useGetSubscriptionInfoQuery } from '../../../slices/subscription.api.slice';
 import PickBookModal from './PickBookModal';
 
 export default function ExchangeDetailsCard(props) {
@@ -30,11 +31,26 @@ export default function ExchangeDetailsCard(props) {
   } = props;
 
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
+  const { data: subsData, isSuccess: subsSuccess} = useGetSubscriptionInfoQuery();
+  const [transaction, setTransaction] = useState(1);
+  const [premium, setPremium] = useState(false);
   let username;
   if (isSuccess) {
     username = `${data.firstName} ${data.lastName}`;
   }
-  const fee = order.wishList.length * 0.5;
+  useEffect(()=> {
+    if( subsSuccess ){
+      setPremium(subsData.isPremium);
+      if(subsData.isPremium){
+        setTransaction(0);
+      }
+    }    
+  },[subsSuccess])
+  // if(subsSuccess && props.current){
+  //   console.log(subsData);
+    
+  // }
+  const fee = order.wishList.length * 0.5 * transaction;
   const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
   const chosenBooks = order.wishList;
   return (
@@ -58,6 +74,7 @@ export default function ExchangeDetailsCard(props) {
         editable={editable && status === 3}
         updateSteps={updateSteps}
         isReq={request}
+        premium = {premium}
       />
       <Track
         disabled={status < 4}
@@ -309,7 +326,7 @@ function Books(props) {
 
 function Payment(props) {
   const {
-    fee, disabled, completed, editable, isReq, updateSteps,
+    fee, disabled, completed, editable, isReq, updateSteps, premium,
   } = props;
   const [isCompleted, setIsComplete] = useState(completed);
   const [updatePayment] = useUpdatePaymentMutation();
@@ -352,13 +369,23 @@ function Payment(props) {
             </span>
           </Col>
         </Row>
-        <Row gutter={2}>
-          <Col span={19}>
-            <h4 style={{ margin: '2px 0px 3px 0px' }}>Transaction Fee</h4>
-            <p className="comment">
-              We take 0.5 € per book you exchange Premium members can exchange for free!
-            </p>
-          </Col>
+        <Row gutter={2}>  
+          {!premium && (
+            <Col span={19}>
+              <h4 style={{ margin: '2px 0px 3px 0px' }}>Transaction Fee</h4>
+              <p className="comment">
+                We take 0.5 € per book you exchange Premium members can exchange for free!
+              </p>
+            </Col>
+          )}
+          {premium && (
+            <Col span={19}>
+              <h4 style={{ margin: '2px 0px 3px 0px' }}>Transaction Fee</h4>
+              <p className="comment">
+                Enjoy your free exchange with premium subscription.
+              </p>
+            </Col>
+          )}         
           <Col span={5} className="vertical-center">
             <span className="fee">
               {fee.toFixed(2)}

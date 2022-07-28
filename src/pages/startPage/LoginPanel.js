@@ -15,10 +15,17 @@ import { setName } from '../../slices/user.slice';
 
 function LoginPanel() {
   const [loading, setLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const { setJWT } = utils;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const onChange = (e) => {
+    //console.log('checked = ', e.target.checked);
+    setChecked(e.target.checked);
+  };
+
   const onFinish = (values) => {
     setLoading(true);
     const { email, password } = values;
@@ -37,7 +44,16 @@ function LoginPanel() {
       }).finally(() => {
         setLoading(false);
       });
-    } else {
+    } 
+    else if(!checked){
+      message.error('You must accept the user agreement.');
+      setLoading(false);
+    }
+    else if(password.length < 8) {
+      message.error('Password should be at least 8 characters. Please try another password');
+      setLoading(false);
+    }
+    else {
       authRepository.register(email, password).then((res) => {
         setJWT(res.data.token);
         message.success('Welcome!');
@@ -46,7 +62,7 @@ function LoginPanel() {
         if (err.response.status === 400) {
           message.error('Email already exists');
         } else {
-          message.error('Something went wrong');
+          message.error(err.response.data.message);
         }
       }).finally(() => {
         setLoading(false);
@@ -112,7 +128,7 @@ function LoginPanel() {
           {!isLogin
             && (
             <Form.Item name="keep" valuePropName="checked" required>
-              <Checkbox style={{ marginTop: '-10px' }}>
+              <Checkbox style={{ marginTop: '-10px' }} onChange={onChange}>
                 {/* useless so far */}
                 <span style={{ fontSize: '10pt' }}>
                   Agree the user agreement
