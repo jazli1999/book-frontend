@@ -497,7 +497,7 @@ function Track(props) {
           && (
             <div className="vertical-center">
               <Input style={{ flex: '1 1 auto', height: '35px' }} onChange={(e) => onChange(e.target.value)} />
-              <Button type="primary" className="btn-inline" onClick={onConfirm} disabled={loading}>Confirm</Button>
+              <Button type="primary" style={{ padding: '0px' }} className="btn-inline" onClick={onConfirm} disabled={loading}>Confirm</Button>
             </div>
           )}
         {
