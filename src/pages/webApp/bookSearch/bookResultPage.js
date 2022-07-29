@@ -8,7 +8,7 @@ function BookSearchResultPage() {
   const { keyword } = useParams();
   const navigate = useNavigate();
   const [getBooks, { isLoading }] = useGetBooksMutation();
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState();
   const [initialized, setInitialized] = useState(false);
 
   const handleBookDetailClick = (isbn) => {
@@ -52,6 +52,7 @@ function BookSearchResultPage() {
             onClick={() => {
               handleBookDetailClick(item.ISBN);
             }}
+            style={{ color: '#323431' }}
           >
             <Book {...item} />
           </a>
