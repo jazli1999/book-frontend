@@ -14,7 +14,6 @@ import {
   useDeclineOrderMutation,
 } from '../../../slices/order.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
-import { useGetSubscriptionInfoQuery } from '../../../slices/subscription.api.slice';
 import PickBookModal from './PickBookModal';
 
 export default function ExchangeDetailsCard(props) {
@@ -31,7 +30,6 @@ export default function ExchangeDetailsCard(props) {
   } = props;
 
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
-  const { data: subsData, isSuccess: subsSuccess } = useGetSubscriptionInfoQuery();
   const [transaction, setTransaction] = useState(1);
   const [premium, setPremium] = useState(false);
   let username;
@@ -39,13 +37,14 @@ export default function ExchangeDetailsCard(props) {
     username = `${data.firstName} ${data.lastName}`;
   }
   useEffect(() => {
-    if (subsSuccess) {
-      setPremium(subsData.isPremium);
-      if (subsData.isPremium && editable) {
+    if (isSuccess) {
+      const prem = Object.prototype.hasOwnProperty.call(data.premium, 'isPremium');
+      if (prem && data.premium.isPremium) {
+        setPremium(true);
         setTransaction(0);
       }
     }
-  }, [subsSuccess]);
+  }, [isSuccess]);
 
   const fee = order.wishList.length * 0.5 * transaction;
   const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
