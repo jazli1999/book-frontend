@@ -29,7 +29,6 @@ export default function BookList(props) {
   } : {};
 
   const handleBookDetailClick = (isbn) => {
-    console.log('hendlebookdetail: ', isbn);
     navigate(`/app/book/details/${isbn}`);
   };
 
@@ -79,7 +78,6 @@ export default function BookList(props) {
               role="button"
               onClick={() => {
                 handleBookDetailClick(item.ISBN);
-                console.log(item.ISBN);
               }}
             >
               <Book {...item} showEx />

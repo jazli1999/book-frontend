@@ -9,7 +9,6 @@ import {
 } from 'antd';
 
 export default function BookSearchResult(props) {
-  console.log('data->', props.resultData);
   return (
     <div>
       <Divider />
@@ -20,7 +19,6 @@ export default function BookSearchResult(props) {
 }
 
 function ResultList(props) {
-  console.log('props', props);
   return (
     <div>
       {' '}

@@ -59,14 +59,12 @@ export default function BookmateProfilePage() {
 
   const sendFriendRequest = () => {
     const requestBody = { userId: id };
-    console.log(requestBody);
     sendFriRequest(requestBody).then(() => {
       setAlreadySent(true);
     });
   };
 
   const onMatchClick = () => {
-    console.log('click success');
     confirm({
       title: `Send friend request to ${user.firstName}?`,
       icon: <ExclamationCircleOutlined />,
@@ -74,7 +72,6 @@ export default function BookmateProfilePage() {
       okType: 'primary',
       onOk() {
         sendFriendRequest();
-        console.log('request sent!');
       },
     });
   };
@@ -91,7 +88,7 @@ export default function BookmateProfilePage() {
     }
 
     setInitialized(true);
-    // console.log(cUser);
+    // (cUser);
   }
 
   return (

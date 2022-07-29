@@ -14,7 +14,6 @@ export default function SearchButton() {
   const [keyword, setKeyword] = useState('');
 
   const onPressEnter = () => {
-    console.log(keyword);
     const a = document.createElement('a');
     a.href = `/app/search/${keyword}`;
     a.click();

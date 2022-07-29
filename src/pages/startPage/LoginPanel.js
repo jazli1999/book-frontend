@@ -22,7 +22,6 @@ function LoginPanel() {
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    // console.log('checked = ', e.target.checked);
     setChecked(e.target.checked);
   };
 

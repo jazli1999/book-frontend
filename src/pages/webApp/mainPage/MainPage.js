@@ -29,7 +29,6 @@ function MainPage() {
       alreadySentList: user.bmSent,
     }));
   }
-  // console.log(processedBookmates);
 
   return (
     <div id="MainPage">

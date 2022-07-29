@@ -10,18 +10,13 @@ function BookSearch() {
   const [getBook] = useGetBooksMutation();
 
   const onFinish = (values) => {
-    console.log('val', values);
     getBook(JSON.stringify(values)).then((resp) => {
       if (resp.data.status === 200) {
-        console.log('Returned results: ', resp.data);
         setResults(JSON.parse(resp.data.data).searchResult);
       } else {
         message.error('Something went wrong, please try again');
       }
     });
-
-    console.log('results');
-    console.log(results);
 
     setResults(results);
   };

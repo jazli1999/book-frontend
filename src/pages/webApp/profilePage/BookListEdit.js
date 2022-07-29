@@ -9,8 +9,6 @@ export default function BookListEdit() {
   const { bookList } = dummyData; // retrieve real data depends on listType
   const { listType } = useParams(); // retrieve the id  dynamic params from the current URL
 
-  console.log('list type:', listType);
-
   if ((listType !== 'collection' && listType !== 'wishlist')) {
     return (<div>Wrong request</div>);
   }

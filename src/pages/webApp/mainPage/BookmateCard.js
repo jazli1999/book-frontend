@@ -14,9 +14,7 @@ export default function BookmateCard(props) {
   const navigate = useNavigate();
   const { Meta } = Card;
 
-  // console.log(bookmateData);
   const handleUserDetailClick = (userId) => {
-    console.log('div clicked: ', userId);
     navigate(`/app/users/${userId}`);
   };
 
@@ -74,7 +72,6 @@ export default function BookmateCard(props) {
 }
 
 function CardTitle(props) {
-  // console.log(props);
   const [alreadyFriend, setAlreadyFriend] = useState(false);
   const [alreadySent, setAlreadySent] = useState(false);
   const { confirm } = Modal;
@@ -132,7 +129,6 @@ function CardTitle(props) {
       okType: 'primary',
       onOk() {
         sendFriendRequest();
-        console.log('request sent!');
       },
     });
   };

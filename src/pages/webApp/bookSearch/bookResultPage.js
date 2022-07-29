@@ -13,7 +13,6 @@ function BookSearchResultPage() {
   const [initialized, setInitialized] = useState(false);
 
   const handleBookDetailClick = (isbn) => {
-    console.log('hendlebookdetail: ', isbn);
     navigate(`/app/book/details/${isbn}`);
   };
 
@@ -27,7 +26,6 @@ function BookSearchResultPage() {
           author: item.authors[0],
         }));
         setBooks(result);
-        console.log('Return results: ', result);
       } else {
         message.error('Something went wrong, please try agina');
       }
@@ -54,7 +52,6 @@ function BookSearchResultPage() {
             role="button"
             onClick={() => {
               handleBookDetailClick(item.ISBN);
-              console.log(item.ISBN);
             }}
           >
             <Book {...item} />

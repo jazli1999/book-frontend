@@ -43,10 +43,7 @@ function CommentItem(props) {
   const [firstName, setFirstName] = useState('');
 
   useEffect(() => {
-    console.log(hasReviewer);
-    console.log();
     if (hasReviewer) {
-      console.log(reviewer);
       setLastName(reviewer.lastName);
       setFirstName(reviewer.firstName);
       setReview(true);
