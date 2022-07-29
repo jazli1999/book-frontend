@@ -97,6 +97,7 @@ function OrderItem(props) {
             visible={visible}
             onOk={() => handleOk()}
             onCancel={() => handleCancel()}
+            title="Review the order"
           >
             <TextArea
               value={reviewText}
