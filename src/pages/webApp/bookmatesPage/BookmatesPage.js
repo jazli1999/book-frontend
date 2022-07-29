@@ -19,22 +19,13 @@ function BookmatesPage() {
   const [focus, setFocus] = useState(null);
   const [initialized, setInitialized] = useState(false);
   const [userId, setId] = useState(null);
-  // const [dialog, setDialog] = useState([]);
   const [bookmates, setBookmates] = useState();
   const [bmReceived, setBmReceived] = useState();
   const [acpFriRequest] = useAcceptFriendRequestMutation();
   const [decFriRequest] = useDeclineFriendRequestMutation();
 
-  // const [getDialogBackend] = useGetDialogMutation();
   const { data: currentBookmates, isSuccess: currentSuccess } = useGetCurrentQuery();
   const { data: userInfo, isSuccess: selfSuccess } = useGetUserInfoQuery();
-
-  // const getDialog =(id)=>{
-  //   const dialog_req ={ "senderId": userId, "receiverId": id}
-  //   getDialogBackend(JSON.stringify(dialog_req)).then((resp)=>{
-  //     const new_dialog = JSON.parse(resp.data)
-  //   });
-  // }
 
   if (currentSuccess && selfSuccess && !initialized) {
     setId(userInfo._id);

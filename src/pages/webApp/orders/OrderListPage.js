@@ -47,7 +47,6 @@ function OrderItem(props) {
   }
   const [nowDisabled, setDisabled] = useState(item.isReviewed);
 
-  // const [order, gotOrder] = useGetOrdersQuery(item.id);
   const [sendReview] = useSendReviewMutation();
 
   const showModal = () => {
@@ -61,9 +60,6 @@ function OrderItem(props) {
   const handleOk = () => {
     setVisible(false);
     setDisabled(true);
-    // ARDA: I do not need it anymore
-    // Order Backend Connection
-    // updateReview(item.id);
     sendReview({
       order: item.id, author: item.user_id, content: reviewText, receiver: item.receiver_id,
     });

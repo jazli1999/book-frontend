@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { List, message } from 'antd';
-// import BookmateCard from './BookmateCard';
 import { useParams, useNavigate } from 'react-router';
 import { useGetBooksMutation } from '../../../slices/book.api.slice';
 import { Book } from '../../../components';

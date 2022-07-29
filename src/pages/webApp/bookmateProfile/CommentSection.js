@@ -4,10 +4,7 @@ import { useGetReviewQuery } from '../../../slices/review.api.slice';
 import { useGetUserInfoQuery } from '../../../slices/user.api.slice';
 
 function CommentSection(props) {
-  // const { user, hasUser} = useGetUserInfoQuery();
   const [isFetching, setFatching] = useState(false);
-  // const [getReviews] = useGetReviewQuery();
-  // const [data, setData] = useState([]);
 
   const { data, hasReviews } = useGetReviewQuery(props.userId);
 
