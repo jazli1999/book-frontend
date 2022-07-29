@@ -116,10 +116,10 @@ function LoginPanel() {
               </span>
             )}
           >
-            <Input placeholder="name@example.com" />
+            <Input placeholder="name@example.com" required />
           </Form.Item>
           <Form.Item name="password" label={<span className="input-label">Password</span>}>
-            <Input placeholder="min. 8 characters" type="password" />
+            <Input placeholder="min. 8 characters" type="password" required />
           </Form.Item>
           {!isLogin
             && (

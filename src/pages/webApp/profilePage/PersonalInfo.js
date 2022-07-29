@@ -261,30 +261,28 @@ export default function PersonalInfo() {
                   </Col>
 
                   <Col span={12}>
-                    {edit && (
-                      <div style={{ marginTop: '40px' }}>
-                        <Button
-                          className="match-btn"
-                          type="primary"
-                          size="small"
-                          onClick={onSubscription}
-                          ghost
-                        >
-                          <span style={{ fontWeight: 700 }}>Manage Subscription</span>
-                        </Button>
-                      </div>
-                    )}
+                    <div style={{ marginTop: '40px' }}>
+                      <Button
+                        className="match-btn"
+                        type="primary"
+                        size="small"
+                        onClick={onSubscription}
+                        ghost
+                      >
+                        <span style={{ fontWeight: 700 }}>Manage Subscription</span>
+                      </Button>
+                    </div>
                   </Col>
                 </Row>
 
                 {!isFree && (
-                <Row align="top" justify="space-between">
-                  <Text level={3}>
-                    Expires at
-                    {' '}
-                    {endDate}
-                  </Text>
-                </Row>
+                  <Row align="top" justify="space-between">
+                    <Text level={3}>
+                      Expires at
+                      {' '}
+                      {endDate}
+                    </Text>
+                  </Row>
                 )}
 
                 <Row align="top" justify="space-between" gutter={16}>
