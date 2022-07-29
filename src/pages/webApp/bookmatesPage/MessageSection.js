@@ -62,7 +62,7 @@ function MessageSection(props) {
       <div
         id="message-div"
         style={{
-        paddingRight: '8px', height: '500px', overflowY: 'scroll', marginTop: '10px',
+          paddingRight: '8px', height: '500px', overflowY: 'scroll', marginTop: '10px',
         }}
       >
         <List

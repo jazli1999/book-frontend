@@ -31,21 +31,21 @@ export default function ExchangeDetailsCard(props) {
   } = props;
 
   const { data, isSuccess } = useGetUserInfoQuery(props.user.userId);
-  const { data: subsData, isSuccess: subsSuccess} = useGetSubscriptionInfoQuery();
+  const { data: subsData, isSuccess: subsSuccess } = useGetSubscriptionInfoQuery();
   const [transaction, setTransaction] = useState(1);
   const [premium, setPremium] = useState(false);
   let username;
   if (isSuccess) {
     username = `${data.firstName} ${data.lastName}`;
   }
-  useEffect(()=> {
+  useEffect(() => {
     if (subsSuccess) {
       setPremium(subsData.isPremium);
-      if(subsData.isPremium && editable){
+      if (subsData.isPremium && editable) {
         setTransaction(0);
       }
-    }    
-  },[subsSuccess])
+    }
+  }, [subsSuccess]);
 
   const fee = order.wishList.length * 0.5 * transaction;
   const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
@@ -71,7 +71,7 @@ export default function ExchangeDetailsCard(props) {
         editable={editable && status === 3}
         updateSteps={updateSteps}
         isReq={request}
-        premium = {premium}
+        premium={premium}
       />
       <Track
         disabled={status < 4}
@@ -367,7 +367,7 @@ function Payment(props) {
             </span>
           </Col>
         </Row>
-        <Row gutter={2}>  
+        <Row gutter={2}>
           {!premium && (
             <Col span={19}>
               <h4 style={{ margin: '2px 0px 3px 0px' }}>Transaction Fee</h4>
@@ -383,7 +383,7 @@ function Payment(props) {
                 Enjoy your free exchange with premium subscription.
               </p>
             </Col>
-          )}         
+          )}
           <Col span={5} className="vertical-center">
             <span className="fee">
               {fee.toFixed(2)}

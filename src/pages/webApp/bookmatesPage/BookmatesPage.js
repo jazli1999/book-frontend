@@ -2,13 +2,13 @@ import { useState } from 'react';
 import {
   Card, Row, Col, List, Divider, Empty, Button, Space,
 } from 'antd';
-import MessageSection from './MessageSection';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import MessageSection from './MessageSection';
 
 import {
   useGetCurrentQuery,
   useAcceptFriendRequestMutation,
-  useDeclineFriendRequestMutation
+  useDeclineFriendRequestMutation,
 } from '../../../slices/bookmate.api.slice';
 
 import {
@@ -92,10 +92,10 @@ function BookmatesPage() {
                     style={{ justifyContent: 'space-between' }}
                   >
                     <div>
-                      <h3 style={{ marginBottom: '0px', color: "#6f716e" }}>
+                      <h3 style={{ marginBottom: '0px', color: '#6f716e' }}>
                         {`${item.firstName} ${item.lastName}`}
                       </h3>
-                    <span style={{ color: "#6f716e" }}>{item.bio}</span>
+                      <span style={{ color: '#6f716e' }}>{item.bio}</span>
                     </div>
                     <div style={{ marginRight: '10px', fontSize: '20pt', color: '#7ea465' }}>
                       <PlusCircleOutlined />

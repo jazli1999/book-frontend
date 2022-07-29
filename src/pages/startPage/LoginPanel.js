@@ -22,7 +22,7 @@ function LoginPanel() {
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    //console.log('checked = ', e.target.checked);
+    // console.log('checked = ', e.target.checked);
     setChecked(e.target.checked);
   };
 
@@ -44,16 +44,13 @@ function LoginPanel() {
       }).finally(() => {
         setLoading(false);
       });
-    } 
-    else if(!checked){
+    } else if (!checked) {
       message.error('You must accept the user agreement.');
       setLoading(false);
-    }
-    else if(password.length < 8) {
+    } else if (password.length < 8) {
       message.error('Password should be at least 8 characters. Please try another password');
       setLoading(false);
-    }
-    else {
+    } else {
       authRepository.register(email, password).then((res) => {
         setJWT(res.data.token);
         message.success('Welcome!');

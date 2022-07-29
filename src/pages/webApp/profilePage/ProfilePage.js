@@ -1,4 +1,6 @@
-import { Col, Row, Divider, Button } from 'antd';
+import {
+  Col, Row, Divider, Button,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import PersonalInfo from './PersonalInfo';
@@ -34,12 +36,12 @@ function ProfilePage() {
 
   const toPage = () => {
     navigate(`/app/users/my/${userId}`);
-  }
+  };
 
   return (
     <div>
       <h1 style={{ display: 'inline' }}>My Profile</h1>
-      <Button type="primary" onClick={toPage} style={{ float: "right" }} ghost>Go to My Page</Button>
+      <Button type="primary" onClick={toPage} style={{ float: 'right' }} ghost>Go to My Page</Button>
       <Row style={{ width: '100%' }}>
         <Col span={7}>
           <PersonalInfo />

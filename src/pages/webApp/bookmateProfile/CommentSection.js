@@ -57,7 +57,7 @@ function CommentItem(props) {
     <Comment
       loading={gotReview}
       author={(
-        <a href={`/users/${props.item.author}`}>
+        <a href={`/app/users/${props.item.author}`}>
           {firstName}
           {' '}
           {lastName}
