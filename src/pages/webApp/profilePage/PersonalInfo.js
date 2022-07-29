@@ -266,6 +266,7 @@ export default function PersonalInfo() {
                         className="match-btn"
                         type="primary"
                         size="small"
+                        style={{  marginLeft: '0px' }}
                         onClick={onSubscription}
                         ghost
                       >
