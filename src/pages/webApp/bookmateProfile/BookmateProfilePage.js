@@ -43,6 +43,8 @@ export default function BookmateProfilePage() {
     navigate(`/app/orders/create/${id}`);
   };
 
+  const isSelf = window.location.href.includes('my');
+
   // send friendRequest here, the decline&accept will be in the message page
   // check if already a friend
 
@@ -110,7 +112,7 @@ export default function BookmateProfilePage() {
                   ? <WomanOutlined style={{ color: '#658e49', marginLeft: '5px' }} />
                   : <ManOutlined style={{ color: '#658e49', marginLeft: '5px' }} />}
                 {
-                    (!alreadyFriend && !alreadySent) && (
+                    (!alreadyFriend && !alreadySent && !isSelf) && (
                       <Button type="primary" onClick={onMatchClick} size="default" className="match-btn" ghost>Match</Button>
                     )
 

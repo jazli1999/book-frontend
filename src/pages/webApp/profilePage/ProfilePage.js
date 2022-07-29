@@ -1,6 +1,6 @@
-import { Col, Row, Divider } from 'antd';
+import { Col, Row, Divider, Button } from 'antd';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import PersonalInfo from './PersonalInfo';
 import BookList from '../../../components/BookList';
 import { useGetUserInfoAsyncMutation } from '../../../slices/user.api.slice';
@@ -8,7 +8,9 @@ import { useGetUserInfoAsyncMutation } from '../../../slices/user.api.slice';
 function ProfilePage() {
   const [getUserInfoAsync] = useGetUserInfoAsyncMutation();
   const [bookCollection, setBookCollection] = useState([]);
+  const [userId, setUserId] = useState();
   const [wishList, setWishList] = useState([]);
+  const navigate = useNavigate();
 
   const location = useLocation();
 
@@ -26,12 +28,18 @@ function ProfilePage() {
       }));
       setWishList(wl);
       setBookCollection(bc);
+      setUserId(resp.data._id);
     });
   }, [location.key]);
 
+  const toPage = () => {
+    navigate(`/app/users/my/${userId}`);
+  }
+
   return (
     <div>
-      <h1>My Profile</h1>
+      <h1 style={{ display: 'inline' }}>My Profile</h1>
+      <Button type="primary" onClick={toPage} style={{ float: "right" }} ghost>Go to My Page</Button>
       <Row style={{ width: '100%' }}>
         <Col span={7}>
           <PersonalInfo />

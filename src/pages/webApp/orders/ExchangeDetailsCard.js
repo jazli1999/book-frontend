@@ -39,17 +39,14 @@ export default function ExchangeDetailsCard(props) {
     username = `${data.firstName} ${data.lastName}`;
   }
   useEffect(()=> {
-    if( subsSuccess ){
+    if (subsSuccess) {
       setPremium(subsData.isPremium);
-      if(subsData.isPremium){
+      if(subsData.isPremium && editable){
         setTransaction(0);
       }
     }    
   },[subsSuccess])
-  // if(subsSuccess && props.current){
-  //   console.log(subsData);
-    
-  // }
+
   const fee = order.wishList.length * 0.5 * transaction;
   const paid = Object.prototype.hasOwnProperty.call(order.payment, 'orderId');
   const chosenBooks = order.wishList;
@@ -222,6 +219,7 @@ function Books(props) {
       if (resp.data.status === 200) {
         message.success('Order Declined');
         setDeclined(true);
+        window.location.reload();
       } else {
         message.error('Something went wrong, please try again');
       }

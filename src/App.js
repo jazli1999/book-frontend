@@ -25,6 +25,7 @@ function App() {
             <Route path="main" element={<Pages.MainPage />} />
             <Route path="profile" element={<Pages.ProfilePage />} />
             <Route path="users/:id" element={<Pages.BookmateProfilePage />} />
+            <Route path="users/my/:id" element={<Pages.BookmateProfilePage />} />
             <Route path="orders" element={<Pages.OrderListPage />} />
             <Route path="orders/create/:id" element={<Pages.OrderPage create />} />
             <Route path="orders/:id" element={<Pages.OrderPage />} />
