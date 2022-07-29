@@ -470,6 +470,11 @@ function Track(props) {
   const [updateTracking] = useUpdateTrackingMutation();
   const onConfirm = () => {
     setLoading(true);
+    if (!newCode.trim()) {
+      message.error('Tracking code cannot be empty');
+      setLoading(false);
+      return;
+    }
     updateTracking({ id, isReq: Number(isReq), trackingCode: newCode })
       .then((resp) => {
         if (resp.data.status === 200) {
