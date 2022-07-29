@@ -79,6 +79,7 @@ export default function BookList(props) {
               onClick={() => {
                 handleBookDetailClick(item.ISBN);
               }}
+              style={{ color: '#323431' }}
             >
               <Book {...item} showEx />
             </a>
